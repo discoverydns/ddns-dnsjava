@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.discoverydns</groupId>
+		<artifactId>dnsapi-parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>com.discoverydns</groupId>
+	<artifactId>dnsapi-dnsjava</artifactId>
+	<!--	<version>1.0.3-r1685-SNAPSHOT</version>-->
+	<version>${dnsapi-dnsjava.version}</version>
+	<packaging>jar</packaging>
+
+	<name>DNSAPI DNSJava</name>
+	<description>DNS API Fork of DNSJava Project</description>
+
+	<licenses>
+		<license>
+			<name>ARI Opensource License</name>
+			<url>http://www.ausregistry.com/TBD.html</url>
+			<distribution>manual</distribution>
+			<comments>This software is opensource</comments>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>AusRegistry International</name>
+		<url>http://www.ausregistry.com</url>
+	</organization>
+
+	<build>
+		<plugins>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>
