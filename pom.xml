@@ -8,7 +8,6 @@
 		<version>1.0.0</version>
 	</parent>
 
-	<groupId>com.discoverydns</groupId>
 	<artifactId>dnsapi-dnsjava</artifactId>
 	<!--	<version>1.0.3-r1685-SNAPSHOT</version>-->
 	<version>${dnsapi-dnsjava.version}</version>
