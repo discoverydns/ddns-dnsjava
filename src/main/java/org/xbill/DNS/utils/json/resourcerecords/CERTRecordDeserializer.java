@@ -23,8 +23,7 @@ public class CERTRecordDeserializer extends
 			return new CERTRecord(name, dclass, ttl, getNodeIntegerValue(
 					recordNode, "certType"), getNodeIntegerValue(recordNode,
 					"keyTag"), getNodeIntegerValue(recordNode, "algorithm"),
-					getNodeStringValue(recordNode, "cert")
-							.replaceAll("\\n", ""));
+					getNodeStringValue(recordNode, "cert"));
 		} catch (final IOException e) {
 			throw new JsonDeserializationException(
 					JsonDeserializationExceptionCode.unexpectedMappingError,

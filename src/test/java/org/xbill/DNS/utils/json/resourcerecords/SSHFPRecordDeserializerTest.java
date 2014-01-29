@@ -26,9 +26,7 @@ public class SSHFPRecordDeserializerTest {
 
 	private ObjectNode fakeObjectNode;
 	private Name name;
-	private int dclass = 1;
-	private long ttl = 3600L;
-	private int algorithm = 3;
+    private int algorithm = 3;
 	private int fingerprintType = 4;
 	private String fingerprint = "3FF4FFF1FF02FCEF3F1AFDC41C9F0FEF";
 
@@ -55,7 +53,9 @@ public class SSHFPRecordDeserializerTest {
 
 	@Test
 	public void shouldCreateExpectedRecord() throws Exception {
-		SSHFPRecord sshfpRecord = sshfpRecordDeserializer.createRecord(
+        int dclass = 1;
+        long ttl = 3600L;
+        SSHFPRecord sshfpRecord = sshfpRecordDeserializer.createRecord(
 				name, dclass, ttl, fakeObjectNode);
 
 		assertEquals(name, sshfpRecord.getName());
@@ -64,18 +64,5 @@ public class SSHFPRecordDeserializerTest {
 		assertEquals(algorithm, sshfpRecord.getAlgorithm());
 		assertEquals(fingerprintType, sshfpRecord.getDigestType());
 		assertEquals(fingerprint, sshfpRecord.getTextualFingerPrint());
-	}
-
-	@Test
-	public void shouldIgnoreLineBreaksFromFingerprintInput() throws Exception {
-		String fingerprintWithLineBreaks = "abcd\nefab";
-		when(mockFingerprintJsonNode.textValue()).thenReturn(fingerprintWithLineBreaks);
-		fakeObjectNode.put("fingerprint", mockFingerprintJsonNode);
-		
-		SSHFPRecord sshfpRecord = sshfpRecordDeserializer.createRecord(
-				name, dclass, ttl, fakeObjectNode);
-
-		assertEquals(fingerprintWithLineBreaks.replaceAll("\\n", "").toUpperCase(),
-				sshfpRecord.getTextualFingerPrint());
 	}
 }

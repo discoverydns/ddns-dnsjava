@@ -24,7 +24,7 @@ public class TLSARecordDeserializer extends
 					recordNode, "certificateUsage"), getNodeIntegerValue(
 					recordNode, "selector"), getNodeIntegerValue(recordNode,
 					"matchingType"), getNodeStringValue(recordNode,
-					"certificateAssociationData").replaceAll("\\n", ""));
+					"certificateAssociationData"));
 		} catch (final IOException e) {
 			throw new JsonDeserializationException(
                     JsonDeserializationExceptionCode.unexpectedMappingError,

@@ -22,8 +22,7 @@ public class DSRecordDeserializer extends AbstractRecordDeserializer<DSRecord> {
 			return new DSRecord(name, dclass, ttl, getNodeIntegerValue(
 					recordNode, "footprint"), getNodeIntegerValue(recordNode,
 					"algorithm"), getNodeIntegerValue(recordNode, "digestId"),
-					getNodeStringValue(recordNode, "digest").replaceAll("\\n",
-							""));
+					getNodeStringValue(recordNode, "digest"));
 		} catch (final IOException e) {
 			throw new JsonDeserializationException(
                     JsonDeserializationExceptionCode.unexpectedMappingError,

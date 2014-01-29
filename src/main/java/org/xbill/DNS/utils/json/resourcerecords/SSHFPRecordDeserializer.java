@@ -23,8 +23,7 @@ public class SSHFPRecordDeserializer extends
 			return new SSHFPRecord(name, dclass, ttl, getNodeIntegerValue(
 					recordNode, "algorithm"), getNodeIntegerValue(recordNode,
 					"digestType"),
-					getNodeStringValue(recordNode, "fingerprint").replaceAll(
-							"\\n", ""));
+					getNodeStringValue(recordNode, "fingerprint"));
 		} catch (final IOException e) {
 			throw new JsonDeserializationException(
                     JsonDeserializationExceptionCode.unexpectedMappingError,
