@@ -10,6 +10,10 @@ import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeser
 
 import java.io.IOException;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.TXTRecord} class
+ * @author Arnaud Dumont
+ */
 public class TXTRecordDeserializer extends
 		AbstractRecordDeserializer<TXTRecord> {
 	private static final String STRINGS_FIELD_NAME = "strings";

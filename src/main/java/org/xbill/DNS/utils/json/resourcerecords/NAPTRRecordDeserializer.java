@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.xbill.DNS.NAPTRRecord;
 import org.xbill.DNS.Name;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.NAPTRRecord} class
+ * @author Arnaud Dumont
+ */
 public class NAPTRRecordDeserializer extends
 		AbstractRecordDeserializer<NAPTRRecord> {
 	private static final long serialVersionUID = 1755167755563629606L;

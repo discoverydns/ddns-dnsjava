@@ -12,10 +12,9 @@
 
 	<licenses>
 		<license>
-			<name>ARI Opensource License</name>
-			<url>http://www.ausregistry.com/TBD.html</url>
-			<distribution>manual</distribution>
-			<comments>This software is opensource</comments>
+			<name>BSD License</name>
+			<url>http://www.opensource.org/licenses/bsd-license.html</url>
+			<distribution>repo</distribution>
 		</license>
 	</licenses>
 

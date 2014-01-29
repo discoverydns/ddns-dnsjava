@@ -7,6 +7,10 @@ import org.xbill.DNS.SPFRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.SPFRecord} class
+ * @author Arnaud Dumont
+ */
 public class SPFRecordSerializer extends AbstractRecordSerializer<SPFRecord> {
 
 	public SPFRecordSerializer() {

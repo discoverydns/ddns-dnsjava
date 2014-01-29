@@ -8,6 +8,10 @@ import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeser
 
 import java.io.IOException;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.LOCRecord} class
+ * @author Arnaud Dumont
+ */
 public class LOCRecordDeserializer extends
 		AbstractRecordDeserializer<LOCRecord> {
 	private static final long serialVersionUID = -6394722407564343923L;

@@ -8,6 +8,10 @@ import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeser
 
 import java.io.IOException;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.DSRecord} class
+ * @author Arnaud Dumont
+ */
 public class DSRecordDeserializer extends AbstractRecordDeserializer<DSRecord> {
 	private static final long serialVersionUID = 9205297205421105521L;
 

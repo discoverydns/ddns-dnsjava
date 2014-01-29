@@ -7,6 +7,10 @@ import org.xbill.DNS.LOCRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.LOCRecord} class
+ * @author Arnaud Dumont
+ */
 public class LOCRecordSerializer extends AbstractRecordSerializer<LOCRecord> {
 
 	public LOCRecordSerializer() {

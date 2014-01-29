@@ -7,6 +7,10 @@ import org.xbill.DNS.NSRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.NSRecord} class
+ * @author Arnaud Dumont
+ */
 public class NSRecordSerializer extends AbstractRecordSerializer<NSRecord> {
 
 	public NSRecordSerializer() {

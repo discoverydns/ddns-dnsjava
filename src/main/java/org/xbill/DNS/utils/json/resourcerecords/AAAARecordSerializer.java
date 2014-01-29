@@ -8,6 +8,10 @@ import org.xbill.DNS.AAAARecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.AAAARecord} class
+ * @author Arnaud Dumont
+ */
 public class AAAARecordSerializer extends AbstractRecordSerializer<AAAARecord> {
 
 	public AAAARecordSerializer() {

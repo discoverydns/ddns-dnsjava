@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.xbill.DNS.Name;
 import org.xbill.DNS.PTRRecord;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.PTRRecord} class
+ * @author Arnaud Dumont
+ */
 public class PTRRecordDeserializer extends
 		AbstractRecordDeserializer<PTRRecord> {
 	private static final long serialVersionUID = -7237324659966254820L;

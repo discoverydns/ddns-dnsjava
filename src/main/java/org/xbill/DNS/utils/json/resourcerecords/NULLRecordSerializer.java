@@ -8,6 +8,10 @@ import org.xbill.DNS.NULLRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.NULLRecord} class
+ * @author Arnaud Dumont
+ */
 public class NULLRecordSerializer extends StdSerializer<NULLRecord> {
 	public NULLRecordSerializer() {
 		super(NULLRecord.class);

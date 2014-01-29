@@ -7,6 +7,10 @@ import org.xbill.DNS.NAPTRRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.NAPTRRecord} class
+ * @author Arnaud Dumont
+ */
 public class NAPTRRecordSerializer extends
 		AbstractRecordSerializer<NAPTRRecord> {
 

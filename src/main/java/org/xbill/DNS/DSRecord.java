@@ -67,8 +67,8 @@ DSRecord(Name name, int dclass, long ttl, int footprint, int alg,
 }
 
 /**
- * Creates a DS Record from the given data
- * @author arnaud.dumont
+ * Creates a DS Record from the given data, using the textual representation of the "digest" field
+ * Used in DiscoveryDNS.
  * @param footprint The original KEY record's footprint (keyid).
  * @param alg The original key algorithm.
  * @param digestid The digest id code.
@@ -159,8 +159,8 @@ getDigest() {
 }
 
 /**
- * Returns the hexadecimal textual representation of the key.
- * @author arnaud.dumont
+ * Returns the hexadecimal textual representation of the "digest" field.
+ * Used in DiscoveryDNS.
  */
 public String
 		getTextualDigest() {

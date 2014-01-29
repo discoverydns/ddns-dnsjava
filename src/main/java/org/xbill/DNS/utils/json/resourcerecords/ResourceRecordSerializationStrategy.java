@@ -1,5 +1,9 @@
 package org.xbill.DNS.utils.json.resourcerecords;
 
+/**
+ * Strategy for the serialization of {@link org.xbill.DNS.Record}'s RData fields
+ * @author Arnaud Dumont
+ */
 public class ResourceRecordSerializationStrategy {
 
     public enum SerializationStrategy {
@@ -29,16 +33,27 @@ public class ResourceRecordSerializationStrategy {
         }
     };
 
+    /**
+     * Sets the global serialization strategy to use
+     * @param globalSerializationStrategy The global serialization strategy to use
+     */
     static void setGlobalSerializationStrategy(SerializationStrategy globalSerializationStrategy) {
         ResourceRecordSerializationStrategy.globalSerializationStrategy = globalSerializationStrategy;
     }
 
+    /**
+     * Sets the local thread's serialization strategy, if possible
+     * @param rawRDataFormat The local thread's serialization strategy to use
+     */
     public static void setRawRDataFormat(Boolean rawRDataFormat) {
         if (globalSerializationStrategy == SerializationStrategy.PER_REQUEST) {
 		    currentThreadLocalSerializationStrategy.set(rawRDataFormat);
         }
 	}
 
+    /**
+     * @return True if the record's RData field have to be concatenated into a single "rdata" field. False if they should be expanded into separate fields.
+     */
 	public static Boolean isRawRDataFormat() {
         switch (globalSerializationStrategy) {
             case ALWAYS_FULLY_EXPANDED_RDATA:

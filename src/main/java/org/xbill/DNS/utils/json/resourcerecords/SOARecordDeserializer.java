@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.xbill.DNS.Name;
 import org.xbill.DNS.SOARecord;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.SOARecord} class
+ * @author Arnaud Dumont
+ */
 public class SOARecordDeserializer extends
 		AbstractRecordDeserializer<SOARecord> {
 	private static final long serialVersionUID = -568205639940212161L;

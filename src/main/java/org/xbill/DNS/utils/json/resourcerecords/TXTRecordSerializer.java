@@ -7,6 +7,10 @@ import org.xbill.DNS.TXTRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.TXTRecord} class
+ * @author Arnaud Dumont
+ */
 public class TXTRecordSerializer extends AbstractRecordSerializer<TXTRecord> {
 
 	public TXTRecordSerializer() {

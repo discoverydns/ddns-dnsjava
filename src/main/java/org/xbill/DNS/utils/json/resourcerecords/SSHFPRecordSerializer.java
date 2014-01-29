@@ -7,6 +7,10 @@ import org.xbill.DNS.SSHFPRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.SSHFPRecord} class
+ * @author Arnaud Dumont
+ */
 public class SSHFPRecordSerializer extends
 		AbstractRecordSerializer<SSHFPRecord> {
 

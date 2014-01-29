@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.xbill.DNS.ARecord;
 import org.xbill.DNS.Name;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.ARecord} class
+ * @author Arnaud Dumont
+ */
 public class ARecordDeserializer extends
 		AbstractAddressRecordDeserializer<ARecord> {
 	private static final long serialVersionUID = -330875628382721963L;

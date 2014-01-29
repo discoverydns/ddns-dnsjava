@@ -7,6 +7,10 @@ import org.xbill.DNS.PTRRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.PTRRecord} class
+ * @author Arnaud Dumont
+ */
 public class PTRRecordSerializer extends AbstractRecordSerializer<PTRRecord> {
 
 	public PTRRecordSerializer() {

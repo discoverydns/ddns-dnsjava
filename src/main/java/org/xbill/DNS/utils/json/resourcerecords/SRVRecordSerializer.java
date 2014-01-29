@@ -7,6 +7,10 @@ import org.xbill.DNS.SRVRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.SRVRecord} class
+ * @author Arnaud Dumont
+ */
 public class SRVRecordSerializer extends AbstractRecordSerializer<SRVRecord> {
 
 	public SRVRecordSerializer() {

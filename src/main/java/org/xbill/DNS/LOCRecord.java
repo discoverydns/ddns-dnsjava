@@ -58,8 +58,8 @@ LOCRecord(Name name, int dclass, long ttl, double latitude, double longitude,
 }
 
 /**
- * Creates an LOC Record from the given data's textual representation
- * @author arnaud.dumont
+ * Creates an LOC Record from the given data's textual representation, for all the rdata fields
+ * Used in DiscoveryDNS.
  * @param latitude Textual representation of the latitude of the center of the sphere
  * @param longitude Textual representation of the longitude of the center of the sphere
  * @param altitude Textual representation of the altitude of the center of the sphere, in m
@@ -210,7 +210,8 @@ renderFixedPoint(StringBuffer sb, NumberFormat formatter, long value,
 }
 
 /**
- * @author arnaud.dumont
+ * Renders a fixed point long value into a single string
+ * Used in DiscoveryDNS.
  */
 private String
 renderFixedPoint(NumberFormat formatter, long value,
@@ -325,7 +326,7 @@ getVPrecision() {
 }       
 
 /** Returns the textual representation of the latitude
- * @author arnaud.dumont
+ * Used in DiscoveryDNS.
  */
 public String
 getTextualLatitude() {  
@@ -333,7 +334,7 @@ getTextualLatitude() {
 }
 
 /** Returns the textual representation of the longitude
- * @author arnaud.dumont
+ * Used in DiscoveryDNS.
  */
 public String
 getTextualLongitude() {  
@@ -341,7 +342,7 @@ getTextualLongitude() {
 }
 
 /** Returns the textual representation of the altitude
- * @author arnaud.dumont
+ * Used in DiscoveryDNS.
  */
 public String
 getTextualAltitude() {  
@@ -349,7 +350,7 @@ getTextualAltitude() {
 }
 
 /** Returns the textual representation of the diameter of the enclosing sphere
- * @author arnaud.dumont
+ * Used in DiscoveryDNS.
  */
 public String
 getTextualSize() {  
@@ -357,15 +358,15 @@ getTextualSize() {
 }
 
 /** Returns the textual representation of the horizontal precision
- * @author arnaud.dumont
+ * Used in DiscoveryDNS.
  */
 public String
 getTextualHPrecision() {  
 	return renderFixedPoint(w2, hPrecision, 100);
 }
 
-/** Returns the textual representation of the horizontal precision
- * @author arnaud.dumont
+/** Returns the textual representation of the vertical precision
+ * Used in DiscoveryDNS.
  */
 public String
 getTextualVPrecision() {  

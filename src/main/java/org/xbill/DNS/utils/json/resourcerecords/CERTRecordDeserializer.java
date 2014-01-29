@@ -8,6 +8,10 @@ import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeser
 
 import java.io.IOException;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.CERTRecord} class
+ * @author Arnaud Dumont
+ */
 public class CERTRecordDeserializer extends
 		AbstractRecordDeserializer<CERTRecord> {
 	private static final long serialVersionUID = 1976274354370729318L;
