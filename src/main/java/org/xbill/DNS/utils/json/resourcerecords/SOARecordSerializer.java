@@ -7,6 +7,10 @@ import org.xbill.DNS.SOARecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.SOARecord} class
+ * @author Arnaud Dumont
+ */
 public class SOARecordSerializer extends AbstractRecordSerializer<SOARecord> {
 
 	public SOARecordSerializer() {

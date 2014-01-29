@@ -22,7 +22,6 @@ import org.xbill.DNS.utils.json.exception.JsonSerializationException.JsonSeriali
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -146,16 +145,5 @@ public class AbstractRecordSerializerTest {
                 exception, new Object[] {Type.string(type), name, exception.getMessage()}));
 		
 		abstractRecordSerializer.serialize(mockRecord, mockJsonGenerator, mockSerializerProvider);
-	}
-
-    @Test
-    public void shouldEscapeCharacterStringIfNecessary() throws Exception {
-        String stringWithoutSpace = "string1";
-        String stringWithSpace = "string 2";
-
-        assertEquals(stringWithoutSpace,
-                abstractRecordSerializer.escapeCharacterString(stringWithoutSpace));
-        assertEquals("\"" + stringWithSpace + "\"",
-                abstractRecordSerializer.escapeCharacterString(stringWithSpace));
     }
 }

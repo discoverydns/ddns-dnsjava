@@ -7,6 +7,10 @@ import org.xbill.DNS.CERTRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.CERTRecord} class
+ * @author Arnaud Dumont
+ */
 public class CERTRecordSerializer extends AbstractRecordSerializer<CERTRecord> {
 
 	public CERTRecordSerializer() {

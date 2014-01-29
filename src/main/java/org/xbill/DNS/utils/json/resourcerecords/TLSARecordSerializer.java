@@ -7,6 +7,10 @@ import org.xbill.DNS.TLSARecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.TLSARecord} class
+ * @author Arnaud Dumont
+ */
 public class TLSARecordSerializer extends AbstractRecordSerializer<TLSARecord> {
 
 	public TLSARecordSerializer() {

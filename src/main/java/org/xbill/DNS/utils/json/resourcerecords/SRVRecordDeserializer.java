@@ -4,6 +4,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.xbill.DNS.Name;
 import org.xbill.DNS.SRVRecord;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.SRVRecord} class
+ * @author Arnaud Dumont
+ */
 public class SRVRecordDeserializer extends
 		AbstractRecordDeserializer<SRVRecord> {
 	private static final long serialVersionUID = -6051918053495550554L;

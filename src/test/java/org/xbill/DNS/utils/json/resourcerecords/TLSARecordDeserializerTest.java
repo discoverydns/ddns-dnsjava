@@ -31,9 +31,7 @@ public class TLSARecordDeserializerTest {
 	
 	private ObjectNode fakeObjectNode;
 	private Name name;
-	private int dclass = 1;
-	private long ttl = 3600L;
-	private int certificateUsage = 2;
+    private int certificateUsage = 2;
 	private int selector = 3;
 	private int matchingType = 4;
 	private String certificateAssociationData = "3FF4FFF1FF02FCEF3F1AFDC41C9F0FEF";
@@ -67,8 +65,10 @@ public class TLSARecordDeserializerTest {
 
 	@Test
 	public void shouldCreateExpectedRecord() throws Exception {
-		TLSARecord tlsaRecord = tlsaRecordDeserializer.createRecord(name, dclass,
-				ttl, fakeObjectNode);
+        int dclass = 1;
+        long ttl = 3600L;
+        TLSARecord tlsaRecord = tlsaRecordDeserializer.createRecord(name, dclass,
+                ttl, fakeObjectNode);
 		
 		assertEquals(name, tlsaRecord.getName());
 		assertEquals(dclass, tlsaRecord.getDClass());
@@ -77,19 +77,5 @@ public class TLSARecordDeserializerTest {
 		assertEquals(selector, tlsaRecord.getSelector());
 		assertEquals(matchingType, tlsaRecord.getMatchingType());
 		assertEquals(certificateAssociationData, tlsaRecord.getTextualCertificateAssociationData());
-	}
-
-	@Test
-	public void shouldIgnoreLineBreaksFromCertificateAssociationDataInput() throws Exception {
-		String certificateAssociationDataWithLineBreaks = "abcd\nefab";
-		when(mockCertificateAssociationDataJsonNode.textValue()).thenReturn(
-				certificateAssociationDataWithLineBreaks);
-		fakeObjectNode.put("certificateAssociationData", mockCertificateAssociationDataJsonNode);
-		
-		TLSARecord tlsaRecord = tlsaRecordDeserializer.createRecord(name, dclass,
-				ttl, fakeObjectNode);
-
-		assertEquals(certificateAssociationDataWithLineBreaks.replaceAll("\\n", "").toUpperCase(),
-				tlsaRecord.getTextualCertificateAssociationData());
 	}
 }

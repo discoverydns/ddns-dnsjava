@@ -14,6 +14,10 @@ import org.xbill.DNS.utils.json.AbstractDeserializer;
 
 import java.io.IOException;
 
+/**
+ * Base Jackson deserializer for the {@link org.xbill.DNS.Record} class
+ * @author Arnaud Dumont
+ */
 public abstract class AbstractRecordDeserializer<T extends Record> extends
         AbstractDeserializer<T> {
 	private static final long serialVersionUID = 1189405106065540372L;
@@ -51,24 +55,50 @@ public abstract class AbstractRecordDeserializer<T extends Record> extends
         }
 	}
 
+    /**
+     * Instantiate the record from the input JSON node, with expanded rdata fields
+     * @param name The record's label domain name
+     * @param dclass The record's class
+     * @param ttl The record's TTL
+     * @param recordNode The input JSON node
+     * @return The instantiated record
+     */
 	protected abstract T createRecord(Name name, int dclass, long ttl,
 			ObjectNode recordNode);
 
+    /**
+     * @return The textual representation of the record's type, for logging purpose
+     */
 	protected abstract String getTextualRecordType();
 
 	protected String getTextualBeanType() {
 		return getTextualRecordType() + " record";
 	}
 
+    /**
+     * Extracts the label domain name from the input JSON node
+     * @param recordNode The input JSON node
+     * @return The corresponding label domain name
+     */
 	protected Name getRecordName(final ObjectNode recordNode) {
 		return getNodeNameValue(recordNode, NAME_FIELD_NAME);
 	}
 
+    /**
+     * Extracts the record's class from the input JSON node
+     * @param recordNode The input JSON node
+     * @return The corresponding record's class
+     */
 	protected int getDClass(ObjectNode recordNode) {
 		String dClass = getNodeStringValue(recordNode, CLASS_FIELD_NAME);
 		return DClass.value(dClass);
 	}
 
+    /**
+     * Extracts the record's TTL from the input JSON node
+     * @param recordNode The input JSON node
+     * @return The corresponding record's TTL
+     */
 	protected int getRecordTTL(final ObjectNode recordNode) {
 		return getNodeIntegerValue(recordNode, TTL_FIELD_NAME);
 	}

@@ -1,5 +1,9 @@
 package org.xbill.DNS.utils.json.exception;
 
+/**
+ * Base class for all JSON serialization and deserialization exceptions.
+ * @author Arnaud Dumont
+ */
 public class BaseJsonException extends RuntimeException {
     private static final long serialVersionUID = 2875767802768799014L;
 

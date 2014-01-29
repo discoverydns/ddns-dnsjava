@@ -22,6 +22,10 @@ protected Name name;
 protected int type, dclass;
 protected long ttl;
 
+/**
+ * Flag to indicate if the record is authoritative.
+ * Needed for DiscoveryDNS-PowerDNS integration.
+ */
 private boolean authoratative;
 
 public boolean isAuthoratative() {
@@ -32,10 +36,27 @@ public void setAuthoratative(final boolean authoratative) {
 	this.authoratative = authoratative;
 }
 
+/**
+ * DiscoveryDNS record types
+ */
 public enum DDNSRecordType {
-	user,ddns,dnssec
-};
+    /**
+     * User-generated record type
+     */
+    user,
+    /**
+     * System-generated record type
+     */
+    ddns,
+    /**
+     * DNSSEC system-generated record type
+     */
+    dnssec
+}
 
+/**
+ * DiscoveryDNS record type
+ */
 private DDNSRecordType ddnsRecordType;
 
 public DDNSRecordType getDDNSRecordType() {

@@ -7,6 +7,10 @@ import org.xbill.DNS.CNAMERecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.CNAMERecord} class
+ * @author Arnaud Dumont
+ */
 public class CNAMERecordSerializer extends
 		AbstractRecordSerializer<CNAMERecord> {
 

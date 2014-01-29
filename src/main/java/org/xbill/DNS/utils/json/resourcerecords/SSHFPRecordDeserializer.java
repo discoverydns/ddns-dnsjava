@@ -8,6 +8,10 @@ import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeser
 
 import java.io.IOException;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.SSHFPRecord} class
+ * @author Arnaud Dumont
+ */
 public class SSHFPRecordDeserializer extends
 		AbstractRecordDeserializer<SSHFPRecord> {
 	private static final long serialVersionUID = -3992024906736725094L;
@@ -23,8 +27,7 @@ public class SSHFPRecordDeserializer extends
 			return new SSHFPRecord(name, dclass, ttl, getNodeIntegerValue(
 					recordNode, "algorithm"), getNodeIntegerValue(recordNode,
 					"digestType"),
-					getNodeStringValue(recordNode, "fingerprint").replaceAll(
-							"\\n", ""));
+					getNodeStringValue(recordNode, "fingerprint"));
 		} catch (final IOException e) {
 			throw new JsonDeserializationException(
                     JsonDeserializationExceptionCode.unexpectedMappingError,

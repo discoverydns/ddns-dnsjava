@@ -31,9 +31,7 @@ public class DSRecordDeserializerTest {
 
 	private ObjectNode fakeObjectNode;
 	private Name name;
-	private int dclass = 1;
-	private long ttl = 3600L;
-	private int footprint = 2;
+    private int footprint = 2;
 	private int algorithm = 3;
 	private int digestId = 4;
 	private String digest = "3FF4FFF1FF02FCEF3F1AFDC41C9F0FEF";
@@ -69,8 +67,10 @@ public class DSRecordDeserializerTest {
 
 	@Test
 	public void shouldCreateExpectedRecord() throws Exception {
-		DSRecord dsRecord = dsRecordDeserializer.createRecord(name, dclass,
-				ttl, fakeObjectNode);
+        int dclass = 1;
+        long ttl = 3600L;
+        DSRecord dsRecord = dsRecordDeserializer.createRecord(name, dclass,
+                ttl, fakeObjectNode);
 
 		assertEquals(name, dsRecord.getName());
 		assertEquals(dclass, dsRecord.getDClass());
@@ -79,18 +79,5 @@ public class DSRecordDeserializerTest {
 		assertEquals(algorithm, dsRecord.getAlgorithm());
 		assertEquals(digestId, dsRecord.getDigestID());
 		assertEquals(digest, dsRecord.getTextualDigest());
-	}
-	
-	@Test
-	public void shouldIgnoreLineBreaksFromDigestInput() throws Exception {
-		String digestWithLineBreaks = "abcd\nefab";
-		when(mockDigestJsonNode.textValue()).thenReturn(digestWithLineBreaks);
-		fakeObjectNode.put("digest", mockDigestJsonNode);
-		
-		DSRecord dsRecord = dsRecordDeserializer.createRecord(name, dclass,
-				ttl, fakeObjectNode);
-
-		assertEquals(digestWithLineBreaks.replaceAll("\\n", "").toUpperCase(),
-				dsRecord.getTextualDigest());
 	}
 }

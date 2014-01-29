@@ -8,6 +8,10 @@ import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeser
 
 import java.io.IOException;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.TLSARecord} class
+ * @author Arnaud Dumont
+ */
 public class TLSARecordDeserializer extends
 		AbstractRecordDeserializer<TLSARecord> {
 	private static final long serialVersionUID = -9043318764404295577L;
@@ -24,7 +28,7 @@ public class TLSARecordDeserializer extends
 					recordNode, "certificateUsage"), getNodeIntegerValue(
 					recordNode, "selector"), getNodeIntegerValue(recordNode,
 					"matchingType"), getNodeStringValue(recordNode,
-					"certificateAssociationData").replaceAll("\\n", ""));
+					"certificateAssociationData"));
 		} catch (final IOException e) {
 			throw new JsonDeserializationException(
                     JsonDeserializationExceptionCode.unexpectedMappingError,

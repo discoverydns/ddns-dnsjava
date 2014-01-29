@@ -7,6 +7,10 @@ import org.xbill.DNS.TXTRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.TXTRecord} class
+ * @author Arnaud Dumont
+ */
 public class TXTRecordSerializer extends AbstractRecordSerializer<TXTRecord> {
 
 	public TXTRecordSerializer() {
@@ -18,13 +22,6 @@ public class TXTRecordSerializer extends AbstractRecordSerializer<TXTRecord> {
 			final JsonGenerator jsonGenerator,
 			final SerializerProvider serializerProvider) throws IOException,
 			JsonGenerationException {
-		String strings = "";
-		for (final Object characterString : txtRecord.getStrings()) {
-			if (strings.length() > 0) {
-				strings += " ";
-			}
-			strings += escapeCharacterString((String) characterString);
-		}
-		jsonGenerator.writeStringField("strings", strings);
+		jsonGenerator.writeStringField("strings", txtRecord.rdataToString());
 	}
 }

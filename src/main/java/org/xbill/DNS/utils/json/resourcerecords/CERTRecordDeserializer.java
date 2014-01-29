@@ -8,6 +8,10 @@ import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeser
 
 import java.io.IOException;
 
+/**
+ * Jackson deserializer for the {@link org.xbill.DNS.CERTRecord} class
+ * @author Arnaud Dumont
+ */
 public class CERTRecordDeserializer extends
 		AbstractRecordDeserializer<CERTRecord> {
 	private static final long serialVersionUID = 1976274354370729318L;
@@ -23,8 +27,7 @@ public class CERTRecordDeserializer extends
 			return new CERTRecord(name, dclass, ttl, getNodeIntegerValue(
 					recordNode, "certType"), getNodeIntegerValue(recordNode,
 					"keyTag"), getNodeIntegerValue(recordNode, "algorithm"),
-					getNodeStringValue(recordNode, "cert")
-							.replaceAll("\\n", ""));
+					getNodeStringValue(recordNode, "cert"));
 		} catch (final IOException e) {
 			throw new JsonDeserializationException(
 					JsonDeserializationExceptionCode.unexpectedMappingError,

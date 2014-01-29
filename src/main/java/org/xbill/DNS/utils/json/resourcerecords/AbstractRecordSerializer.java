@@ -12,6 +12,10 @@ import org.xbill.DNS.utils.json.exception.JsonSerializationException.JsonSeriali
 
 import java.io.IOException;
 
+/**
+ * Base Jackson serializer for the {@link org.xbill.DNS.Record} class
+ * @author Arnaud Dumont
+ */
 public abstract class AbstractRecordSerializer<T extends Record> extends
 		StdSerializer<T> {
 
@@ -50,18 +54,24 @@ public abstract class AbstractRecordSerializer<T extends Record> extends
 		}
 	}
 
+    /**
+     * Serializes the expanded version of the RData fields
+     * @param value The record to serialise
+     * @param jsonGenerator The current Jackson JsonGenerator
+     * @param serializerProvider The current Jackson serializerProvider
+     * @throws IOException In case of any I/O error during serialization
+     * @throws JsonGenerationException In case of any JSON errors during serialization
+     */
 	protected abstract void serializeRDataFields(T value,
 			JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
 			throws IOException, JsonGenerationException;
 
+    /**
+     * Formats the given number into output JSON textual representation
+     * @param number The number to format
+     * @return The corresponding output JSON textual representation
+     */
 	public String formatNumber(final Number number) {
 		return String.valueOf(number);
 	}
-
-    public String escapeCharacterString(String characterString) {
-        boolean containsWhiteSpaces = characterString.indexOf(' ') >= 0;
-        return (containsWhiteSpaces ? "\"" : "")
-                + characterString
-                + (containsWhiteSpaces ? "\"" : "");
-    }
 }

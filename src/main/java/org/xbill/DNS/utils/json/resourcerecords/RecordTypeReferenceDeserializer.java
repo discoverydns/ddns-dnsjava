@@ -17,6 +17,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Jackson deserializer for a {@link org.xbill.DNS.Record} of unknown type,
+ * to redirect to the proper deserializer
+ * @author Arnaud Dumont
+ */
 public class RecordTypeReferenceDeserializer extends StdDeserializer<Record> {
 	private static final long serialVersionUID = 3048754137709241877L;
 

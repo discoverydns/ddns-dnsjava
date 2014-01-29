@@ -1,5 +1,9 @@
 package org.xbill.DNS.utils.json.exception;
 
+/**
+ * JSON serialization exception, thrown by the Jackson {@link org.xbill.DNS.Record} serializers
+ * @author Arnaud Dumont
+ */
 public class JsonSerializationException extends BaseJsonException {
     private static final long serialVersionUID = -603320986020515945L;
 

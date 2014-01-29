@@ -7,6 +7,10 @@ import org.xbill.DNS.MXRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.MXRecord} class
+ * @author Arnaud Dumont
+ */
 public class MXRecordSerializer extends AbstractRecordSerializer<MXRecord> {
 
 	public MXRecordSerializer() {

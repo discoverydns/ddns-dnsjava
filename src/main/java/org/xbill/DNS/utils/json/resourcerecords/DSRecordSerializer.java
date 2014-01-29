@@ -7,6 +7,10 @@ import org.xbill.DNS.DSRecord;
 
 import java.io.IOException;
 
+/**
+ * Jackson serializer for the {@link org.xbill.DNS.DSRecord} class
+ * @author Arnaud Dumont
+ */
 public class DSRecordSerializer extends AbstractRecordSerializer<DSRecord> {
 
 	public DSRecordSerializer() {
