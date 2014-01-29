@@ -1,6 +1,7 @@
 package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.CharMatcher;
 import org.xbill.DNS.Name;
 import org.xbill.DNS.SPFRecord;
 import org.xbill.DNS.Type;
@@ -23,9 +24,14 @@ public class SPFRecordDeserializer extends
 	protected SPFRecord createRecord(final Name name, final int dclass,
 			final long ttl, final ObjectNode recordNode) {
 		try {
-			return (SPFRecord) SPFRecord.fromString(name, Type.SPF, dclass,
-					ttl, getNodeStringValue(recordNode, STRINGS_FIELD_NAME),
-					Name.root);
+            String strings = getNodeStringValue(recordNode, STRINGS_FIELD_NAME);
+            if (!CharMatcher.ASCII.matchesAllOf(strings)) {
+                throw new JsonDeserializationException(
+                        JsonDeserializationExceptionCode.invalidFieldValue,
+                        "strings", getTextualBeanType(), "Non-ASCII character found");
+            }
+            return (SPFRecord) SPFRecord.fromString(name, Type.SPF, dclass,
+					ttl, strings, Name.root);
 		} catch (final IOException e) {
 			throw new JsonDeserializationException(
                     JsonDeserializationExceptionCode.unexpectedMappingError,

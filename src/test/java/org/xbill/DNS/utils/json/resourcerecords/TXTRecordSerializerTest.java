@@ -13,9 +13,7 @@ import org.xbill.DNS.TXTRecord;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TXTRecordSerializerTest {
@@ -26,7 +24,7 @@ public class TXTRecordSerializerTest {
 	
 	private TXTRecord txtRecord;
     private String string1 = "string1";
-	private String string2 = "string2";
+	private String string2 = "string 2";
 
     @Before
 	public void setup() throws Throwable {
@@ -40,14 +38,8 @@ public class TXTRecordSerializerTest {
 	
 	@Test
 	public void shouldGenerateStringsFieldAsSingleString() throws Exception {
-        String escapedString1 = "escapedString1";
-        String escapedString2 = "escapedString2";
-		txtRecordSerializer = spy(txtRecordSerializer);
-        when(txtRecordSerializer.escapeCharacterString(string1)).thenReturn(escapedString1);
-        when(txtRecordSerializer.escapeCharacterString(string2)).thenReturn(escapedString2);
-		
 		txtRecordSerializer.serializeRDataFields(txtRecord, mockJsonGenerator, mockSerializerProvider);
 		
-		verify(mockJsonGenerator).writeStringField("strings", escapedString1 + " " + escapedString2);
+		verify(mockJsonGenerator).writeStringField("strings", "\"" + string1 + "\" \"" + string2 + "\"");
 	}
 }

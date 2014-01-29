@@ -4,19 +4,26 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.xbill.DNS.Name;
 import org.xbill.DNS.TXTRecord;
+import org.xbill.DNS.infrastructure.JsonDeserializationExceptionMatcher;
+import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeserializationExceptionCode;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TXTRecordDeserializerTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 	@Mock
 	private JsonNodeFactory mockJsonNodeFactory;
 	@Mock
@@ -29,9 +36,13 @@ public class TXTRecordDeserializerTest {
 	private String string2 = "string 2";
 	private String string3 = "string3";
 	private String strings = string1 + " \"" + string2 + "\" " + string3;
+    private Name name;
+    private int dclass = 1;
+    private long ttl = 3600L;
 
 	@Before
 	public void setup() throws Throwable {
+        name = Name.fromString("test.domain.com.");
 		fakeObjectNode = new ObjectNode(mockJsonNodeFactory);
 
 		when(mockStringsJsonNode.textValue()).thenReturn(strings);
@@ -47,9 +58,6 @@ public class TXTRecordDeserializerTest {
 
 	@Test
 	public void shouldCreateExpectedRecord() throws Exception {
-        Name name = Name.fromString("test.domain.com.");
-        int dclass = 1;
-        long ttl = 3600L;
         TXTRecord txtRecord = txtRecordDeserializer.createRecord(name, dclass,
                 ttl, fakeObjectNode);
 
@@ -58,5 +66,21 @@ public class TXTRecordDeserializerTest {
 		assertEquals(ttl, txtRecord.getTTL());
 		assertArrayEquals(new String[] { string1, string2, string3 }, txtRecord
 				.getStrings().toArray());
+	}
+
+    @Test
+    public void shouldThrowExceptionIfContainsNonAsciiCharacters() throws Exception {
+        when(mockStringsJsonNode.textValue()).thenReturn("first\\naمستخدميb\\nthird");
+        txtRecordDeserializer = spy(txtRecordDeserializer);
+        String textualBeanType = "textualBeanType";
+        when(txtRecordDeserializer.getTextualBeanType()).thenReturn(
+                textualBeanType);
+
+        thrown.expect(new JsonDeserializationExceptionMatcher(
+                JsonDeserializationExceptionCode.invalidFieldValue,
+                new Object[] { "strings", textualBeanType, "Non-ASCII character found" }));
+
+        txtRecordDeserializer.createRecord(name, dclass,
+                ttl, fakeObjectNode);
 	}
 }

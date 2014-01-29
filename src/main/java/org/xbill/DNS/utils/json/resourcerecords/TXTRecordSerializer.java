@@ -18,13 +18,6 @@ public class TXTRecordSerializer extends AbstractRecordSerializer<TXTRecord> {
 			final JsonGenerator jsonGenerator,
 			final SerializerProvider serializerProvider) throws IOException,
 			JsonGenerationException {
-		String strings = "";
-		for (final Object characterString : txtRecord.getStrings()) {
-			if (strings.length() > 0) {
-				strings += " ";
-			}
-			strings += escapeCharacterString((String) characterString);
-		}
-		jsonGenerator.writeStringField("strings", strings);
+		jsonGenerator.writeStringField("strings", txtRecord.rdataToString());
 	}
 }

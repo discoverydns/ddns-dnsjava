@@ -57,11 +57,4 @@ public abstract class AbstractRecordSerializer<T extends Record> extends
 	public String formatNumber(final Number number) {
 		return String.valueOf(number);
 	}
-
-    public String escapeCharacterString(String characterString) {
-        boolean containsWhiteSpaces = characterString.indexOf(' ') >= 0;
-        return (containsWhiteSpaces ? "\"" : "")
-                + characterString
-                + (containsWhiteSpaces ? "\"" : "");
-    }
 }

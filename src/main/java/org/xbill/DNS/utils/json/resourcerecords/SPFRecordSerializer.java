@@ -14,17 +14,10 @@ public class SPFRecordSerializer extends AbstractRecordSerializer<SPFRecord> {
 	}
 
 	@Override
-	protected void serializeRDataFields(final SPFRecord txtRecord,
+	protected void serializeRDataFields(final SPFRecord spfRecord,
 			final JsonGenerator jsonGenerator,
 			final SerializerProvider serializerProvider) throws IOException,
 			JsonGenerationException {
-		String strings = "";
-		for (final Object characterString : txtRecord.getStrings()) {
-			if (strings.length() > 0) {
-				strings += " ";
-			}
-			strings += escapeCharacterString((String) characterString);
-		}
-		jsonGenerator.writeStringField("strings", strings);
+        jsonGenerator.writeStringField("strings", spfRecord.rdataToString());
 	}
 }
