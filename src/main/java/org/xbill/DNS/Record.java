@@ -51,7 +51,11 @@ public enum DDNSRecordType {
     /**
      * DNSSEC system-generated record type
      */
-    dnssec
+    dnssec,
+    /**
+      * Empty Non Terminal record types
+      */
+    ent
 }
 
 /**
