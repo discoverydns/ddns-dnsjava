@@ -92,7 +92,8 @@ TLSARecord(Name name, int dclass, long ttl,
 }
 
 /**
- * Creates an TLSA Record from the given data
+ * Creates an TLSA Record from the given data, using the textual representation of the "certificateAssociationData" field
+ * Used in DiscoveryDNS.
  * @param certificateUsage The provided association that will be used to
  * match the certificate presented in the TLS handshake. 
  * @param selector The part of the TLS certificate presented by the server
@@ -182,8 +183,8 @@ getCertificateAssociationData() {
 	return certificateAssociationData;
 }
 
-/** Returns the hexadecimal textual representation of the certificate associate data of this TLSA record
- * @author arnaud.dumont
+/** Returns the hexadecimal textual representation of the "certificateAssociationData" field.
+ * Used in DiscoveryDNS.
  */
 public final String
 		getTextualCertificateAssociationData() {

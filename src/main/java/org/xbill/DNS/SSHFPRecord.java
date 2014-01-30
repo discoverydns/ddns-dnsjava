@@ -56,7 +56,8 @@ SSHFPRecord(Name name, int dclass, long ttl, int alg, int digestType,
 	this.fingerprint = fingerprint;
 }
 /**
- * Creates an SSHFP Record from the given data.
+ * Creates an SSHFP Record from the given data, using the textual representation of the "fingerprint" field
+ * Used in DiscoveryDNS.
  * @param alg The public key's algorithm.
  * @param digestType The public key's digest type.
  * @param fingerprint The hexadecimal textual representation of the public key's fingerprint.
@@ -115,8 +116,8 @@ getFingerPrint() {
 	return fingerprint;
 }
 
-/** Returns the hexadecimal textual representation of the fingerprint
- * @author arnaud.dumont
+/** Returns the hexadecimal textual representation of the "fingerprint" field.
+ * Used in DiscoveryDNS.
  */
 public String
 		getTextualFingerPrint() {
