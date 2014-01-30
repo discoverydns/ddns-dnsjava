@@ -4,7 +4,7 @@
 
 	<groupId>com.discoverydns</groupId>
 	<artifactId>ddns-dnsjava</artifactId>
-	<version>1.0.5-r1685-SNAPSHOT</version>
+	<version>1.0.6-r1685-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>DDNS DNSJava</name>
