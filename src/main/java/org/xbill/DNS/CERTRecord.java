@@ -136,8 +136,8 @@ CERTRecord(Name name, int dclass, long ttl, int certType, int keyTag,
 	this.cert = cert;
 }
 /**
- * Creates a CERT Record from the given data
- * @author arnaud.dumont
+ * Creates a CERT Record from the given data, using the textual representation of the "cert" field
+ * Used in DiscoveryDNS.
  * @param certType The type of certificate (see constants)
  * @param keyTag The ID of the associated KEYRecord, if present
  * @param alg The algorithm of the associated KEYRecord, if present
@@ -234,8 +234,8 @@ getCert() {
 }
 
 /**
- * Returns the base-64 encoded textual representation of the certificate
- * @author arnaud.dumont
+ * Returns the base-64 encoded textual representation of the "cert" field.
+ * Used in DiscoveryDNS.
  */
 public String
 		getTextualCert() {
