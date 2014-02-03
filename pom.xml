@@ -4,11 +4,25 @@
 
 	<groupId>com.discoverydns</groupId>
 	<artifactId>ddns-dnsjava</artifactId>
-	<version>1.0.5-r1685</version>
+	<version>1.0.5-r1685-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>DDNS DNSJava</name>
 	<description>DiscoveryDNS fork of DNSJava project</description>
+	<url>http://discoverydns.github.io/ddns-dnsjava/</url>
+
+	<scm>
+		<url>git@github.com:discoverydns/ddns-dnsjava.git</url>
+		<connection>scm:git:git@github.com:discoverydns/ddns-dnsjava.git</connection>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>ddns</id>
+			<name>Discovery DNS</name>
+			<email>support@discoverydns.com</email>
+		</developer>
+	</developers>
 
 	<licenses>
 		<license>
@@ -188,6 +202,20 @@ public class AppTest {
 				<configuration>
 					<showSuccess>true</showSuccess>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
