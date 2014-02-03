@@ -17,7 +17,7 @@ To build the ddns-dnsjava library, you must have the Java Development Kit (JDK) 
 
 #### Direct download
 
-Obtain the latest ddns-dnsjava library here: [ddns-dnsjava v1.0.5-r1685](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.5-r1685.jar) ([sources](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.5-r1685-sources.jar) | [javadoc](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.5-r1685-javadoc.jar))
+Obtain the latest ddns-dnsjava library here: [ddns-dnsjava v1.0.6-r1685](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.6-r1685.jar) ([sources](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.6-r1685-sources.jar) | [javadoc](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.6-r1685-javadoc.jar))
 
 #### Dependency Management
 
@@ -25,7 +25,7 @@ Use your build's dependency management tool to automatically download the ddns-d
 
 * groupId: `com.discoverydns`
 * artifactId: `ddns-dnsjava`
-* version: `1.0.5-r1685`
+* version: `1.0.6-r1685`
 
 For example (using Maven):
 
@@ -33,7 +33,7 @@ For example (using Maven):
        <dependency>
           <groupId>com.discoverydns</groupId>
           <artifactId>ddns-dnsjava</artifactId>
-          <version>1.0.5-r1685</version>
+          <version>1.0.6-r1685</version>
        </dependency>
     </dependencies>
 
@@ -43,4 +43,4 @@ You can view the source on [GitHub/DiscoveryDNS](http://github.com/discoverydns/
 
 ### Development documentation
 
-The javadoc is available online: [ddns-dnsjava javadoc](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.5-r1685-javadoc.jar)
+The javadoc is available online: [ddns-dnsjava javadoc](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.6-r1685-javadoc.jar)
