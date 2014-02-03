@@ -43,4 +43,7 @@ You can view the source on [GitHub/DiscoveryDNS](http://github.com/discoverydns/
 
 ### Development documentation
 
-The javadoc is available online: [ddns-dnsjava javadoc](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.6-r1685-javadoc.jar)
+The javadoc is available online: [here](http://discoverydns.github.io/ddns-dnsjava/javadoc/index.html)
+
+
+Or can be downlaoded here: [ddns-dnsjava javadoc](http://discoverydns.github.io/ddns-dnsjava/repo/ddns-dnsjava-1.0.6-r1685-javadoc.jar)
