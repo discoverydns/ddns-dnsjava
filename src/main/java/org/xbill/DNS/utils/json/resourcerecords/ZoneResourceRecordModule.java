@@ -1,10 +1,10 @@
 package org.xbill.DNS.utils.json.resourcerecords;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.xbill.DNS.AAAARecord;
 import org.xbill.DNS.ARecord;
 import org.xbill.DNS.CERTRecord;
 import org.xbill.DNS.CNAMERecord;
+import org.xbill.DNS.DNSKEYRecord;
 import org.xbill.DNS.DSRecord;
 import org.xbill.DNS.LOCRecord;
 import org.xbill.DNS.MXRecord;
@@ -21,232 +21,250 @@ import org.xbill.DNS.TLSARecord;
 import org.xbill.DNS.TXTRecord;
 import org.xbill.DNS.Type;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 /**
  * Jackson module for {@link org.xbill.DNS.Record} serializers and deserializers
+ * 
  * @author Arnaud Dumont
  */
 public class ZoneResourceRecordModule extends SimpleModule {
-    private static final long serialVersionUID = -138356800817009942L;
+	private static final long serialVersionUID = -138356800817009942L;
 
-    public ZoneResourceRecordModule(String name) {
-        this(name, ResourceRecordSerializationStrategy.SerializationStrategy.ALWAYS_FULLY_EXPANDED_RDATA);
-    }
+	public ZoneResourceRecordModule(String name) {
+		this(
+				name,
+				ResourceRecordSerializationStrategy.SerializationStrategy.ALWAYS_FULLY_EXPANDED_RDATA);
+	}
 
-    public ZoneResourceRecordModule(String name,
-                                    ResourceRecordSerializationStrategy.SerializationStrategy serializationStrategy) {
-        super(name);
-        ResourceRecordSerializationStrategy.setGlobalSerializationStrategy(serializationStrategy);
+	public ZoneResourceRecordModule(
+			String name,
+			ResourceRecordSerializationStrategy.SerializationStrategy serializationStrategy) {
+		super(name);
+		ResourceRecordSerializationStrategy
+				.setGlobalSerializationStrategy(serializationStrategy);
 
-        addDeserializer(Record.class, recordTypeReferenceDeserializer());
+		addDeserializer(Record.class, recordTypeReferenceDeserializer());
 
-        // Register managed record types' deserializers here
-        addDeserializer(ARecord.class, aRecordDeserializer());
-        addDeserializer(NSRecord.class, nsRecordDeserializer());
-        addDeserializer(SOARecord.class, soaRecordDeserializer());
-        addDeserializer(AAAARecord.class, aaaaRecordDeserializer());
-        addDeserializer(MXRecord.class, mxRecordDeserializer());
-        addDeserializer(CNAMERecord.class, cnameRecordDeserializer());
-        addDeserializer(TXTRecord.class, txtRecordDeserializer());
-        addDeserializer(SRVRecord.class, srvRecordDeserializer());
-        addDeserializer(NAPTRRecord.class, naptrRecordDeserializer());
-        addDeserializer(SPFRecord.class, spfRecordDeserializer());
-        addDeserializer(DSRecord.class, dsRecordDeserializer());
-        addDeserializer(CERTRecord.class, certRecordDeserializer());
-        addDeserializer(PTRRecord.class, ptrRecordDeserializer());
-        addDeserializer(SSHFPRecord.class, sshfpRecordDeserializer());
-        addDeserializer(TLSARecord.class, tlsaRecordDeserializer());
-        addDeserializer(LOCRecord.class, locRecordDeserializer());
+		// Register managed record types' deserializers here
+		addDeserializer(ARecord.class, aRecordDeserializer());
+		addDeserializer(NSRecord.class, nsRecordDeserializer());
+		addDeserializer(SOARecord.class, soaRecordDeserializer());
+		addDeserializer(AAAARecord.class, aaaaRecordDeserializer());
+		addDeserializer(MXRecord.class, mxRecordDeserializer());
+		addDeserializer(CNAMERecord.class, cnameRecordDeserializer());
+		addDeserializer(DNSKEYRecord.class, dnskeyRecordDeserializer());
+		addDeserializer(TXTRecord.class, txtRecordDeserializer());
+		addDeserializer(SRVRecord.class, srvRecordDeserializer());
+		addDeserializer(NAPTRRecord.class, naptrRecordDeserializer());
+		addDeserializer(SPFRecord.class, spfRecordDeserializer());
+		addDeserializer(DSRecord.class, dsRecordDeserializer());
+		addDeserializer(CERTRecord.class, certRecordDeserializer());
+		addDeserializer(PTRRecord.class, ptrRecordDeserializer());
+		addDeserializer(SSHFPRecord.class, sshfpRecordDeserializer());
+		addDeserializer(TLSARecord.class, tlsaRecordDeserializer());
+		addDeserializer(LOCRecord.class, locRecordDeserializer());
 
-        // Register managed record types' serializers here
-        addSerializer(ARecord.class, aRecordSerializer());
-        addSerializer(NSRecord.class, nsRecordSerializer());
-        addSerializer(SOARecord.class, soaRecordSerializer());
-        addSerializer(AAAARecord.class, aaaaRecordSerializer());
-        addSerializer(MXRecord.class, mxRecordSerializer());
-        addSerializer(CNAMERecord.class, cnameRecordSerializer());
-        addSerializer(TXTRecord.class, txtRecordSerializer());
-        addSerializer(SRVRecord.class, srvRecordSerializer());
-        addSerializer(NAPTRRecord.class, naptrRecordSerializer());
-        addSerializer(SPFRecord.class, spfRecordSerializer());
-        addSerializer(DSRecord.class, dsRecordSerializer());
-        addSerializer(CERTRecord.class, certRecordSerializer());
-        addSerializer(PTRRecord.class, ptrRecordSerializer());
-        addSerializer(NULLRecord.class, nullRecordSerializer());
-        addSerializer(SSHFPRecord.class, sshfpRecordSerializer());
-        addSerializer(TLSARecord.class, tlsaRecordSerializer());
-        addSerializer(LOCRecord.class, locRecordSerializer());
-    }
+		// Register managed record types' serializers here
+		addSerializer(ARecord.class, aRecordSerializer());
+		addSerializer(NSRecord.class, nsRecordSerializer());
+		addSerializer(SOARecord.class, soaRecordSerializer());
+		addSerializer(AAAARecord.class, aaaaRecordSerializer());
+		addSerializer(MXRecord.class, mxRecordSerializer());
+		addSerializer(CNAMERecord.class, cnameRecordSerializer());
+		addSerializer(DNSKEYRecord.class, dnskeyRecordSerializer());
+		addSerializer(TXTRecord.class, txtRecordSerializer());
+		addSerializer(SRVRecord.class, srvRecordSerializer());
+		addSerializer(NAPTRRecord.class, naptrRecordSerializer());
+		addSerializer(SPFRecord.class, spfRecordSerializer());
+		addSerializer(DSRecord.class, dsRecordSerializer());
+		addSerializer(CERTRecord.class, certRecordSerializer());
+		addSerializer(PTRRecord.class, ptrRecordSerializer());
+		addSerializer(NULLRecord.class, nullRecordSerializer());
+		addSerializer(SSHFPRecord.class, sshfpRecordSerializer());
+		addSerializer(TLSARecord.class, tlsaRecordSerializer());
+		addSerializer(LOCRecord.class, locRecordSerializer());
+	}
 
-    private RecordTypeReferenceDeserializer recordTypeReferenceDeserializer() {
-        final RecordTypeReferenceDeserializer recordTypeReferenceDeserializer =
-                new RecordTypeReferenceDeserializer();
+	private RecordTypeReferenceDeserializer recordTypeReferenceDeserializer() {
+		final RecordTypeReferenceDeserializer recordTypeReferenceDeserializer = new RecordTypeReferenceDeserializer();
 
-        // Register managed record types here
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.A), ARecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.NS), NSRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.SOA), SOARecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.AAAA), AAAARecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.MX), MXRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.CNAME), CNAMERecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.TXT), TXTRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.SRV), SRVRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.NAPTR), NAPTRRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.SPF), SPFRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.DS), DSRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.CERT), CERTRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.PTR), PTRRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.SSHFP), SSHFPRecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.TLSA), TLSARecord.class);
-        recordTypeReferenceDeserializer.registerRecordType(
-                Type.string(Type.LOC), LOCRecord.class);
+		// Register managed record types here
+		recordTypeReferenceDeserializer.registerRecordType(Type.string(Type.A),
+				ARecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.NS), NSRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.SOA), SOARecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.AAAA), AAAARecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.MX), MXRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.CNAME), CNAMERecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.TXT), TXTRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.SRV), SRVRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.NAPTR), NAPTRRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.SPF), SPFRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.DS), DSRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.CERT), CERTRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.PTR), PTRRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.DNSKEY), DNSKEYRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.SSHFP), SSHFPRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.TLSA), TLSARecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.LOC), LOCRecord.class);
 
-        return recordTypeReferenceDeserializer;
-    }
+		return recordTypeReferenceDeserializer;
+	}
 
-    private ARecordDeserializer aRecordDeserializer() {
-        return new ARecordDeserializer();
-    }
+	private ARecordDeserializer aRecordDeserializer() {
+		return new ARecordDeserializer();
+	}
 
-    private ARecordSerializer aRecordSerializer() {
-        return new ARecordSerializer();
-    }
+	private ARecordSerializer aRecordSerializer() {
+		return new ARecordSerializer();
+	}
 
-    private NSRecordDeserializer nsRecordDeserializer() {
-        return new NSRecordDeserializer();
-    }
+	private NSRecordDeserializer nsRecordDeserializer() {
+		return new NSRecordDeserializer();
+	}
 
-    private NSRecordSerializer nsRecordSerializer() {
-        return new NSRecordSerializer();
-    }
+	private NSRecordSerializer nsRecordSerializer() {
+		return new NSRecordSerializer();
+	}
 
-    private SOARecordDeserializer soaRecordDeserializer() {
-        return new SOARecordDeserializer();
-    }
+	private SOARecordDeserializer soaRecordDeserializer() {
+		return new SOARecordDeserializer();
+	}
 
-    private SOARecordSerializer soaRecordSerializer() {
-        return new SOARecordSerializer();
-    }
+	private SOARecordSerializer soaRecordSerializer() {
+		return new SOARecordSerializer();
+	}
 
-    private AAAARecordDeserializer aaaaRecordDeserializer() {
-        return new AAAARecordDeserializer();
-    }
+	private DNSKEYRecordDeserializer dnskeyRecordDeserializer() {
+		return new DNSKEYRecordDeserializer();
+	}
 
-    private AAAARecordSerializer aaaaRecordSerializer() {
-        return new AAAARecordSerializer();
-    }
+	private DNSKEYRecordSerializer dnskeyRecordSerializer() {
+		return new DNSKEYRecordSerializer();
+	}
 
-    private MXRecordDeserializer mxRecordDeserializer() {
-        return new MXRecordDeserializer();
-    }
+	private AAAARecordDeserializer aaaaRecordDeserializer() {
+		return new AAAARecordDeserializer();
+	}
 
-    private MXRecordSerializer mxRecordSerializer() {
-        return new MXRecordSerializer();
-    }
+	private AAAARecordSerializer aaaaRecordSerializer() {
+		return new AAAARecordSerializer();
+	}
 
-    private CNAMERecordDeserializer cnameRecordDeserializer() {
-        return new CNAMERecordDeserializer();
-    }
+	private MXRecordDeserializer mxRecordDeserializer() {
+		return new MXRecordDeserializer();
+	}
 
-    private CNAMERecordSerializer cnameRecordSerializer() {
-        return new CNAMERecordSerializer();
-    }
+	private MXRecordSerializer mxRecordSerializer() {
+		return new MXRecordSerializer();
+	}
 
-    private TXTRecordDeserializer txtRecordDeserializer() {
-        return new TXTRecordDeserializer();
-    }
+	private CNAMERecordDeserializer cnameRecordDeserializer() {
+		return new CNAMERecordDeserializer();
+	}
 
-    private TXTRecordSerializer txtRecordSerializer() {
-        return new TXTRecordSerializer();
-    }
+	private CNAMERecordSerializer cnameRecordSerializer() {
+		return new CNAMERecordSerializer();
+	}
 
-    private SRVRecordDeserializer srvRecordDeserializer() {
-        return new SRVRecordDeserializer();
-    }
+	private TXTRecordDeserializer txtRecordDeserializer() {
+		return new TXTRecordDeserializer();
+	}
 
-    private SRVRecordSerializer srvRecordSerializer() {
-        return new SRVRecordSerializer();
-    }
+	private TXTRecordSerializer txtRecordSerializer() {
+		return new TXTRecordSerializer();
+	}
 
-    private NAPTRRecordDeserializer naptrRecordDeserializer() {
-        return new NAPTRRecordDeserializer();
-    }
+	private SRVRecordDeserializer srvRecordDeserializer() {
+		return new SRVRecordDeserializer();
+	}
 
-    private NAPTRRecordSerializer naptrRecordSerializer() {
-        return new NAPTRRecordSerializer();
-    }
+	private SRVRecordSerializer srvRecordSerializer() {
+		return new SRVRecordSerializer();
+	}
 
-    private SPFRecordDeserializer spfRecordDeserializer() {
-        return new SPFRecordDeserializer();
-    }
+	private NAPTRRecordDeserializer naptrRecordDeserializer() {
+		return new NAPTRRecordDeserializer();
+	}
 
-    private SPFRecordSerializer spfRecordSerializer() {
-        return new SPFRecordSerializer();
-    }
+	private NAPTRRecordSerializer naptrRecordSerializer() {
+		return new NAPTRRecordSerializer();
+	}
 
-    private DSRecordDeserializer dsRecordDeserializer() {
-        return new DSRecordDeserializer();
-    }
+	private SPFRecordDeserializer spfRecordDeserializer() {
+		return new SPFRecordDeserializer();
+	}
 
-    private DSRecordSerializer dsRecordSerializer() {
-        return new DSRecordSerializer();
-    }
+	private SPFRecordSerializer spfRecordSerializer() {
+		return new SPFRecordSerializer();
+	}
 
-    private CERTRecordDeserializer certRecordDeserializer() {
-        return new CERTRecordDeserializer();
-    }
+	private DSRecordDeserializer dsRecordDeserializer() {
+		return new DSRecordDeserializer();
+	}
 
-    private CERTRecordSerializer certRecordSerializer() {
-        return new CERTRecordSerializer();
-    }
+	private DSRecordSerializer dsRecordSerializer() {
+		return new DSRecordSerializer();
+	}
 
-    private PTRRecordDeserializer ptrRecordDeserializer() {
-        return new PTRRecordDeserializer();
-    }
+	private CERTRecordDeserializer certRecordDeserializer() {
+		return new CERTRecordDeserializer();
+	}
 
-    private PTRRecordSerializer ptrRecordSerializer() {
-        return new PTRRecordSerializer();
-    }
+	private CERTRecordSerializer certRecordSerializer() {
+		return new CERTRecordSerializer();
+	}
 
-    private NULLRecordSerializer nullRecordSerializer() {
-        return new NULLRecordSerializer();
-    }
+	private PTRRecordDeserializer ptrRecordDeserializer() {
+		return new PTRRecordDeserializer();
+	}
 
-    private SSHFPRecordDeserializer sshfpRecordDeserializer() {
-        return new SSHFPRecordDeserializer();
-    }
+	private PTRRecordSerializer ptrRecordSerializer() {
+		return new PTRRecordSerializer();
+	}
 
-    private SSHFPRecordSerializer sshfpRecordSerializer() {
-        return new SSHFPRecordSerializer();
-    }
+	private NULLRecordSerializer nullRecordSerializer() {
+		return new NULLRecordSerializer();
+	}
 
-    private TLSARecordDeserializer tlsaRecordDeserializer() {
-        return new TLSARecordDeserializer();
-    }
+	private SSHFPRecordDeserializer sshfpRecordDeserializer() {
+		return new SSHFPRecordDeserializer();
+	}
 
-    private TLSARecordSerializer tlsaRecordSerializer() {
-        return new TLSARecordSerializer();
-    }
+	private SSHFPRecordSerializer sshfpRecordSerializer() {
+		return new SSHFPRecordSerializer();
+	}
 
-    private LOCRecordDeserializer locRecordDeserializer() {
-        return new LOCRecordDeserializer();
-    }
+	private TLSARecordDeserializer tlsaRecordDeserializer() {
+		return new TLSARecordDeserializer();
+	}
 
-    private LOCRecordSerializer locRecordSerializer() {
-        return new LOCRecordSerializer();
-    }
+	private TLSARecordSerializer tlsaRecordSerializer() {
+		return new TLSARecordSerializer();
+	}
+
+	private LOCRecordDeserializer locRecordDeserializer() {
+		return new LOCRecordDeserializer();
+	}
+
+	private LOCRecordSerializer locRecordSerializer() {
+		return new LOCRecordSerializer();
+	}
 }
