@@ -74,8 +74,6 @@ public class DSRecordSerializerTest {
 	
 	@Test
 	public void shouldGenerateDigestField() throws Exception {
-		dsRecordSerializer = spy(dsRecordSerializer);
-
 		dsRecordSerializer.serializeRDataFields(mockDSRecord, mockJsonGenerator,
 				mockSerializerProvider);
 		

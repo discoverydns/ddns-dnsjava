@@ -60,8 +60,6 @@ public class SSHFPRecordSerializerTest {
 
 	@Test
 	public void shouldGenerateDigestField() throws Exception {
-		sshfpRecordSerializer = spy(sshfpRecordSerializer);
-
 		sshfpRecordSerializer.serializeRDataFields(mockSSHFPRecord, mockJsonGenerator,
 				mockSerializerProvider);
 

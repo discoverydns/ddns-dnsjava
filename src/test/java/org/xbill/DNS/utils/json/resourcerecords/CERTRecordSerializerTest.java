@@ -74,8 +74,6 @@ public class CERTRecordSerializerTest {
 	
 	@Test
 	public void shouldGenerateCertField() throws Exception {
-		certRecordSerializer = spy(certRecordSerializer);
-
 		certRecordSerializer.serializeRDataFields(mockCERTRecord, mockJsonGenerator,
 				mockSerializerProvider);
 		
