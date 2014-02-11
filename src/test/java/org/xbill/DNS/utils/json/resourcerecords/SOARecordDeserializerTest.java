@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,20 +60,25 @@ public class SOARecordDeserializerTest {
 		fakeObjectNode.put("admin", mockAdminJsonNode);
 
 		when(mockSerialJsonNode.textValue()).thenReturn(String.valueOf(serial));
+        when(mockSerialJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("serial", mockSerialJsonNode);
 
 		when(mockRefreshJsonNode.textValue()).thenReturn(
 				String.valueOf(refresh));
+        when(mockRefreshJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("refresh", mockRefreshJsonNode);
 
 		when(mockRetryJsonNode.textValue()).thenReturn(String.valueOf(retry));
+        when(mockRetryJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("retry", mockRetryJsonNode);
 
 		when(mockExpireJsonNode.textValue()).thenReturn(String.valueOf(expire));
+        when(mockExpireJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("expire", mockExpireJsonNode);
 
 		when(mockMinimumJsonNode.textValue()).thenReturn(
 				String.valueOf(minimum));
+        when(mockMinimumJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("minimum", mockMinimumJsonNode);
 
 		soaRecordDeserializer = new SOARecordDeserializer();

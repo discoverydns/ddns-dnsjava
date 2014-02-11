@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,13 +45,16 @@ public class DNSKEYRecordDeserializerTest {
 
         when(mockFlagsJsonNode.textValue()).thenReturn(
                 String.valueOf(flags));
+        when(mockFlagsJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
         fakeObjectNode.put("flags", mockFlagsJsonNode);
 
         when(mockProtocolJsonNode.textValue()).thenReturn(String.valueOf(protocol));
+        when(mockProtocolJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
         fakeObjectNode.put("protocol", mockProtocolJsonNode);
 
         when(mockAlgorithmJsonNode.textValue()).thenReturn(
                 String.valueOf(algorithm));
+        when(mockAlgorithmJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
         fakeObjectNode.put("algorithm", mockAlgorithmJsonNode);
 
         when(mockKeyJsonNode.textValue()).thenReturn(key);
