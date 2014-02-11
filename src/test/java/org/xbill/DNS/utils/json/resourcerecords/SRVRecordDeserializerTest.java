@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,10 +42,13 @@ public class SRVRecordDeserializerTest {
 
 		when(mockPriorityJsonNode.textValue()).thenReturn(
 				String.valueOf(priority));
+        when(mockPriorityJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("priority", mockPriorityJsonNode);
 		when(mockWeightJsonNode.textValue()).thenReturn(String.valueOf(weight));
+        when(mockWeightJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("weight", mockWeightJsonNode);
 		when(mockPortJsonNode.textValue()).thenReturn(String.valueOf(port));
+        when(mockPortJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("port", mockPortJsonNode);
 
         String target = "target.com.";

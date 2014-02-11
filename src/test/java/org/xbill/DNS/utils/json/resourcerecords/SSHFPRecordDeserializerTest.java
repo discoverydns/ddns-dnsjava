@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +38,10 @@ public class SSHFPRecordDeserializerTest {
 		name = Name.fromString("test.domain.com.");
 
 		when(mockAlgorithmJsonNode.textValue()).thenReturn(String.valueOf(algorithm));
+        when(mockAlgorithmJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("algorithm", mockAlgorithmJsonNode);
 		when(mockDigestTypeJsonNode.textValue()).thenReturn(String.valueOf(fingerprintType));
+        when(mockDigestTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("digestType", mockDigestTypeJsonNode);
 		when(mockFingerprintJsonNode.textValue()).thenReturn(fingerprint);
 		fakeObjectNode.put("fingerprint", mockFingerprintJsonNode);

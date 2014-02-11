@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -86,6 +87,7 @@ public class AbstractRecordDeserializerTest {
 		fakeObjectNode.put("class", mockClassJsonNode);
 
 		when(mockTTLJsonNode.textValue()).thenReturn(Integer.toString(ttl));
+        when(mockTTLJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("ttl", mockTTLJsonNode);
 
 		abstractRecordDeserializer = new AbstractRecordDeserializer<Record>(
