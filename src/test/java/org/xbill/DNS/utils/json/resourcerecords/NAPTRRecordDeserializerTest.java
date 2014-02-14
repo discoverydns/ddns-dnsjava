@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,9 +47,11 @@ public class NAPTRRecordDeserializerTest {
 		fakeObjectNode = new ObjectNode(mockJsonNodeFactory);
 
 		when(mockOrderJsonNode.textValue()).thenReturn(String.valueOf(order));
+        when(mockOrderJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("order", mockOrderJsonNode);
 		when(mockPreferenceJsonNode.textValue()).thenReturn(
 				String.valueOf(preference));
+        when(mockPreferenceJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("preference", mockPreferenceJsonNode);
 		when(mockFlagsJsonNode.textValue()).thenReturn(flags);
 		fakeObjectNode.put("flags", mockFlagsJsonNode);

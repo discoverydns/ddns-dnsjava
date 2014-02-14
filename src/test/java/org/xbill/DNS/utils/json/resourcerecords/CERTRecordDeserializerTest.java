@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,13 +45,16 @@ public class CERTRecordDeserializerTest {
 
 		when(mockCertTypeJsonNode.textValue()).thenReturn(
 				String.valueOf(certType));
+        when(mockCertTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("certType", mockCertTypeJsonNode);
 
 		when(mockKeyTagJsonNode.textValue()).thenReturn(String.valueOf(keyTag));
+        when(mockKeyTagJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("keyTag", mockKeyTagJsonNode);
 
 		when(mockAlgorithmJsonNode.textValue()).thenReturn(
 				String.valueOf(algorithm));
+        when(mockAlgorithmJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("algorithm", mockAlgorithmJsonNode);
 
 		when(mockCertJsonNode.textValue()).thenReturn(cert);
