@@ -27,7 +27,7 @@ public class RecordTypeReferenceDeserializer extends StdDeserializer<Record> {
 
 	public static final String TYPE_FIELD_NAME = "type";
 
-	private final Map<String, Class<? extends Record>> recordClassesRegistry = new HashMap<>();
+	private final Map<String, Class<? extends Record>> recordClassesRegistry = new HashMap<String, Class<? extends Record>>();
 
 	public RecordTypeReferenceDeserializer() {
 		super(Record.class);
