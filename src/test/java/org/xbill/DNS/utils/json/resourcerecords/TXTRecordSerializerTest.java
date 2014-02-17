@@ -28,7 +28,7 @@ public class TXTRecordSerializerTest {
 
     @Before
 	public void setup() throws Throwable {
-        List<String> strings = new ArrayList<>();
+        List<String> strings = new ArrayList<String>();
 		strings.add(string1);
 		strings.add(string2);
 		txtRecord = new TXTRecord(new Name("name.com."), 1, 1, strings);
