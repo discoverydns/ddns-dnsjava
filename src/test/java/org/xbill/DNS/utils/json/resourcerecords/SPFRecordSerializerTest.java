@@ -28,7 +28,7 @@ public class SPFRecordSerializerTest {
 
     @Before
 	public void setup() throws Throwable {
-        List<String> strings = new ArrayList<>();
+        List<String> strings = new ArrayList<String>();
 		strings.add(string1);
 		strings.add(string2);
 		spfRecord = new SPFRecord(new Name("name.com."), 1, 1, strings);
