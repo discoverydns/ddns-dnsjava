@@ -1,8 +1,0 @@
-org.xbill.DNS
-org.xbill.DNS.programs
-org.xbill.DNS.spi
-org.xbill.DNS.tests
-org.xbill.DNS.utils
-org.xbill.DNS.utils.json
-org.xbill.DNS.utils.json.exception
-org.xbill.DNS.utils.json.resourcerecords
