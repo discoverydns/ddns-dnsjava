@@ -1,7 +1,7 @@
 ## Introduction
 
 This project is part of the [DiscoveryDNS](http://www.discoverydns.com) solution.
-It is a fork of the [jdnssec-dnsjava](https://github.com/dblacka/jdnssec-dnsjavapi) library, itself fork of the popular [DNSJava](http://www.dnsjava.org/) library.
+It is a fork of the [jdnssec-dnsjava](https://github.com/dblacka/jdnssec-dnsjava) library, itself fork of the popular [DNSJava](http://www.dnsjava.org/) library.
 
 ## License
 
