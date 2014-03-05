@@ -14,3 +14,5 @@ The differences between this version of DNSJava and the jdnssec-dnsjava version 
 5. Fixed tests for new IP address of real DNS lookup.
 
 6. Added Jackson Module, serializers and deserializers for resource records.
+
+7. Added ZONECNAME record type.
