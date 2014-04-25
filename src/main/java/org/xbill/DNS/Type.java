@@ -192,6 +192,8 @@ public static final int ANY		= 255;
 /** DNSSEC Lookaside Validation, RFC 4431 . */
 public static final int DLV		= 32769;
 
+/** DiscoveryDNS specific type: Zone canonical name (alias) */
+public static final int ZONECNAME = 65281;
 
 private static class TypeMnemonic extends Mnemonic {
 	private HashMap objects;
@@ -284,6 +286,7 @@ static {
 	types.add(MAILA, "MAILA");
 	types.add(ANY, "ANY");
 	types.add(DLV, "DLV", new DLVRecord());
+    types.add(ZONECNAME, "ZONECNAME", new ZONECNAMERecord());
 }
 
 private

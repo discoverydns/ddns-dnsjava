@@ -94,14 +94,15 @@ public class AbstractDeserializerTest {
 			}
 		};
 	}
-	
+
+    @Test
 	public void shouldThrowExceptionIfNodeFoundWhenSearchingForFieldNode()
 			throws Exception {
 		fakeObjectNode.put(fieldName, (JsonNode) null);
 
 		thrown.expect(new JsonDeserializationExceptionMatcher(
                 JsonDeserializationExceptionCode.missingField,
-				new Object[] { textualBeanType, fieldName }));
+				new Object[] { fieldName, textualBeanType }));
 
 		abstractDeserializer.findFieldNode(fakeObjectNode, fieldName);
 	}
@@ -121,6 +122,18 @@ public class AbstractDeserializerTest {
 
 		verify(mockJsonNode).textValue();
 	}
+
+    @Test
+    public void shouldParseFQDNs() throws Exception {
+        String zoneName = "domain.com.";
+        assertEquals(zoneName, abstractDeserializer.getNameFromString(zoneName).toString());
+    }
+
+    @Test
+    public void shouldParseNonFQDNs() throws Exception {
+        String zoneName = "domain.com";
+        assertEquals(zoneName + ".", abstractDeserializer.getNameFromString(zoneName).toString());
+    }
 	
 	@Test
 	public void shouldThrowExceptionForInvalidNameWhenGettingNameValue()

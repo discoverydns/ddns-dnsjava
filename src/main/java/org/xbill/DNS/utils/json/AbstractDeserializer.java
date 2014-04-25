@@ -61,7 +61,7 @@ public abstract class AbstractDeserializer<T> extends StdDeserializer<T> {
      */
 	public Name getNameFromString(final String nodeValue)
 			throws TextParseException {
-		return Name.fromString(nodeValue);
+		return Name.fromString(nodeValue, Name.root);
 	}
 
     /**
