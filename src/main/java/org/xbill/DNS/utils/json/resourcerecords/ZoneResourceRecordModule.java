@@ -9,9 +9,11 @@ import org.xbill.DNS.DSRecord;
 import org.xbill.DNS.LOCRecord;
 import org.xbill.DNS.MXRecord;
 import org.xbill.DNS.NAPTRRecord;
+import org.xbill.DNS.NSECRecord;
 import org.xbill.DNS.NSRecord;
 import org.xbill.DNS.NULLRecord;
 import org.xbill.DNS.PTRRecord;
+import org.xbill.DNS.RRSIGRecord;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.SOARecord;
 import org.xbill.DNS.SPFRecord;
@@ -84,6 +86,8 @@ public class ZoneResourceRecordModule extends SimpleModule {
 		addSerializer(SSHFPRecord.class, sshfpRecordSerializer());
 		addSerializer(TLSARecord.class, tlsaRecordSerializer());
 		addSerializer(LOCRecord.class, locRecordSerializer());
+		addSerializer(RRSIGRecord.class, rrsigRecordSerializer());
+		addSerializer(NSECRecord.class, nsecRecordSerializer());
 	}
 
 	private RecordTypeReferenceDeserializer recordTypeReferenceDeserializer() {
@@ -266,5 +270,13 @@ public class ZoneResourceRecordModule extends SimpleModule {
 
 	private LOCRecordSerializer locRecordSerializer() {
 		return new LOCRecordSerializer();
+	}
+
+	private RRSIGRecordSerializer rrsigRecordSerializer() {
+		return new RRSIGRecordSerializer();
+	}
+
+	private NSECRecordSerializer nsecRecordSerializer() {
+		return new NSECRecordSerializer();
 	}
 }
