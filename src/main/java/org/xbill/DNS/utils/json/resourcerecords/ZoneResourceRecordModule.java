@@ -283,11 +283,13 @@ public class ZoneResourceRecordModule extends SimpleModule {
 
 	private NSECRecordSerializer nsecRecordSerializer() {
 		return new NSECRecordSerializer();
-    private ZONECNAMERecordDeserializer zoneCNAMERecordDeserializer() {
-        return new ZONECNAMERecordDeserializer();
-    }
+	}
 
-    private ZONECNAMERecordSerializer zoneCNAMERecordSerializer() {
-        return new ZONECNAMERecordSerializer();
+	private ZONECNAMERecordDeserializer zoneCNAMERecordDeserializer() {
+		return new ZONECNAMERecordDeserializer();
+	}
+
+	private ZONECNAMERecordSerializer zoneCNAMERecordSerializer() {
+		return new ZONECNAMERecordSerializer();
 	}
 }
