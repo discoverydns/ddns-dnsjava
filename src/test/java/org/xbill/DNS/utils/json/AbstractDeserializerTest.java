@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Rule;
@@ -93,14 +94,15 @@ public class AbstractDeserializerTest {
 			}
 		};
 	}
-	
+
+    @Test
 	public void shouldThrowExceptionIfNodeFoundWhenSearchingForFieldNode()
 			throws Exception {
 		fakeObjectNode.put(fieldName, (JsonNode) null);
 
 		thrown.expect(new JsonDeserializationExceptionMatcher(
                 JsonDeserializationExceptionCode.missingField,
-				new Object[] { textualBeanType, fieldName }));
+				new Object[] { fieldName, textualBeanType }));
 
 		abstractDeserializer.findFieldNode(fakeObjectNode, fieldName);
 	}
@@ -120,6 +122,18 @@ public class AbstractDeserializerTest {
 
 		verify(mockJsonNode).textValue();
 	}
+
+    @Test
+    public void shouldParseFQDNs() throws Exception {
+        String zoneName = "domain.com.";
+        assertEquals(zoneName, abstractDeserializer.getNameFromString(zoneName).toString());
+    }
+
+    @Test
+    public void shouldParseNonFQDNs() throws Exception {
+        String zoneName = "domain.com";
+        assertEquals(zoneName + ".", abstractDeserializer.getNameFromString(zoneName).toString());
+    }
 	
 	@Test
 	public void shouldThrowExceptionForInvalidNameWhenGettingNameValue()
@@ -151,8 +165,10 @@ public class AbstractDeserializerTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionForInvalidNumberValueWhenGettingNumberValue()
+	public void shouldThrowExceptionForInvalidNumberValueWhenGettingTextualNodeNumberValue()
 			throws Exception {
+        when(mockJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
+
 		thrown.expect(new JsonDeserializationExceptionMatcher(
                 JsonDeserializationExceptionCode.invalidFieldValue,
                 ParseException.class,
@@ -162,14 +178,36 @@ public class AbstractDeserializerTest {
 	}
 
 	@Test
-	public void shouldCreateAndReturnNumberValueIfFieldIsFoundWhenGettingNumberValue()
+	public void shouldCreateAndReturnNumberValueIfFieldIsFoundWhenGettingTextualNodeNumberValue()
 			throws Exception {
 		Long numberValue = 3L;
 		when(mockJsonNode.textValue()).thenReturn(numberValue.toString());
+        when(mockJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 
 		assertEquals(numberValue.longValue(), abstractDeserializer.getNodeNumberValue(
 				fakeObjectNode, fieldName).longValue());
 	}
+
+    @Test
+    public void shouldReturnNumberValueForFoundNumberNode() {
+        Long numberValue = 3L;
+        when(mockJsonNode.numberValue()).thenReturn(numberValue);
+        when(mockJsonNode.getNodeType()).thenReturn(JsonNodeType.NUMBER);
+
+        assertEquals(numberValue.longValue(), abstractDeserializer.getNodeNumberValue(
+                fakeObjectNode, fieldName).longValue());
+    }
+
+    @Test
+    public void shouldThrowExceptionForOtherTypesWhenGettingNodeNumberValue() {
+        when(mockJsonNode.getNodeType()).thenReturn(JsonNodeType.BINARY);
+
+        thrown.expect(new JsonDeserializationExceptionMatcher(
+                JsonDeserializationExceptionCode.invalidFieldValue,
+                new Object[] { fieldName, textualBeanType, "Field cannot be read as a number" }));
+
+        abstractDeserializer.getNodeNumberValue(fakeObjectNode, fieldName);
+    }
 	
 	@Test
 	public void shouldCreateAndReturnLongValueIfFieldIsFoundWhenGettingLongValue()

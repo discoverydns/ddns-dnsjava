@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,14 +45,17 @@ public class DSRecordDeserializerTest {
 
 		when(mockFootprintJsonNode.textValue()).thenReturn(
 				String.valueOf(footprint));
+        when(mockFootprintJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("footprint", mockFootprintJsonNode);
 
 		when(mockAlgorithmJsonNode.textValue()).thenReturn(
 				String.valueOf(algorithm));
+        when(mockAlgorithmJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("algorithm", mockAlgorithmJsonNode);
 
 		when(mockDigestIdJsonNode.textValue()).thenReturn(
 				String.valueOf(digestId));
+        when(mockDigestIdJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("digestId", mockDigestIdJsonNode);
 
 		when(mockDigestJsonNode.textValue()).thenReturn(digest);

@@ -77,6 +77,21 @@ DNSKEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
 	publicKey = key;
 }
 
+
+/**
+ * Creates a DNSKEY Record from the given data
+ * @param flags Flags describing the key's properties
+ * @param proto The protocol that the key was created for
+ * @param alg The key's algorithm
+ * @param key Base-64 encoded textual representation of the certificate
+ * @throws IOException In case of an invalid provided textual representation of the key.
+ */
+public
+DNSKEYRecord(Name name, int dclass, long ttl, int flags, int proto, int alg,
+             String key) throws IOException {
+    super(name, Type.DNSKEY, dclass, ttl, flags, proto, alg, new Tokenizer(key).getBase64());
+}
+
 void
 rdataFromString(Tokenizer st, Name origin) throws IOException {
 	flags = st.getUInt16();

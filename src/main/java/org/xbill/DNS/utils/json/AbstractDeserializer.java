@@ -61,7 +61,7 @@ public abstract class AbstractDeserializer<T> extends StdDeserializer<T> {
      */
 	public Name getNameFromString(final String nodeValue)
 			throws TextParseException {
-		return Name.fromString(nodeValue);
+		return Name.fromString(nodeValue, Name.root);
 	}
 
     /**
@@ -89,14 +89,24 @@ public abstract class AbstractDeserializer<T> extends StdDeserializer<T> {
      */
 	protected Number getNodeNumberValue(final ObjectNode recordNode,
 			final String fieldName) {
-		try {
-			return NumberFormat.getInstance(Locale.getDefault()).parse(
-					getNodeStringValue(recordNode, fieldName));
-		} catch (final ParseException e) {
-			throw new JsonDeserializationException(
-					JsonDeserializationExceptionCode.invalidFieldValue, e,
-					fieldName, getTextualBeanType(), e.getMessage());
-		}
+        JsonNode fieldNode = findFieldNode(recordNode, fieldName);
+        switch (fieldNode.getNodeType()) {
+            case NUMBER:
+                return fieldNode.numberValue();
+            case STRING:
+                try {
+                    return NumberFormat.getInstance(Locale.getDefault()).parse(
+                        fieldNode.textValue());
+                } catch (final ParseException e) {
+                    throw new JsonDeserializationException(
+                            JsonDeserializationExceptionCode.invalidFieldValue, e,
+                            fieldName, getTextualBeanType(), e.getMessage());
+                }
+            default:
+                throw new JsonDeserializationException(
+                        JsonDeserializationExceptionCode.invalidFieldValue,
+                        fieldName, getTextualBeanType(), "Field cannot be read as a number");
+        }
 	}
 
     /**

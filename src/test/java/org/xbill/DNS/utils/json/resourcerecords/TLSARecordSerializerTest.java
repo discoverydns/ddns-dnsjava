@@ -75,8 +75,6 @@ public class TLSARecordSerializerTest {
 	
 	@Test
 	public void shouldGenerateCertificateAssociationDataField() throws Exception {
-		tlsaRecordSerializer = spy(tlsaRecordSerializer);
-		
 		tlsaRecordSerializer.serializeRDataFields(tlsaRecord, mockJsonGenerator,
 				mockSerializerProvider);
 		
