@@ -36,6 +36,16 @@ public void setAuthoratative(final boolean authoratative) {
 	this.authoratative = authoratative;
 }
 
+private String orderName;
+
+public String getOrderName() {
+	return orderName;
+}
+
+public void setOrderName(final String orderName) {
+	this.orderName = orderName;
+}
+
 /**
  * DiscoveryDNS record types
  */

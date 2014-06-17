@@ -4,7 +4,7 @@
 
 	<groupId>com.discoverydns</groupId>
 	<artifactId>ddns-dnsjava</artifactId>
-	<version>1.0.7-r1685</version>
+	<version>1.0.8-r1685</version>
 	<packaging>jar</packaging>
 
 	<name>DDNS DNSJava</name>
@@ -95,6 +95,7 @@
 				<version>${plugin.javadoc.version}</version>
 				<configuration>
 					<quiet>true</quiet>
+					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 				<executions>
 					<execution>

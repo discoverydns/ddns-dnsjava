@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,12 +45,15 @@ public class TLSARecordDeserializerTest {
 
 		when(mockCertificateUsageJsonNode.textValue()).thenReturn(
 				String.valueOf(certificateUsage));
+        when(mockCertificateUsageJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("certificateUsage", mockCertificateUsageJsonNode);
 		when(mockSelectorJsonNode.textValue()).thenReturn(
 				String.valueOf(selector));
+        when(mockSelectorJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("selector", mockSelectorJsonNode);
 		when(mockMatchingTypeJsonNode.textValue()).thenReturn(
 				String.valueOf(matchingType));
+        when(mockMatchingTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
 		fakeObjectNode.put("matchingType", mockMatchingTypeJsonNode);
 
 		when(mockCertificateAssociationDataJsonNode.textValue()).thenReturn(certificateAssociationData);
