@@ -95,6 +95,7 @@
 				<version>${plugin.javadoc.version}</version>
 				<configuration>
 					<quiet>true</quiet>
+					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 				<executions>
 					<execution>
