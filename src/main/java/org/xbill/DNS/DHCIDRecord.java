@@ -26,6 +26,9 @@ getObject() {
 
 /**
  * Creates an DHCID Record from the given data
+ * @param name the name
+ * @param dclass the class
+ * @param ttl the ttl
  * @param data The binary data, which is opaque to DNS.
  */
 public
@@ -55,7 +58,7 @@ rrToString() {
 }
 
 /**
- * Returns the binary data.
+ * @return the binary data.
  */
 public byte []
 getData() {

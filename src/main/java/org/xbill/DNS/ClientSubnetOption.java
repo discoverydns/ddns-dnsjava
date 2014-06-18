@@ -95,7 +95,7 @@ ClientSubnetOption(int sourceNetmask, InetAddress address) {
 }
 
 /**
- * Returns the family of the network address.  This will be either IPv4 (1)
+ * @return the family of the network address.  This will be either IPv4 (1)
  * or IPv6 (2).
  */
 public int 
@@ -103,19 +103,19 @@ getFamily() {
 	return family;
 }
 
-/** Returns the source netmask. */
+/** @return the source netmask. */
 public int 
 getSourceNetmask() {
 	return sourceNetmask;
 }
 
-/** Returns the scope netmask. */
+/** @return the scope netmask. */
 public int 
 getScopeNetmask() {
 	return scopeNetmask;
 }
 
-/** Returns the IP address of the client. */
+/** @return the IP address of the client. */
 public InetAddress 
 getAddress() {
 	return address;

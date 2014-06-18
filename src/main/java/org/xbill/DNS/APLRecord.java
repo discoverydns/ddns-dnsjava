@@ -108,6 +108,9 @@ validatePrefixLength(int family, int prefixLength) {
 
 /**
  * Creates an APL Record from the given data.
+ * @param name the name
+ * @param dclass the class
+ * @param ttl the ttl
  * @param elements The list of APL elements.
  */
 public
@@ -242,7 +245,7 @@ rrToString() {
 	return sb.toString();
 }
 
-/** Returns the list of APL elements. */
+/** @return the list of APL elements. */
 public List
 getElements() {
 	return elements;
