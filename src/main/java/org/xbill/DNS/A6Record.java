@@ -77,7 +77,9 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 		prefix = st.getName(origin);
 }
 
-/** Converts rdata to a String */
+/** Converts rdata to a String 
+ * @return the string
+ * */
 String
 rrToString() {
 	StringBuffer sb = new StringBuffer();
@@ -93,19 +95,19 @@ rrToString() {
 	return sb.toString();
 }
 
-/** Returns the number of bits in the prefix */
+/** @return the number of bits in the prefix */
 public int
 getPrefixBits() {
 	return prefixBits;
 }
 
-/** Returns the address suffix */
+/** @return the address suffix */
 public InetAddress
 getSuffix() {
 	return suffix;
 }
 
-/** Returns the address prefix */
+/** @return the address prefix */
 public Name
 getPrefix() {
 	return prefix;

@@ -50,13 +50,17 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 	address = st.getAddress(Address.IPv6);
 }
 
-/** Converts rdata to a String */
+/** Converts rdata to a String 
+ * @return the string
+ * */
 String
 rrToString() {
 	return address.getHostAddress();
 }
 
-/** Returns the address */
+/** Returns the address 
+ * @return the InetAddress
+ * */
 public InetAddress
 getAddress() {
 	return address;

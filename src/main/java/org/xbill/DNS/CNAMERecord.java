@@ -21,6 +21,9 @@ getObject() {
 
 /**
  * Creates a new CNAMERecord with the given data
+ * @param name the name
+ * @param dclass the class
+ * @param ttl the ttl
  * @param alias The name to which the CNAME alias points
  */
 public
@@ -30,13 +33,15 @@ CNAMERecord(Name name, int dclass, long ttl, Name alias) {
 
 /**
  * Gets the target of the CNAME Record
+ * @return the name
  */
 public Name
 getTarget() {
 	return getSingleName();
 }
 
-/** Gets the alias specified by the CNAME Record */
+/** Gets the alias specified by the CNAME Record 
+ * @return the alias*/
 public Name
 getAlias() {
 	return getSingleName();

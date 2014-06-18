@@ -183,6 +183,7 @@ Cache() {
 
 /**
  * Creates a Cache which initially contains all records in the specified file.
+ * @param file the file
  */
 public
 Cache(String file) throws IOException {
@@ -399,6 +400,9 @@ addNegative(Name name, int type, SOARecord soa, int cred) {
 
 /**
  * Finds all matching sets or something that causes the lookup to stop.
+ * @param name the name
+ * @param type the type
+ * @param minCred the minCred
  */
 protected synchronized SetResponse
 lookup(Name name, int type, int minCred) {
@@ -747,6 +751,7 @@ flushName(Name name) {
  * Sets the maximum length of time that a negative response will be stored
  * in this Cache.  A negative value disables this feature (that is, sets
  * no limit).
+ * @param seconds the number of seconds
  */
 public void
 setMaxNCache(int seconds) {
@@ -765,6 +770,7 @@ getMaxNCache() {
 /**
  * Sets the maximum length of time that records will be stored in this
  * Cache.  A negative value disables this feature (that is, sets no limit).
+ * @param seconds the number of seconds
  */
 public void
 setMaxCache(int seconds) {
@@ -774,6 +780,7 @@ setMaxCache(int seconds) {
 /**
  * Gets the maximum length of time that records will be stored
  * in this Cache.  A negative value indicates no limit.
+ * @return the max size
  */
 public int
 getMaxCache() {
@@ -783,6 +790,7 @@ getMaxCache() {
 /**
  * Gets the current number of entries in the Cache, where an entry consists
  * of all records with a specific Name.
+ * @return the size
  */
 public int
 getSize() {
@@ -793,6 +801,7 @@ getSize() {
  * Gets the maximum number of entries in the Cache, where an entry consists
  * of all records with a specific Name.  A negative value is treated as an
  * infinite limit.
+ * @return the max entries
  */
 public int
 getMaxEntries() {
@@ -818,6 +827,7 @@ setMaxEntries(int entries) {
 
 /**
  * Returns the DNS class of this cache.
+ * @return the class
  */
 public int
 getDClass() {
@@ -825,7 +835,7 @@ getDClass() {
 }
 
 /**
- * Returns the contents of the Cache as a string.
+ * @return the contents of the Cache as a string.
  */ 
 public String
 toString() {

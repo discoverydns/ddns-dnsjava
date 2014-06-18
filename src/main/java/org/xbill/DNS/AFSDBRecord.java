@@ -23,6 +23,9 @@ getObject() {
 
 /**
  * Creates an AFSDB Record from the given data.
+ * @param name the name
+ * @param dclass the class
+ * @param ttl the ttl
  * @param subtype Indicates the type of service provided by the host.
  * @param host The host providing the service.
  */
@@ -31,13 +34,15 @@ AFSDBRecord(Name name, int dclass, long ttl, int subtype, Name host) {
 	super(name, Type.AFSDB, dclass, ttl, subtype, "subtype", host, "host");
 }
 
-/** Gets the subtype indicating the service provided by the host. */
+/** Gets the subtype indicating the service provided by the host. 
+ * @return the subtype*/
 public int
 getSubtype() {
 	return getU16Field();
 }
 
-/** Gets the host providing service for the domain. */
+/** Gets the host providing service for the domain. 
+ * @return the host name*/
 public Name
 getHost() {
 	return getNameField();

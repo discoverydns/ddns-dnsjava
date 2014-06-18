@@ -374,6 +374,7 @@ addressLength(int family) {
  * truncating the address 10.1.2.3 to 8 bits would yield 10.0.0.0.
  * @param address The source address
  * @param maskLength The number of bits to truncate the address to.
+ * @return the address
  */
 public static InetAddress
 truncate(InetAddress address, int maskLength)

@@ -36,6 +36,7 @@ public static class Code {
 
 	/**
 	 * Converts an EDNS Option Code into its textual representation
+	 * @return the string
 	 */
 	public static String
 	string(int code) {
@@ -59,6 +60,7 @@ private final int code;
 /**
  * 
  * Creates an option with the given option code and data.
+ * @param code the code
  */
 public 
 EDNSOption(int code) {
@@ -200,6 +202,7 @@ equals(Object arg) {
 
 /**
  * Generates a hash code based on the EDNS Option's data.
+ * @return the hash code
  */
 public int
 hashCode() {

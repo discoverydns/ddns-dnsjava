@@ -72,6 +72,7 @@ public static class CertificateType {
 
 	/**
 	 * Converts a certificate type into its textual representation
+	 * @return the text cert
 	 */
 	public static String
 	string(int type) {
@@ -180,6 +181,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 
 /**
  * Converts rdata to a String
+ * @return the rdata string
  */
 String
 rrToString() {
@@ -202,7 +204,7 @@ rrToString() {
 }
 
 /**
- * Returns the type of certificate
+ * @return the type of certificate
  */
 public int
 getCertType() {
@@ -210,7 +212,7 @@ getCertType() {
 }
 
 /**
- * Returns the ID of the associated KEYRecord, if present
+ * @return the ID of the associated KEYRecord, if present
  */
 public int
 getKeyTag() {
@@ -218,7 +220,7 @@ getKeyTag() {
 }
 
 /**
- * Returns the algorithm of the associated KEYRecord, if present
+ * @return the algorithm of the associated KEYRecord, if present
  */
 public int
 getAlgorithm() {
@@ -226,7 +228,7 @@ getAlgorithm() {
 }
 
 /**
- * Returns the binary representation of the certificate
+ * @return the binary representation of the certificate
  */
 public byte []
 getCert() {
@@ -234,8 +236,8 @@ getCert() {
 }
 
 /**
- * Returns the base-64 encoded textual representation of the "cert" field.
  * Used in DiscoveryDNS.
+ * @return the base-64 encoded textual representation of the "cert" field.
  */
 public String
 		getTextualCert() {
