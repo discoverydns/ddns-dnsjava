@@ -44,6 +44,9 @@ toArray(int addr) {
 
 /**
  * Creates an A Record from the given data
+ * @param name the name
+ * @param dclass the class
+ * @param ttl the ttl
  * @param address The address that the name refers to
  */
 public
@@ -65,13 +68,15 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 	addr = fromArray(address.getAddress());
 }
 
-/** Converts rdata to a String */
+/** Converts rdata to a String 
+ * @return the rdata string*/
 String
 rrToString() {
 	return (Address.toDottedQuad(toArray(addr)));
 }
 
-/** Returns the Internet address */
+/** Returns the Internet address
+ * @return the inetaddress */
 public InetAddress
 getAddress() {
 	try {

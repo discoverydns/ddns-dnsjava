@@ -8,7 +8,7 @@ import java.io.*;
  * Responsible Person Record - lists the mail address of a responsible person
  * and a domain where TXT records are available.
  *
- * @author Tom Scola <tscola@research.att.com>
+ * @author Tom Scola tscola@research.att.com
  * @author Brian Wellington
  */
 
@@ -28,6 +28,9 @@ getObject() {
 
 /**
  * Creates an RP Record from the given data
+ * @param name the name
+ * @param dclass the class
+ * @param ttl the ttl
  * @param mailbox The responsible person
  * @param textDomain The address where TXT records can be found
  */
@@ -51,7 +54,7 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 	textDomain = st.getName(origin);
 }
 
-/** Converts the RP Record to a String */
+/** @return the RP Record to a String */
 String
 rrToString() {
 	StringBuffer sb = new StringBuffer();
@@ -61,7 +64,7 @@ rrToString() {
 	return sb.toString();
 }
 
-/** Gets the mailbox address of the RP Record */
+/** @return the mailbox address of the RP Record */
 public Name
 getMailbox() {
 	return mailbox;

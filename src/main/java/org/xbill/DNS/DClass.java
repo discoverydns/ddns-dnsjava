@@ -62,6 +62,7 @@ DClass() {}
 
 /**
  * Checks that a numeric DClass is valid.
+ * @param i the i to check
  * @throws InvalidDClassException The class is out of range.
  */
 public static void
@@ -72,6 +73,7 @@ check(int i) {
 
 /**
  * Converts a numeric DClass into a String
+ * @param i the i to check
  * @return The canonical string representation of the class
  * @throws InvalidDClassException The class is out of range.
  */
@@ -82,6 +84,7 @@ string(int i) {
 
 /**
  * Converts a String representation of a DClass into its numeric value
+ * @param s the s to value
  * @return The class code, or -1 on error.
  */
 public static int
