@@ -22,6 +22,7 @@ import org.xbill.DNS.SSHFPRecord;
 import org.xbill.DNS.TLSARecord;
 import org.xbill.DNS.TXTRecord;
 import org.xbill.DNS.Type;
+import org.xbill.DNS.URLRecord;
 import org.xbill.DNS.ZONECNAMERecord;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -68,6 +69,7 @@ public class ZoneResourceRecordModule extends SimpleModule {
 		addDeserializer(TLSARecord.class, tlsaRecordDeserializer());
 		addDeserializer(LOCRecord.class, locRecordDeserializer());
 		addDeserializer(ZONECNAMERecord.class, zoneCNAMERecordDeserializer());
+		addDeserializer(URLRecord.class, urlRecordDeserializer());
 
 		// Register managed record types' serializers here
 		addSerializer(ARecord.class, aRecordSerializer());
@@ -91,6 +93,7 @@ public class ZoneResourceRecordModule extends SimpleModule {
 		addSerializer(RRSIGRecord.class, rrsigRecordSerializer());
 		addSerializer(NSECRecord.class, nsecRecordSerializer());
 		addSerializer(ZONECNAMERecord.class, zoneCNAMERecordSerializer());
+		addSerializer(URLRecord.class, urlRecordSerializer());
 	}
 
 	private RecordTypeReferenceDeserializer recordTypeReferenceDeserializer() {
@@ -133,6 +136,8 @@ public class ZoneResourceRecordModule extends SimpleModule {
 				Type.string(Type.LOC), LOCRecord.class);
 		recordTypeReferenceDeserializer.registerRecordType(
 				Type.string(Type.ZONECNAME), ZONECNAMERecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.URL), URLRecord.class);
 
 		return recordTypeReferenceDeserializer;
 	}
@@ -291,5 +296,13 @@ public class ZoneResourceRecordModule extends SimpleModule {
 
 	private ZONECNAMERecordSerializer zoneCNAMERecordSerializer() {
 		return new ZONECNAMERecordSerializer();
+	}
+
+	private URLRecordDeserializer urlRecordDeserializer() {
+		return new URLRecordDeserializer();
+	}
+
+	private URLRecordSerializer urlRecordSerializer() {
+		return new URLRecordSerializer();
 	}
 }

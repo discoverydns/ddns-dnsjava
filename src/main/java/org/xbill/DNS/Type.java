@@ -195,6 +195,9 @@ public final class Type {
 	/** DiscoveryDNS specific type: Zone canonical name (alias) */
 	public static final int ZONECNAME = 65281;
 
+	/** DiscoveryDNS specific type: URL (for HTTP forwarding) */
+	public static final int URL = 65282;
+
 	private static class TypeMnemonic extends Mnemonic {
 		private HashMap objects;
 
@@ -283,6 +286,7 @@ public final class Type {
 		types.add(ANY, "ANY");
 		types.add(DLV, "DLV", new DLVRecord());
 		types.add(ZONECNAME, "ZONECNAME", new ZONECNAMERecord());
+		types.add(URL, "URL", new URLRecord());
 	}
 
 	private Type() {
