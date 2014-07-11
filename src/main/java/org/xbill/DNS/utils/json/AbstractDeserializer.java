@@ -10,6 +10,8 @@ import org.xbill.DNS.utils.json.exception.JsonDeserializationException;
 import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeserializationExceptionCode;
 
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -143,6 +145,28 @@ public abstract class AbstractDeserializer<T> extends StdDeserializer<T> {
 	}
 
     /**
+     * Returns the boolean representation of the value of the field of given name into the input JSON node
+     * @param recordNode The input JSON node
+     * @param fieldName The given field name
+     * @return The corresponding boolean representation of the field's value
+     */
+	protected Boolean getNodeBooleanValue(final ObjectNode recordNode,
+			final String fieldName) {
+        JsonNode fieldNode = findFieldNode(recordNode, fieldName);
+        switch (fieldNode.getNodeType()) {
+            case BOOLEAN:
+                return fieldNode.booleanValue();
+            case STRING:
+                return Boolean.valueOf(
+                        fieldNode.textValue());
+            default:
+                throw new JsonDeserializationException(
+                        JsonDeserializationExceptionCode.invalidFieldValue,
+                        fieldName, getTextualBeanType(), "Field cannot be read as a boolean");
+        }
+	}
+
+    /**
      * Returns the {@link InetAddress} representation of the value of the field of given name into the input JSON node
      * @param recordNode The input JSON node
      * @param fieldName The given field name
@@ -165,12 +189,43 @@ public abstract class AbstractDeserializer<T> extends StdDeserializer<T> {
 	}
 
     /**
+     * Returns the {@link URL} representation of the value of the field of given name into the input JSON node
+     * @param recordNode The input JSON node
+     * @param fieldName The given field name
+     * @return The corresponding {@link URL} representation of the field's value
+     */
+    public URL getNodeURLValue(final ObjectNode recordNode,
+                                           final String fieldName) {
+        final JsonNode addressNode = findFieldNode(recordNode, fieldName);
+        try {
+            if (addressNode.textValue() != null) {
+                return getURLFromString(addressNode.textValue());
+            } else {
+                return null;
+            }
+        } catch (final Throwable e) {
+            throw new JsonDeserializationException(
+                    JsonDeserializationExceptionCode.invalidFieldValue, e,
+                    fieldName, getTextualBeanType(), e.getMessage());
+        }
+    }
+
+    /**
      * Converts a string representation into an {@link InetAddress}
      * @param address The string representation of the node's value
      * @return The corresponding {@link InetAddress}
      */
 	public InetAddress getAddressFromString(final String address) {
 		return InetAddresses.forString(address);
+	}
+
+    /**
+     * Converts a string representation into an {@link URL}
+     * @param address The string representation of the node's value
+     * @return The corresponding {@link URL}
+     */
+	public URL getURLFromString(final String address) throws MalformedURLException {
+		return new URL(address);
 	}
 
     /**
