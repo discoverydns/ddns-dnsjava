@@ -7,6 +7,7 @@ import org.xbill.DNS.CNAMERecord;
 import org.xbill.DNS.DNSKEYRecord;
 import org.xbill.DNS.DSRecord;
 import org.xbill.DNS.LOCRecord;
+import org.xbill.DNS.MAILFWRecord;
 import org.xbill.DNS.MXRecord;
 import org.xbill.DNS.NAPTRRecord;
 import org.xbill.DNS.NSECRecord;
@@ -70,6 +71,7 @@ public class ZoneResourceRecordModule extends SimpleModule {
 		addDeserializer(LOCRecord.class, locRecordDeserializer());
 		addDeserializer(ZONECNAMERecord.class, zoneCNAMERecordDeserializer());
 		addDeserializer(URLRecord.class, urlRecordDeserializer());
+		addDeserializer(MAILFWRecord.class, mailFWRecordDeserializer());
 
 		// Register managed record types' serializers here
 		addSerializer(ARecord.class, aRecordSerializer());
@@ -94,6 +96,7 @@ public class ZoneResourceRecordModule extends SimpleModule {
 		addSerializer(NSECRecord.class, nsecRecordSerializer());
 		addSerializer(ZONECNAMERecord.class, zoneCNAMERecordSerializer());
 		addSerializer(URLRecord.class, urlRecordSerializer());
+		addSerializer(MAILFWRecord.class, mailFWRecordSerializer());
 	}
 
 	private RecordTypeReferenceDeserializer recordTypeReferenceDeserializer() {
@@ -138,6 +141,8 @@ public class ZoneResourceRecordModule extends SimpleModule {
 				Type.string(Type.ZONECNAME), ZONECNAMERecord.class);
 		recordTypeReferenceDeserializer.registerRecordType(
 				Type.string(Type.URL), URLRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.MAILFW), MAILFWRecord.class);
 
 		return recordTypeReferenceDeserializer;
 	}
@@ -304,5 +309,13 @@ public class ZoneResourceRecordModule extends SimpleModule {
 
 	private URLRecordSerializer urlRecordSerializer() {
 		return new URLRecordSerializer();
+	}
+
+	private MAILFWRecordDeserializer mailFWRecordDeserializer() {
+		return new MAILFWRecordDeserializer();
+	}
+
+	private MAILFWRecordSerializer mailFWRecordSerializer() {
+		return new MAILFWRecordSerializer();
 	}
 }
