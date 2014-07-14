@@ -19,9 +19,7 @@ public class URLRecordDeserializer extends AbstractRecordDeserializer<URLRecord>
     @Override
     protected URLRecord createRecord(Name name, int dclass, long ttl, ObjectNode recordNode) {
         return new URLRecord(name, dclass, ttl,
-                getNodeURLValue(recordNode, "url"),
-                getNodeBooleanValue(recordNode, "pathIncluded"),
-                getNodeBooleanValue(recordNode, "queryParametersIncluded"));
+                getNodeStringValue(recordNode, "template"));
     }
 
     @Override

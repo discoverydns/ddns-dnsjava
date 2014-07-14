@@ -1,10 +1,7 @@
 package org.xbill.DNS.utils.json.resourcerecords;
 
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.net.URL;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,16 +23,11 @@ public class URLRecordSerializerTest {
 
     private URLRecordSerializer urlRecordSerializer;
 
-    private URL url;
-    private boolean pathIncluded = true;
-    private boolean queryParametersIncluded = false;
+    private String template = "http://www.url.com/{path}/?{queryParameters}";
 
     @Before
     public void setup() throws Exception {
-        url = new URL("http://www.url.com");
-        when(mockUrlRecord.getURL()).thenReturn(url);
-        when(mockUrlRecord.isPathIncluded()).thenReturn(pathIncluded);
-        when(mockUrlRecord.isQueryParametersIncluded()).thenReturn(queryParametersIncluded);
+        when(mockUrlRecord.getTemplate()).thenReturn(template);
 
         urlRecordSerializer = new URLRecordSerializer();
     }
@@ -45,32 +37,6 @@ public class URLRecordSerializerTest {
         urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
                 mockSerializerProvider);
 
-        verify(mockJsonGenerator).writeStringField("url", url.toString());
-    }
-
-    @Test
-    public void shouldDoNothingIfUrlFieldIsNull() throws Exception {
-        when(mockUrlRecord.getURL()).thenReturn(null);
-
-        urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
-                mockSerializerProvider);
-
-        verify(mockJsonGenerator, never()).writeStringField("url", url.toString());
-    }
-
-    @Test
-    public void shouldGeneratePathIncludedField() throws Exception {
-        urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
-                mockSerializerProvider);
-
-        verify(mockJsonGenerator).writeBooleanField("pathIncluded", pathIncluded);
-    }
-
-    @Test
-    public void shouldGenerateQueryParametersIncludedField() throws Exception {
-        urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
-                mockSerializerProvider);
-
-        verify(mockJsonGenerator).writeBooleanField("queryParametersIncluded", queryParametersIncluded);
+        verify(mockJsonGenerator).writeStringField("template", template);
     }
 }
