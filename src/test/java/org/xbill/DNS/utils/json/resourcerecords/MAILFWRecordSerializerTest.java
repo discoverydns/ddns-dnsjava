@@ -8,35 +8,35 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.xbill.DNS.URLRecord;
+import org.xbill.DNS.MAILFWRecord;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 @RunWith(MockitoJUnitRunner.class)
-public class URLRecordSerializerTest {
+public class MAILFWRecordSerializerTest {
     @Mock
     private JsonGenerator mockJsonGenerator;
     @Mock private SerializerProvider mockSerializerProvider;
     @Mock
-    private URLRecord mockUrlRecord;
+    private MAILFWRecord mockMailFWRecord;
 
-    private URLRecordSerializer urlRecordSerializer;
+    private MAILFWRecordSerializer mailfwRecordSerializer;
 
-    private String template = "http://www.url.com/{path}/?{queryParameters}";
+    private String destination = "admin@discoverydns.com";
 
     @Before
     public void setup() throws Exception {
-        when(mockUrlRecord.getTemplate()).thenReturn(template);
+        when(mockMailFWRecord.getDestination()).thenReturn(destination);
 
-        urlRecordSerializer = new URLRecordSerializer();
+        mailfwRecordSerializer = new MAILFWRecordSerializer();
     }
 
     @Test
     public void shouldGenerateUrlField() throws Exception {
-        urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
+        mailfwRecordSerializer.serializeRDataFields(mockMailFWRecord, mockJsonGenerator,
                 mockSerializerProvider);
 
-        verify(mockJsonGenerator).writeStringField("template", template);
+        verify(mockJsonGenerator).writeStringField("destination", destination);
     }
 }

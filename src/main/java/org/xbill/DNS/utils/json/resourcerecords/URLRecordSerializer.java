@@ -20,10 +20,6 @@ public class URLRecordSerializer extends AbstractRecordSerializer<URLRecord> {
     @Override
     protected void serializeRDataFields(final URLRecord urlRecord, JsonGenerator jsonGenerator, SerializerProvider
             serializerProvider) throws IOException, JsonGenerationException {
-        if (urlRecord.getURL() !=  null) {
-            jsonGenerator.writeStringField("url", urlRecord.getURL().toString());
-        }
-        jsonGenerator.writeBooleanField("pathIncluded", urlRecord.isPathIncluded());
-        jsonGenerator.writeBooleanField("queryParametersIncluded", urlRecord.isQueryParametersIncluded());
+        jsonGenerator.writeStringField("template", urlRecord.getTemplate());
     }
 }

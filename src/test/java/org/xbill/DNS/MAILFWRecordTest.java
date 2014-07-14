@@ -5,44 +5,44 @@ import org.junit.rules.ExpectedException;
 
 import junit.framework.TestCase;
 
-public class URLRecordTest extends TestCase
+public class MAILFWRecordTest extends TestCase
 {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     public void test_ctor_0arg()
     {
-        URLRecord d = new URLRecord();
+        MAILFWRecord d = new  MAILFWRecord();
         assertNull(d.getName());
-        assertNull(d.getTemplate());
+        assertNull(d.getDestination());
     }
 
     public void test_ctor_6arg() throws TextParseException {
         Name n = Name.fromString("my.name.");
-        String template = "http://www.url.com/{path}/?{queryParameters}";
+        String destination = "admin@discoverydns.com";
 
-        URLRecord d = new URLRecord(n, DClass.IN, 0xABCDEL, template);
+         MAILFWRecord d = new  MAILFWRecord(n, DClass.IN, 0xABCDEL, destination);
         assertEquals(n, d.getName());
-        assertEquals(Type.URL, d.getType());
+        assertEquals(Type.MAILFW, d.getType());
         assertEquals(DClass.IN, d.getDClass());
         assertEquals(0xABCDEL, d.getTTL());
-        assertEquals(template, d.getTemplate());
+        assertEquals(destination, d.getDestination());
     }
 
     public void test_getObject()
     {
-        URLRecord d = new URLRecord();
+        MAILFWRecord d = new MAILFWRecord();
         Record r = d.getObject();
-        assertTrue(r instanceof URLRecord);
+        assertTrue(r instanceof MAILFWRecord);
     }
 
     public void test_invalidTemplate() throws TextParseException {
         Name n = Name.fromString("my.name.");
-        String template = "http://www.url.com/{path}/?{queryParameters}";
+        String destination = "admin@discoverydns.com";
 
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Provided template '" + template + "'  is not a valid URI template");
+        thrown.expectMessage("Provided destination '" + destination + "'  is not a valid mail redirection destination");
 
-        new URLRecord(n, DClass.IN, 0xABCDEL, template);
+        new MAILFWRecord(n, DClass.IN, 0xABCDEL, destination);
     }
 }
