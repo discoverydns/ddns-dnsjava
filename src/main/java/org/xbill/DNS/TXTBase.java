@@ -29,8 +29,9 @@ TXTBase(Name name, int type, int dclass, long ttl) {
 protected
 TXTBase(Name name, int type, int dclass, long ttl, List strings) {
 	super(name, type, dclass, ttl);
-	if (strings == null)
-		throw new IllegalArgumentException("strings must not be null");
+	if (strings == null || strings.size() == 0) {
+        throw new IllegalArgumentException("strings must not be null or empty");
+    }
 	this.strings = new ArrayList(strings.size());
 	Iterator it = strings.iterator();
 	try {
@@ -56,6 +57,9 @@ rrFromWire(DNSInput in) throws IOException {
 		byte [] b = in.readCountedString();
 		strings.add(b);
 	}
+    if (strings.size() == 0) {
+        throw new WireParseException("strings must not be empty");
+    }
 }
 
 void
@@ -68,12 +72,15 @@ rdataFromString(Tokenizer st, Name origin) throws IOException {
 		try {
 			strings.add(byteArrayFromString(t.value));
 		}
-		catch (TextParseException e) { 
+		catch (TextParseException e) {
 			throw st.exception(e.getMessage());
 		}
 
 	}
 	st.unget();
+    if (strings.size() == 0) {
+        throw new TextParseException("strings must not be empty");
+    }
 }
 
 /** converts to a String */
