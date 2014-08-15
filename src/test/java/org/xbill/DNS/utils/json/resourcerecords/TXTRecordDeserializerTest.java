@@ -1,6 +1,7 @@
 package org.xbill.DNS.utils.json.resourcerecords;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
@@ -57,7 +58,26 @@ public class TXTRecordDeserializerTest {
 	}
 
 	@Test
-	public void shouldCreateExpectedRecord() throws Exception {
+	public void shouldCreateExpectedRecordWithSingleString() throws Exception {
+        when(mockStringsJsonNode.textValue()).thenReturn(string1);
+        fakeObjectNode.put("strings", mockStringsJsonNode);
+
+        TXTRecord txtRecord = txtRecordDeserializer.createRecord(name, dclass,
+                ttl, fakeObjectNode);
+
+		assertEquals(name, txtRecord.getName());
+		assertEquals(dclass, txtRecord.getDClass());
+		assertEquals(ttl, txtRecord.getTTL());
+		assertArrayEquals(new String[] { string1 }, txtRecord
+				.getStrings().toArray());
+	}
+
+	@Test
+	public void shouldCreateExpectedRecordWithStringsArray() throws Exception {
+        final JsonNode arrayNode =
+                new ObjectMapper().readTree("[\"" + string1 + "\",\"" + string2 + "\",\"" + string3 + "\" ]");
+        fakeObjectNode.put("strings", arrayNode);
+
         TXTRecord txtRecord = txtRecordDeserializer.createRecord(name, dclass,
                 ttl, fakeObjectNode);
 
@@ -71,6 +91,25 @@ public class TXTRecordDeserializerTest {
     @Test
     public void shouldThrowExceptionIfContainsNonAsciiCharacters() throws Exception {
         when(mockStringsJsonNode.textValue()).thenReturn("first\\naمستخدميb\\nthird");
+        txtRecordDeserializer = spy(txtRecordDeserializer);
+        String textualBeanType = "textualBeanType";
+        when(txtRecordDeserializer.getTextualBeanType()).thenReturn(
+                textualBeanType);
+
+        thrown.expect(new JsonDeserializationExceptionMatcher(
+                JsonDeserializationExceptionCode.invalidFieldValue,
+                new Object[] { "strings", textualBeanType, "Non-ASCII character found" }));
+
+        txtRecordDeserializer.createRecord(name, dclass,
+                ttl, fakeObjectNode);
+	}
+
+    @Test
+    public void shouldThrowExceptionIfMultipleStringsContainsNonAsciiCharacters() throws Exception {
+        final JsonNode arrayNode =
+                new ObjectMapper().readTree("[\"" + string1 + "\",\"first\\naمستخدميb\\nthird\",\"" + string3 + "\" ]");
+        fakeObjectNode.put("strings", arrayNode);
+
         txtRecordDeserializer = spy(txtRecordDeserializer);
         String textualBeanType = "textualBeanType";
         when(txtRecordDeserializer.getTextualBeanType()).thenReturn(

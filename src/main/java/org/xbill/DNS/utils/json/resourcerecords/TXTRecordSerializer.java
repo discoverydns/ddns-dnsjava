@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import org.xbill.DNS.TXTRecord;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Jackson serializer for the {@link org.xbill.DNS.TXTRecord} class
@@ -22,6 +23,15 @@ public class TXTRecordSerializer extends AbstractRecordSerializer<TXTRecord> {
 			final JsonGenerator jsonGenerator,
 			final SerializerProvider serializerProvider) throws IOException,
 			JsonGenerationException {
-		jsonGenerator.writeStringField("strings", txtRecord.rdataToString());
+        List strings = txtRecord.getStrings();
+        if (strings.size() == 1) {
+            jsonGenerator.writeStringField("strings", (String) strings.iterator().next());
+        } else {
+            jsonGenerator.writeArrayFieldStart("strings");
+            for (Object string : strings) {
+                jsonGenerator.writeString((String) string);
+            }
+            jsonGenerator.writeEndArray();
+        }
 	}
 }
