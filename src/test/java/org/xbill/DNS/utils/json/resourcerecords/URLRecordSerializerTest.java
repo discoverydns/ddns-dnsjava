@@ -1,5 +1,6 @@
 package org.xbill.DNS.utils.json.resourcerecords;
 
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,10 +24,12 @@ public class URLRecordSerializerTest {
 
     private URLRecordSerializer urlRecordSerializer;
 
+    private int redirectType = URLRecord.RedirectType.REDIRECT_TYPE_301;
     private String template = "http://www.url.com/{path}/?{queryParameters}";
 
     @Before
     public void setup() throws Exception {
+        when(mockUrlRecord.getRedirectType()).thenReturn(redirectType);
         when(mockUrlRecord.getTemplate()).thenReturn(template);
 
         urlRecordSerializer = new URLRecordSerializer();
@@ -38,5 +41,17 @@ public class URLRecordSerializerTest {
                 mockSerializerProvider);
 
         verify(mockJsonGenerator).writeStringField("template", template);
+    }
+
+    @Test
+    public void shouldGenerateRedirectTypeField() throws Exception {
+        String formattedRedirectType = "formattedRedirectType";
+        urlRecordSerializer = spy(urlRecordSerializer);
+        when(urlRecordSerializer.formatNumber(redirectType)).thenReturn(formattedRedirectType);
+
+        urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
+                mockSerializerProvider);
+
+        verify(mockJsonGenerator).writeStringField("redirectType", formattedRedirectType);
     }
 }

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.utils.json.exception.JsonDeserializationException;
 import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeserializationExceptionCode;
+import org.xbill.DNS.utils.json.exception.MissingFieldJsonDeserializationException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -49,8 +50,7 @@ public class RecordTypeReferenceDeserializer extends StdDeserializer<Record> {
 
 		final JsonNode recordTypeNode = recordNode.get(TYPE_FIELD_NAME);
 		if (recordTypeNode == null) {
-			throw new JsonDeserializationException(
-                    JsonDeserializationExceptionCode.missingField,
+			throw new MissingFieldJsonDeserializationException(
 					TYPE_FIELD_NAME, "resource record");
 		}
 		final String recordType = recordTypeNode.textValue();

@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.infrastructure.JsonDeserializationExceptionMatcher;
+import org.xbill.DNS.infrastructure.MissingFieldJsonDeserializationExceptionMatcher;
 import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeserializationExceptionCode;
 
 import static org.mockito.Mockito.verify;
@@ -64,9 +65,8 @@ public class RecordTypeReferenceDeserializerTest {
 	public void shouldThrowExceptionIfTypeNodeCannotBeFound() throws Exception {
 		fakeObjectNode.put(fieldName, (JsonNode) null);
 
-		thrown.expect(new JsonDeserializationExceptionMatcher(
-                JsonDeserializationExceptionCode.missingField,
-				new Object[] { fieldName, "resource record" }));
+		thrown.expect(new MissingFieldJsonDeserializationExceptionMatcher(
+                new Object[] { fieldName, "resource record" }));
 
 		recordTypeReferenceDeserializer.deserialize(mockJsonParser,
 				mockDeserializationContext);
