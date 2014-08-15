@@ -24,22 +24,34 @@ public class TXTRecordSerializerTest {
 	
 	private TXTRecord txtRecord;
     private String string1 = "string1";
-	private String string2 = "string 2";
 
     @Before
 	public void setup() throws Throwable {
-        List<String> strings = new ArrayList<String>();
-		strings.add(string1);
-		strings.add(string2);
-		txtRecord = new TXTRecord(new Name("name.com."), 1, 1, strings);
-		
 		txtRecordSerializer = new TXTRecordSerializer();
 	}
+
+    @Test
+    public void shouldGenerateSingleStringsFieldAsSingleString() throws Exception {
+        txtRecord = new TXTRecord(new Name("name.com."), 1, 1, string1);
+
+        txtRecordSerializer.serializeRDataFields(txtRecord, mockJsonGenerator, mockSerializerProvider);
+
+        verify(mockJsonGenerator).writeStringField("strings", string1);
+    }
 	
 	@Test
-	public void shouldGenerateStringsFieldAsSingleString() throws Exception {
-		txtRecordSerializer.serializeRDataFields(txtRecord, mockJsonGenerator, mockSerializerProvider);
-		
-		verify(mockJsonGenerator).writeStringField("strings", "\"" + string1 + "\" \"" + string2 + "\"");
+	public void shouldGenerateMultipleStringsFieldAsArrayOfStrings() throws Exception {
+        List<String> strings = new ArrayList<String>();
+        strings.add(string1);
+        String string2 = "string 2";
+        strings.add(string2);
+        txtRecord = new TXTRecord(new Name("name.com."), 1, 1, strings);
+
+        txtRecordSerializer.serializeRDataFields(txtRecord, mockJsonGenerator, mockSerializerProvider);
+
+        verify(mockJsonGenerator).writeArrayFieldStart("strings");
+		verify(mockJsonGenerator).writeString(string1);
+        verify(mockJsonGenerator).writeString(string2);
+        verify(mockJsonGenerator).writeEndArray();
 	}
 }
