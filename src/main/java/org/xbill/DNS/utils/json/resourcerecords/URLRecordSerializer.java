@@ -21,5 +21,6 @@ public class URLRecordSerializer extends AbstractRecordSerializer<URLRecord> {
     protected void serializeRDataFields(final URLRecord urlRecord, JsonGenerator jsonGenerator, SerializerProvider
             serializerProvider) throws IOException, JsonGenerationException {
         jsonGenerator.writeStringField("template", urlRecord.getTemplate());
+        jsonGenerator.writeStringField("redirectType", formatNumber(urlRecord.getRedirectType()));
     }
 }

@@ -8,6 +8,7 @@ import org.xbill.DNS.Name;
 import org.xbill.DNS.TextParseException;
 import org.xbill.DNS.utils.json.exception.JsonDeserializationException;
 import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeserializationExceptionCode;
+import org.xbill.DNS.utils.json.exception.MissingFieldJsonDeserializationException;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -37,9 +38,7 @@ public abstract class AbstractDeserializer<T> extends StdDeserializer<T> {
 			final String fieldName) {
 		final JsonNode fieldNode = recordNode.get(fieldName);
 		if (fieldNode == null) {
-			throw new JsonDeserializationException(
-					JsonDeserializationExceptionCode.missingField,
-					fieldName, getTextualBeanType());
+			throw new MissingFieldJsonDeserializationException(fieldName, getTextualBeanType());
 		}
 		return fieldNode;
 	}

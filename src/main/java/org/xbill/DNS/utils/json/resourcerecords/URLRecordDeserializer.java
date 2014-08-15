@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import org.xbill.DNS.Name;
 import org.xbill.DNS.URLRecord;
+import org.xbill.DNS.utils.json.exception.MissingFieldJsonDeserializationException;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -18,8 +19,14 @@ public class URLRecordDeserializer extends AbstractRecordDeserializer<URLRecord>
 
     @Override
     protected URLRecord createRecord(Name name, int dclass, long ttl, ObjectNode recordNode) {
-        return new URLRecord(name, dclass, ttl,
-                getNodeStringValue(recordNode, "template"));
+        Integer redirectType;
+        try {
+            redirectType = getNodeIntegerValue(recordNode, "redirectType");
+        } catch (MissingFieldJsonDeserializationException e) {
+            //For backward compatibility
+            return new URLRecord(name, dclass, ttl, getNodeStringValue(recordNode, "template"));
+        }
+        return new URLRecord(name, dclass, ttl, getNodeStringValue(recordNode, "template"), redirectType);
     }
 
     @Override
