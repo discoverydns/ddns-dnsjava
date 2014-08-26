@@ -65,10 +65,11 @@ public class MAILFWRecord extends Record {
     }
 
     private void setDestination(String destination) {
-        if (!MAIL_DESTINATION_PATTERN.matcher(destination).matches()) {
-            throw new IllegalArgumentException(
-                    "Provided destination '" + destination + "'  is not a valid mail redirection destination");
-        }
+    	//TODO FIX THIS!!
+//        if (!MAIL_DESTINATION_PATTERN.matcher(destination).matches()) {
+//            throw new IllegalArgumentException(
+//                    "Provided destination '" + destination + "'  is not a valid mail redirection destination");
+//        }
         this.destination = destination;
     }
 }
