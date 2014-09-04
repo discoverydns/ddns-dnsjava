@@ -13,10 +13,13 @@ import org.xbill.DNS.URLRecord;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RunWith(MockitoJUnitRunner.class)
 public class URLRecordDeserializerTest {
+    @Mock
+    private JsonNode mockRedirectTypeJsonNode;
     @Mock
     private JsonNode mockTemplateJsonNode;
     @Mock
@@ -44,6 +47,11 @@ public class URLRecordDeserializerTest {
 
     @Test
     public void shouldCreateExpectedRecord() throws Exception {
+        when(mockRedirectTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.NUMBER);
+        int redirectType = URLRecord.RedirectType.REDIRECT_TYPE_301;
+        when(mockRedirectTypeJsonNode.numberValue()).thenReturn(redirectType);
+        fakeObjectNode.put("redirectType", mockRedirectTypeJsonNode);
+
         Name name = Name.fromString("test.domain.com.");
         int dclass = 1;
         long ttl = 3600L;
@@ -53,6 +61,22 @@ public class URLRecordDeserializerTest {
         assertEquals(name, urlRecord.getName());
         assertEquals(dclass, urlRecord.getDClass());
         assertEquals(ttl, urlRecord.getTTL());
+        assertEquals(redirectType, urlRecord.getRedirectType());
+        assertEquals(template, urlRecord.getTemplate());
+    }
+
+    @Test
+    public void shouldCreateExpectedRecordIfRedirectTypeIsMissing() throws Exception {
+        Name name = Name.fromString("test.domain.com.");
+        int dclass = 1;
+        long ttl = 3600L;
+        URLRecord urlRecord = urlRecordDeserializer.createRecord(name,
+                dclass, ttl, fakeObjectNode);
+
+        assertEquals(name, urlRecord.getName());
+        assertEquals(dclass, urlRecord.getDClass());
+        assertEquals(ttl, urlRecord.getTTL());
+        assertEquals(URLRecord.RedirectType.REDIRECT_TYPE_302, urlRecord.getRedirectType());
         assertEquals(template, urlRecord.getTemplate());
     }
 }

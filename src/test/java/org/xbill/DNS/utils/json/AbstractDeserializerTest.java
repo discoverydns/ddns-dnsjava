@@ -17,6 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.xbill.DNS.Name;
 import org.xbill.DNS.TextParseException;
 import org.xbill.DNS.infrastructure.JsonDeserializationExceptionMatcher;
+import org.xbill.DNS.infrastructure.MissingFieldJsonDeserializationExceptionMatcher;
 import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeserializationExceptionCode;
 
 import java.io.IOException;
@@ -100,9 +101,8 @@ public class AbstractDeserializerTest {
 			throws Exception {
 		fakeObjectNode.put(fieldName, (JsonNode) null);
 
-		thrown.expect(new JsonDeserializationExceptionMatcher(
-                JsonDeserializationExceptionCode.missingField,
-				new Object[] { fieldName, textualBeanType }));
+		thrown.expect(
+                new MissingFieldJsonDeserializationExceptionMatcher(new Object[] { fieldName, textualBeanType }));
 
 		abstractDeserializer.findFieldNode(fakeObjectNode, fieldName);
 	}

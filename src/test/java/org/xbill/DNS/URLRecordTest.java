@@ -1,5 +1,9 @@
 package org.xbill.DNS;
 
+import static org.xbill.DNS.URLRecord.RedirectType;
+
+import java.io.IOException;
+
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
@@ -14,6 +18,7 @@ public class URLRecordTest extends TestCase
     {
         URLRecord d = new URLRecord();
         assertNull(d.getName());
+        assertEquals(0, d.getRedirectType());
         assertNull(d.getTemplate());
     }
 
@@ -26,6 +31,21 @@ public class URLRecordTest extends TestCase
         assertEquals(Type.URL, d.getType());
         assertEquals(DClass.IN, d.getDClass());
         assertEquals(0xABCDEL, d.getTTL());
+        assertEquals(RedirectType.REDIRECT_TYPE_302, d.getRedirectType());
+        assertEquals(template, d.getTemplate());
+    }
+
+    public void test_ctor_7arg() throws TextParseException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        int redirectType = RedirectType.REDIRECT_TYPE_301;
+
+        URLRecord d = new URLRecord(n, DClass.IN, 0xABCDEL, template, redirectType);
+        assertEquals(n, d.getName());
+        assertEquals(Type.URL, d.getType());
+        assertEquals(DClass.IN, d.getDClass());
+        assertEquals(0xABCDEL, d.getTTL());
+        assertEquals(URLRecord.RedirectType.REDIRECT_TYPE_301, d.getRedirectType());
         assertEquals(template, d.getTemplate());
     }
 
@@ -44,5 +64,36 @@ public class URLRecordTest extends TestCase
         thrown.expectMessage("Provided template '" + template + "'  is not a valid URI template");
 
         new URLRecord(n, DClass.IN, 0xABCDEL, template);
+    }
+
+    public void test_RDataFromString() throws IOException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        int redirectType = RedirectType.REDIRECT_TYPE_301;
+
+        URLRecord d = (URLRecord) URLRecord.fromString(n, Type.URL, DClass.IN, 0xABCDEL,
+                template + " " + redirectType, Name.root);
+
+        assertEquals(n, d.getName());
+        assertEquals(Type.URL, d.getType());
+        assertEquals(DClass.IN, d.getDClass());
+        assertEquals(0xABCDEL, d.getTTL());
+        assertEquals(URLRecord.RedirectType.REDIRECT_TYPE_301, d.getRedirectType());
+        assertEquals(template, d.getTemplate());
+    }
+
+    public void test_RDataFromStringWithoutRedirectType() throws IOException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+
+        URLRecord d = (URLRecord) URLRecord.fromString(n, Type.URL, DClass.IN, 0xABCDEL,
+                template, Name.root);
+
+        assertEquals(n, d.getName());
+        assertEquals(Type.URL, d.getType());
+        assertEquals(DClass.IN, d.getDClass());
+        assertEquals(0xABCDEL, d.getTTL());
+        assertEquals(URLRecord.RedirectType.REDIRECT_TYPE_302, d.getRedirectType());
+        assertEquals(template, d.getTemplate());
     }
 }
