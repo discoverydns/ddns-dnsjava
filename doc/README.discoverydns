@@ -15,4 +15,10 @@ The differences between this version of DNSJava and the jdnssec-dnsjava version 
 
 6. Added Jackson Module, serializers and deserializers for resource records.
 
-7. Added ZONECNAME, URL and MAILFW private resource record types.
+7. Added ZONECNAME record type.
+
+8. Added URL record type.
+
+9. Added MAILFW record type.
+
+10. Change handling of TXT and SPF records in JSON format in expanded mode: use String for single string, or String[] for multiple strings
