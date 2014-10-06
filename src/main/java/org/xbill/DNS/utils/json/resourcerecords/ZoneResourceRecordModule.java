@@ -29,8 +29,7 @@ import org.xbill.DNS.ZONECNAMERecord;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 /**
- * Jackson module for {@link org.xbill.DNS.Record} serializers and deserializers
- * 
+ * Jackson module for {@link org.xbill.DNS.Record} serializers and deserializers.
  * @author Arnaud Dumont
  */
 public class ZoneResourceRecordModule extends SimpleModule {
@@ -72,6 +71,8 @@ public class ZoneResourceRecordModule extends SimpleModule {
 		addDeserializer(ZONECNAMERecord.class, zoneCNAMERecordDeserializer());
 		addDeserializer(URLRecord.class, urlRecordDeserializer());
 		addDeserializer(MAILFWRecord.class, mailFWRecordDeserializer());
+        addDeserializer(RRSIGRecord.class, rrsigRecordDeserializer());
+        addDeserializer(NSECRecord.class, nsecRecordDeserializer());
 
 		// Register managed record types' serializers here
 		addSerializer(ARecord.class, aRecordSerializer());
@@ -100,7 +101,7 @@ public class ZoneResourceRecordModule extends SimpleModule {
 	}
 
 	private RecordTypeReferenceDeserializer recordTypeReferenceDeserializer() {
-		final RecordTypeReferenceDeserializer recordTypeReferenceDeserializer = new RecordTypeReferenceDeserializer();
+        final RecordTypeReferenceDeserializer recordTypeReferenceDeserializer = new RecordTypeReferenceDeserializer();
 
 		// Register managed record types here
 		recordTypeReferenceDeserializer.registerRecordType(Type.string(Type.A),
@@ -143,6 +144,10 @@ public class ZoneResourceRecordModule extends SimpleModule {
 				Type.string(Type.URL), URLRecord.class);
 		recordTypeReferenceDeserializer.registerRecordType(
 				Type.string(Type.MAILFW), MAILFWRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.RRSIG), RRSIGRecord.class);
+		recordTypeReferenceDeserializer.registerRecordType(
+				Type.string(Type.NSEC), NSECRecord.class);
 
 		return recordTypeReferenceDeserializer;
 	}
@@ -291,8 +296,16 @@ public class ZoneResourceRecordModule extends SimpleModule {
 		return new RRSIGRecordSerializer();
 	}
 
+	private RRSIGRecordDeserializer rrsigRecordDeserializer() {
+		return new RRSIGRecordDeserializer();
+	}
+
 	private NSECRecordSerializer nsecRecordSerializer() {
 		return new NSECRecordSerializer();
+	}
+
+	private NSECRecordDeserializer nsecRecordDeserializer() {
+		return new NSECRecordDeserializer();
 	}
 
 	private ZONECNAMERecordDeserializer zoneCNAMERecordDeserializer() {

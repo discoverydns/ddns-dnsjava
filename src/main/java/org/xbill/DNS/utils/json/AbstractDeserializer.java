@@ -1,5 +1,13 @@
 package org.xbill.DNS.utils.json;
 
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Locale;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -10,15 +18,8 @@ import org.xbill.DNS.utils.json.exception.JsonDeserializationException;
 import org.xbill.DNS.utils.json.exception.JsonDeserializationException.JsonDeserializationExceptionCode;
 import org.xbill.DNS.utils.json.exception.MissingFieldJsonDeserializationException;
 
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
-
 /**
- * Abstract Jackson deserializer
+ * Abstract Jackson deserializer.
  * @author Arnaud Dumont
  */
 public abstract class AbstractDeserializer<T> extends StdDeserializer<T> {
@@ -202,6 +203,24 @@ public abstract class AbstractDeserializer<T> extends StdDeserializer<T> {
             } else {
                 return null;
             }
+        } catch (final Throwable e) {
+            throw new JsonDeserializationException(
+                    JsonDeserializationExceptionCode.invalidFieldValue, e,
+                    fieldName, getTextualBeanType(), e.getMessage());
+        }
+    }
+
+    /**
+     * Returns the {@link Date} representation of the value of the field of given name into the input JSON node
+     * @param recordNode The input JSON node
+     * @param fieldName The given field name
+     * @return The corresponding {@link URL} representation of the field's value
+     */
+    public Date getNodeDateValue(ObjectNode recordNode, String fieldName) {
+        try {
+            return new Date(getNodeLongValue(recordNode, fieldName));
+        } catch (final JsonDeserializationException e) {
+            throw e;
         } catch (final Throwable e) {
             throw new JsonDeserializationException(
                     JsonDeserializationExceptionCode.invalidFieldValue, e,
