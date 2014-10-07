@@ -528,14 +528,16 @@ doxfr() throws IOException, ZoneTransferException {
 	while (state != END) {
 		byte [] in = client.recv();
 		Message response =  parseMessage(in);
-		if (response.getHeader().getRcode() == Rcode.NOERROR &&
-		    verifier != null)
-		{
-			TSIGRecord tsigrec = response.getTSIG();
+        // Changed for DiscoveryDNS. Added NOTAUTH check to retrieve more info about the error
+		if ((response.getHeader().getRcode() == Rcode.NOERROR
+                || response.getHeader().getRcode() == Rcode.NOTAUTH)
+                && verifier != null) {
+            TSIGRecord tsigrec = response.getTSIG();
 
 			int error = verifier.verify(response, in);
 			if (error != Rcode.NOERROR)
-				fail("TSIG failure");
+                // Changed for DiscoveryDNS. Return the TSIG error code.
+				fail(Rcode.TSIGstring(error));
 		}
 
 		Record [] answers = response.getSectionArray(Section.ANSWER);

@@ -114,10 +114,13 @@ TSIGstring(int i) {
 	return tsigrcodes.getText(i);
 }
 
-/** Converts a String representation of an Rcode into its numeric value */
+/** Converts a String representation of an Rcode into its numeric value
+ * Change for DiscoveryDNS.
+*/
 public static int
 value(String s) {
-	return rcodes.getValue(s);
+    final int value = rcodes.getValue(s);
+    return value == -1 ? tsigrcodes.getValue(s) : value;
 }
 
 }
