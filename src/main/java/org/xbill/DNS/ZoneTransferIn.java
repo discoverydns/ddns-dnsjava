@@ -529,6 +529,7 @@ parseMessage(byte [] b) throws WireParseException {
 private void
 doxfr() throws IOException, ZoneTransferException {
 	sendQuery();
+    logxfr("Sent query");
 	while (state != END) {
 		byte [] in = client.recv();
 		Message response =  parseMessage(in);
@@ -539,6 +540,7 @@ doxfr() throws IOException, ZoneTransferException {
             TSIGRecord tsigrec = response.getTSIG();
 
 			int error = verifier.verify(response, in);
+            logxfr("Have error from TSIG verify: " + error);
 			if (error != Rcode.NOERROR)
                 // Changed for DiscoveryDNS. Return the TSIG error code.
 				fail(Rcode.TSIGstring(error));
@@ -548,7 +550,8 @@ doxfr() throws IOException, ZoneTransferException {
 
 		if (state == INITIALSOA) {
 			int rcode = response.getRcode();
-			if (rcode != Rcode.NOERROR) {
+            logxfr("Have initial SOA: rcode: " + rcode);
+            if (rcode != Rcode.NOERROR) {
 				if (qtype == Type.IXFR &&
 				    rcode == Rcode.NOTIMP)
 				{
