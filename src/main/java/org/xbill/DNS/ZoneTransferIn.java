@@ -21,9 +21,13 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * An incoming DNS Zone Transfer.  To use this class, first initialize an
