@@ -511,6 +511,7 @@ public static class StreamVerifier {
 
 		nresponses++;
 
+        // Added for DiscoveryDNS. Return error if the TSIG record contains an error.
         if (tsig.getError() != Rcode.NOERROR) {
             m.tsigState = Message.TSIG_FAILED;
             return tsig.getError();
