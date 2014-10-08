@@ -533,6 +533,7 @@ doxfr() throws IOException, ZoneTransferException {
 	while (state != END) {
 		byte [] in = client.recv();
 		Message response =  parseMessage(in);
+        logxfr("Message: " + response);
         // Changed for DiscoveryDNS. Added NOTAUTH check to retrieve more info about the error
 		if ((response.getHeader().getRcode() == Rcode.NOERROR
                 || response.getHeader().getRcode() == Rcode.NOTAUTH)
