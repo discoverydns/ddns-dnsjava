@@ -212,16 +212,12 @@ generate(Message m, byte [] b, int error, TSIGRecord old) {
 	Date timeSigned;
 	if (error != Rcode.BADTIME)
 		timeSigned = new Date();
-	else {
-        logTsig("BADTIME encountered. Use old time signed");
+	else
         timeSigned = old.getTimeSigned();
-    }
 	int fudge;
 	HMAC hmac = null;
-	if (error == Rcode.NOERROR || error == Rcode.BADTIME) {
-        logTsig(error + " error code encountered. Create new HMAC");
+	if (error == Rcode.NOERROR || error == Rcode.BADTIME)
         hmac = new HMAC(digest, digestBlockLength, key);
-    }
 
 	fudge = Options.intValue("tsigfudge");
 	if (fudge < 0 || fudge > 0x7FFF)
@@ -380,7 +376,6 @@ verify(Message m, byte [] b, int length, TSIGRecord old) {
 	long now = System.currentTimeMillis();
 	long then = tsig.getTimeSigned().getTime();
 	long fudge = tsig.getFudge();
-    logTsig("Check for BADTIME: now: " + now + ", then: " + then + ", fudge: " + fudge);
 	if (Math.abs(now - then) > fudge * 1000) {
 		if (Options.check("verbose"))
 			System.err.println("BADTIME failure");
@@ -598,8 +593,4 @@ public static class StreamVerifier {
 		return Rcode.NOERROR;
 	}
 }
-    private void logTsig(String s) {
-        if (Options.check("verbose"))
-            System.out.println("TSIG: " + s);
-    }
 }
