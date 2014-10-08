@@ -516,6 +516,11 @@ public static class StreamVerifier {
 
 		nresponses++;
 
+        if (tsig.getError() != Rcode.NOERROR) {
+            m.tsigState = Message.TSIG_FAILED;
+            return tsig.getError();
+        }
+
 		if (nresponses == 1) {
 			int result = key.verify(m, b, lastTSIG);
 			if (result == Rcode.NOERROR) {
