@@ -3,23 +3,23 @@
 // Copyright (c) 2005, Matthew J. Rutherford <rutherfo@cs.colorado.edu>
 // Copyright (c) 2005, University of Colorado at Boulder
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
 // met:
-// 
+//
 // * Redistributions of source code must retain the above copyright
 //   notice, this list of conditions and the following disclaimer.
-// 
+//
 // * Redistributions in binary form must reproduce the above copyright
 //   notice, this list of conditions and the following disclaimer in the
 //   documentation and/or other materials provided with the distribution.
-// 
+//
 // * Neither the name of the University of Colorado at Boulder nor the
 //   names of its contributors may be used to endorse or promote
 //   products derived from this software without specific prior written
 //   permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -55,7 +55,7 @@ public class RcodeTest extends TestCase
 	}
 	catch( IllegalArgumentException e ){
 	}
-	
+
 	//  (max is 0xFFF)
 	try {
 	    Rcode.string(0x1000);
@@ -79,7 +79,7 @@ public class RcodeTest extends TestCase
 	}
 	catch( IllegalArgumentException e ){
 	}
-	
+
 	//  (max is 0xFFFF)
 	try {
 	    Rcode.string(0x10000);
@@ -102,7 +102,7 @@ public class RcodeTest extends TestCase
 	assertEquals(35, Rcode.value("RESERVED35"));
 
 	// one thats undefined but out of range
-	assertEquals(-1, Rcode.value("RESERVED" + 0x1000));
+	assertEquals(-1, Rcode.value("RESERVED" + 0x10000));
 
 	// something that unknown
 	assertEquals(-1, Rcode.value("THIS IS DEFINITELY UNKNOWN"));

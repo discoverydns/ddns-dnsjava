@@ -21,9 +21,13 @@
 
 package org.xbill.DNS;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * An incoming DNS Zone Transfer.  To use this class, first initialize an
@@ -528,21 +532,23 @@ doxfr() throws IOException, ZoneTransferException {
 	while (state != END) {
 		byte [] in = client.recv();
 		Message response =  parseMessage(in);
-		if (response.getHeader().getRcode() == Rcode.NOERROR &&
-		    verifier != null)
-		{
-			TSIGRecord tsigrec = response.getTSIG();
+        // Changed for DiscoveryDNS. Added NOTAUTH check to retrieve more info about the error
+		if ((response.getHeader().getRcode() == Rcode.NOERROR
+                || response.getHeader().getRcode() == Rcode.NOTAUTH)
+                && verifier != null) {
+            TSIGRecord tsigrec = response.getTSIG();
 
 			int error = verifier.verify(response, in);
 			if (error != Rcode.NOERROR)
-				fail("TSIG failure");
+                // Changed for DiscoveryDNS. Return the TSIG error code.
+				fail(Rcode.TSIGstring(error));
 		}
 
 		Record [] answers = response.getSectionArray(Section.ANSWER);
 
 		if (state == INITIALSOA) {
 			int rcode = response.getRcode();
-			if (rcode != Rcode.NOERROR) {
+            if (rcode != Rcode.NOERROR) {
 				if (qtype == Type.IXFR &&
 				    rcode == Rcode.NOTIMP)
 				{

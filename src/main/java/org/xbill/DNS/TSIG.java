@@ -213,11 +213,11 @@ generate(Message m, byte [] b, int error, TSIGRecord old) {
 	if (error != Rcode.BADTIME)
 		timeSigned = new Date();
 	else
-		timeSigned = old.getTimeSigned();
+        timeSigned = old.getTimeSigned();
 	int fudge;
 	HMAC hmac = null;
 	if (error == Rcode.NOERROR || error == Rcode.BADTIME)
-		hmac = new HMAC(digest, digestBlockLength, key);
+        hmac = new HMAC(digest, digestBlockLength, key);
 
 	fudge = Options.intValue("tsigfudge");
 	if (fudge < 0 || fudge > 0x7FFF)
@@ -395,7 +395,7 @@ verify(Message m, byte [] b, int length, TSIGRecord old) {
 	m.getHeader().incCount(Section.ADDITIONAL);
 	hmac.update(header);
 
-	int len = m.tsigstart - header.length;	
+	int len = m.tsigstart - header.length;
 	hmac.update(b, header.length, len);
 
 	DNSOutput out = new DNSOutput();
@@ -508,8 +508,14 @@ public static class StreamVerifier {
 	public int
 	verify(Message m, byte [] b) {
 		TSIGRecord tsig = m.getTSIG();
-	
+
 		nresponses++;
+
+        // Added for DiscoveryDNS. Return error if the TSIG record contains an error.
+        if (tsig.getError() != Rcode.NOERROR) {
+            m.tsigState = Message.TSIG_FAILED;
+            return tsig.getError();
+        }
 
 		if (nresponses == 1) {
 			int result = key.verify(m, b, lastTSIG);
@@ -588,5 +594,4 @@ public static class StreamVerifier {
 		return Rcode.NOERROR;
 	}
 }
-
 }
