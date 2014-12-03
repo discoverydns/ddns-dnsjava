@@ -2,6 +2,7 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import org.xbill.DNS.Name;
 import org.xbill.DNS.URLRecord;
+import org.xbill.DNS.utils.json.exception.JsonDeserializationException;
 import org.xbill.DNS.utils.json.exception.MissingFieldJsonDeserializationException;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -43,10 +44,19 @@ public class URLRecordDeserializer extends AbstractRecordDeserializer<URLRecord>
         String nodeValue;
         try {
             nodeValue = getNodeStringValue(recordNode, nodeName);
+            checkStringLength(nodeValue, nodeName);
         } catch (MissingFieldJsonDeserializationException e) {
-            nodeValue = "";
+            nodeValue = null;
         }
         return nodeValue;
+    }
+
+    private void checkStringLength(String string, String field) {
+        if (string.length() > 255) {
+            throw new JsonDeserializationException(
+                    JsonDeserializationException.JsonDeserializationExceptionCode.invalidFieldValue,
+                    field, getTextualBeanType(), "String too long. Maximum is 255 characters");
+        }
     }
 
 }

@@ -178,20 +178,22 @@ public class URLRecord extends Record {
         if (redirectType < 0) {
             throw st.exception("Invalid redirect type: " + redirectTypeString);
         }
-        try {
-            title = st.getString();
-        } catch (IOException e) {
-            title = null;
-        }
-        try {
-            description = st.getString();
-        } catch (IOException e) {
-            description = null;
-        }
-        try {
-            keywords = st.getString();
-        } catch (IOException e) {
-            keywords = null;
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
+            try {
+                title = st.getString();
+            } catch (IOException e) {
+                title = null;
+            }
+            try {
+                description = st.getString();
+            } catch (IOException e) {
+                description = null;
+            }
+            try {
+                keywords = st.getString();
+            } catch (IOException e) {
+                keywords = null;
+            }
         }
     }
 
