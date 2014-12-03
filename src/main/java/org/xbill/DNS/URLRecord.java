@@ -134,20 +134,22 @@ public class URLRecord extends Record {
         } catch (WireParseException e) {
             redirectType = RedirectType.REDIRECT_TYPE_302;
         }
-        try {
-            title = new String(in.readCountedString());
-        } catch (IOException e) {
-            title = "";
-        }
-        try {
-            description = new String(in.readCountedString());
-        } catch (IOException e) {
-            description = "";
-        }
-        try {
-            keywords = new String(in.readCountedString());
-        } catch (IOException e) {
-            keywords = "";
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
+            try {
+                title = new String(in.readCountedString());
+            } catch (IOException e) {
+                title = null;
+            }
+            try {
+                description = new String(in.readCountedString());
+            } catch (IOException e) {
+                description = null;
+            }
+            try {
+                keywords = new String(in.readCountedString());
+            } catch (IOException e) {
+                keywords = null;
+            }
         }
 
     }
@@ -155,7 +157,7 @@ public class URLRecord extends Record {
     @Override
     String rrToString() {
         String recordDetails = template + " " + redirectType;
-        if (title != null) {
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
             recordDetails = recordDetails + " \"" + title + "\" \"" + description + "\" \""
                     + keywords + "\"";
         }
@@ -203,7 +205,7 @@ public class URLRecord extends Record {
             }
         }
         out.writeU8(redirectType);
-        if (title != null) {
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
             try {
                 out.writeCountedString(byteArrayFromString(title));
             } catch (TextParseException e) {
