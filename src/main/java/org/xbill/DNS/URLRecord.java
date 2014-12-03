@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
- * URLRecord Record - maps a label to a target URL template for HTTP forwarding
+ * URLRecord Record - maps a label to a target URL template for HTTP forwarding.
  *
  * @author Arnaud Dumont
  */
@@ -14,32 +14,34 @@ public class URLRecord extends Record {
     private static final Pattern URL_TEMPLATE_PATTERN =
             Pattern.compile("^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;{}]*[-a-zA-Z0-9+&@#/%=~_|}]$",
                     Pattern.CASE_INSENSITIVE);
+    private String keywords;
+    private String description;
+    private String title;
 
-    public static class RedirectType {
-        private RedirectType() { }
+    public static final class RedirectType {
 
         /**
-         * HTTP Redirect with status code 302
+         * HTTP Redirect with status code 302.
          */
         public static final int REDIRECT_TYPE_302 = 0;
 
         /**
-         * HTTP Redirect with status code 301
+         * HTTP Redirect with status code 301.
          */
         public static final int REDIRECT_TYPE_301 = 1;
 
         /**
-         * HTTP Redirect with status code 303
+         * HTTP Redirect with status code 303.
          */
         public static final int REDIRECT_TYPE_303 = 2;
 
         /**
-         * HTTP Redirect with status code 307
+         * HTTP Redirect with status code 307.
          */
         public static final int REDIRECT_TYPE_307 = 3;
 
         /**
-         * URL cloaking with iframe
+         * URL cloaking with iframe.
          */
         public static final int REDIRECT_TYPE_CLOAKING_IFRAME = 4;
 
@@ -57,8 +59,10 @@ public class URLRecord extends Record {
             redirectTypes.add(REDIRECT_TYPE_CLOAKING_IFRAME, "Cloaking");
         }
 
+        private RedirectType() { }
+
         /**
-         * Converts an redirect type into its textual representation
+         * Converts an redirect type into its textual representation.
          */
         public static String
         string(int alg) {
@@ -80,11 +84,7 @@ public class URLRecord extends Record {
     private String template;
     private int redirectType;
 
-    URLRecord() {}
-
-    @Override
-    Record getObject() {
-        return new URLRecord();
+    URLRecord() {
     }
 
     /**
@@ -96,7 +96,7 @@ public class URLRecord extends Record {
     }
 
     /**
-     * Creates a new URLRecord with the given redirect type and data
+     * Creates a new URLRecord with the given redirect type and data.
      * @param template The URL template the record will redirect to when queried for the name
      */
     public URLRecord(Name name, int dclass, long ttl, String template, int redirectType) {
@@ -104,6 +104,26 @@ public class URLRecord extends Record {
 
         setTemplate(template);
         this.redirectType = checkU8("redirectType", redirectType);
+    }
+
+    /**
+     * Creates a new URLRecord with the given redirect type and data.
+     * @param template The URL template the record will redirect to when queried for the name
+     */
+    public URLRecord(Name name, int dclass, long ttl, String template, int redirectType, String title,
+                     String description, String keywords) {
+        super(name, Type.URL, dclass, ttl);
+        this.title = title;
+        this.description = description;
+        this.keywords = keywords;
+
+        setTemplate(template);
+        this.redirectType = checkU8("redirectType", redirectType);
+    }
+
+    @Override
+    Record getObject() {
+        return new URLRecord();
     }
 
     @Override
@@ -114,11 +134,29 @@ public class URLRecord extends Record {
         } catch (WireParseException e) {
             redirectType = RedirectType.REDIRECT_TYPE_302;
         }
+        try {
+            title = new String(in.readCountedString());
+        } catch (IOException e) {
+            title = "";
+        }
+        try {
+            description = new String(in.readCountedString());
+        } catch (IOException e) {
+            description = "";
+        }
+        try {
+            keywords = new String(in.readCountedString());
+        } catch (IOException e) {
+            keywords = "";
+        }
+
     }
 
     @Override
     String rrToString() {
-        return template + " " + redirectType;
+        final String recordDetails = template + " " + redirectType + " \"" + title + "\" \"" + description + "\" \""
+                + keywords + "\"";
+        return recordDetails.trim();
     }
 
     @Override
@@ -135,6 +173,21 @@ public class URLRecord extends Record {
         if (redirectType < 0) {
             throw st.exception("Invalid redirect type: " + redirectTypeString);
         }
+        try {
+            title = st.getString();
+        } catch (IOException e) {
+            title = null;
+        }
+        try {
+            description = st.getString();
+        } catch (IOException e) {
+            description = null;
+        }
+        try {
+            keywords = st.getString();
+        } catch (IOException e) {
+            keywords = null;
+        }
     }
 
     @Override
@@ -147,9 +200,25 @@ public class URLRecord extends Record {
             }
         }
         out.writeU8(redirectType);
+        try {
+            out.writeCountedString(byteArrayFromString(title));
+        } catch (TextParseException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+        try {
+            out.writeCountedString(byteArrayFromString(description));
+        } catch (TextParseException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+        try {
+            out.writeCountedString(byteArrayFromString(keywords));
+        } catch (TextParseException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
-    /** Returns the redirection type
+    /**
+     * Returns the redirection type.
      * @return the redirection type
      * */
     public int getRedirectType() {
@@ -163,10 +232,35 @@ public class URLRecord extends Record {
         this.template = template;
     }
 
-    /** Returns the redirection URL template
+    /**
+     * Returns the redirection URL template.
      * @return the redirection URL template
      * */
     public String getTemplate() {
         return template;
+    }
+
+    /**
+     * Returns the redirection HTML page keywords.
+     * @return the redirection HTML page keywords
+     * */
+    public String getKeywords() {
+        return keywords;
+    }
+
+    /**
+     * Returns the redirection HTML page description.
+     * @return the redirection HTML page description
+     * */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Returns the redirection HTML page title.
+     * @return the redirection HTML page title
+     * */
+    public String getTitle() {
+        return title;
     }
 }

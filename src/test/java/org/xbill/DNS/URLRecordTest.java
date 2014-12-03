@@ -82,6 +82,28 @@ public class URLRecordTest extends TestCase
         assertEquals(template, d.getTemplate());
     }
 
+    public void test_RDataFromStringWithOptionalFields() throws IOException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        int redirectType = RedirectType.REDIRECT_TYPE_301;
+
+        String title = "title";
+        String description = "description here";
+        String keywords = "keywords";
+        URLRecord d = (URLRecord) URLRecord.fromString(n, Type.URL, DClass.IN, 0xABCDEL,
+                template + " " + redirectType + " " + title + " \"" + description + "\" " + keywords, Name.root);
+
+        assertEquals(n, d.getName());
+        assertEquals(Type.URL, d.getType());
+        assertEquals(DClass.IN, d.getDClass());
+        assertEquals(0xABCDEL, d.getTTL());
+        assertEquals(URLRecord.RedirectType.REDIRECT_TYPE_301, d.getRedirectType());
+        assertEquals(template, d.getTemplate());
+        assertEquals(title, d.getTitle());
+        assertEquals(description, d.getDescription());
+        assertEquals(keywords, d.getKeywords());
+    }
+
     public void test_RDataFromStringWithoutRedirectType() throws IOException {
         Name n = Name.fromString("my.name.");
         String template = "http://www.url.com/{path}/?{queryParameters}";

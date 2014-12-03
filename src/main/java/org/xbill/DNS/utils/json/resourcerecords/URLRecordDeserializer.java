@@ -7,7 +7,7 @@ import org.xbill.DNS.utils.json.exception.MissingFieldJsonDeserializationExcepti
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
- * Jackson deserializer for the {@link org.xbill.DNS.URLRecord} class
+ * Jackson deserializer for the {@link org.xbill.DNS.URLRecord} class.
  * @author Arnaud Dumont
  */
 public class URLRecordDeserializer extends AbstractRecordDeserializer<URLRecord> {
@@ -20,17 +20,33 @@ public class URLRecordDeserializer extends AbstractRecordDeserializer<URLRecord>
     @Override
     protected URLRecord createRecord(Name name, int dclass, long ttl, ObjectNode recordNode) {
         Integer redirectType;
+        final String nodeName = "redirectType";
         try {
-            redirectType = getNodeIntegerValue(recordNode, "redirectType");
+            redirectType = getNodeIntegerValue(recordNode, nodeName);
         } catch (MissingFieldJsonDeserializationException e) {
             //For backward compatibility
             return new URLRecord(name, dclass, ttl, getNodeStringValue(recordNode, "template"));
         }
-        return new URLRecord(name, dclass, ttl, getNodeStringValue(recordNode, "template"), redirectType);
+
+        return new URLRecord(name, dclass, ttl, getNodeStringValue(recordNode, "template"), redirectType,
+                getURLNodeValue(recordNode, "title"),
+                getURLNodeValue(recordNode, "description"),
+                getURLNodeValue(recordNode, "keywords"));
     }
 
     @Override
     protected String getTextualRecordType() {
         return "URL";
     }
+
+    private String getURLNodeValue(ObjectNode recordNode, String nodeName) {
+        String nodeValue;
+        try {
+            nodeValue = getNodeStringValue(recordNode, nodeName);
+        } catch (MissingFieldJsonDeserializationException e) {
+            nodeValue = "";
+        }
+        return nodeValue;
+    }
+
 }
