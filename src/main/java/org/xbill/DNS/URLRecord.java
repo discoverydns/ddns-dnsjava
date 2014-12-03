@@ -154,8 +154,11 @@ public class URLRecord extends Record {
 
     @Override
     String rrToString() {
-        final String recordDetails = template + " " + redirectType + " \"" + title + "\" \"" + description + "\" \""
-                + keywords + "\"";
+        String recordDetails = template + " " + redirectType;
+        if (title != null) {
+            recordDetails = recordDetails + " \"" + title + "\" \"" + description + "\" \""
+                    + keywords + "\"";
+        }
         return recordDetails.trim();
     }
 
@@ -200,20 +203,22 @@ public class URLRecord extends Record {
             }
         }
         out.writeU8(redirectType);
-        try {
-            out.writeCountedString(byteArrayFromString(title));
-        } catch (TextParseException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
-        try {
-            out.writeCountedString(byteArrayFromString(description));
-        } catch (TextParseException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
-        try {
-            out.writeCountedString(byteArrayFromString(keywords));
-        } catch (TextParseException e) {
-            throw new IllegalArgumentException(e.getMessage());
+        if (title != null) {
+            try {
+                out.writeCountedString(byteArrayFromString(title));
+            } catch (TextParseException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+            try {
+                out.writeCountedString(byteArrayFromString(description));
+            } catch (TextParseException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+            try {
+                out.writeCountedString(byteArrayFromString(keywords));
+            } catch (TextParseException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
         }
     }
 
