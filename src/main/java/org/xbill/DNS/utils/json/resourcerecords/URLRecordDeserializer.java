@@ -52,7 +52,7 @@ public class URLRecordDeserializer extends AbstractRecordDeserializer<URLRecord>
     }
 
     private void checkStringLength(String string, String field) {
-        if (string.length() > 255) {
+        if (string != null && string.length() > 255) {
             throw new JsonDeserializationException(
                     JsonDeserializationException.JsonDeserializationExceptionCode.invalidFieldValue,
                     field, getTextualBeanType(), "String too long. Maximum is 255 characters");
