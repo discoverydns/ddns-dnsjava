@@ -14,6 +14,8 @@ public class URLRecord extends Record {
     private static final Pattern URL_TEMPLATE_PATTERN =
             Pattern.compile("^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;{}]*[-a-zA-Z0-9+&@#/%=~_|}]$",
                     Pattern.CASE_INSENSITIVE);
+    private static final Pattern URL_CLOAKING_PARAMETERS_PATTERN =
+            Pattern.compile("^[^<>]*$", Pattern.CASE_INSENSITIVE);
     private String keywords;
     private String description;
     private String title;
@@ -112,13 +114,13 @@ public class URLRecord extends Record {
      */
     public URLRecord(Name name, int dclass, long ttl, String template, int redirectType, String title,
                      String description, String keywords) {
-        super(name, Type.URL, dclass, ttl);
-        this.title = title;
-        this.description = description;
-        this.keywords = keywords;
+        this(name, dclass, ttl, template, redirectType);
 
-        setTemplate(template);
-        this.redirectType = checkU8("redirectType", redirectType);
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
+            setTitle(title);
+            setDescription(description);
+            setKeywords(keywords);
+        }
     }
 
     @Override
@@ -136,19 +138,19 @@ public class URLRecord extends Record {
         }
         if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
             try {
-                title = new String(in.readCountedString());
+                setTitle(new String(in.readCountedString()));
             } catch (IOException e) {
-                title = null;
+                setTitle(null);
             }
             try {
-                description = new String(in.readCountedString());
+                setDescription(new String(in.readCountedString()));
             } catch (IOException e) {
-                description = null;
+                setDescription(null);
             }
             try {
-                keywords = new String(in.readCountedString());
+                setKeywords(new String(in.readCountedString()));
             } catch (IOException e) {
-                keywords = null;
+                setKeywords(null);
             }
         }
 
@@ -180,19 +182,19 @@ public class URLRecord extends Record {
         }
         if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
             try {
-                title = st.getString();
+                setTitle(st.getString());
             } catch (IOException e) {
-                title = null;
+                setTitle(null);
             }
             try {
-                description = st.getString();
+                setDescription(st.getString());
             } catch (IOException e) {
-                description = null;
+                setDescription(null);
             }
             try {
-                keywords = st.getString();
+                setKeywords(st.getString());
             } catch (IOException e) {
-                keywords = null;
+                setKeywords(null);
             }
         }
     }
@@ -236,7 +238,7 @@ public class URLRecord extends Record {
 
     private void setTemplate(String template) {
         if (!URL_TEMPLATE_PATTERN.matcher(template).matches()) {
-            throw new IllegalArgumentException("Provided template '" + template + "'  is not a valid URI template");
+            throw new IllegalArgumentException("Provided template '" + template + "' is not a valid URI template");
         }
         this.template = template;
     }
@@ -271,5 +273,27 @@ public class URLRecord extends Record {
      * */
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        if (title != null && !URL_CLOAKING_PARAMETERS_PATTERN.matcher(title).matches()) {
+            throw new IllegalArgumentException("Provided title '" + title + "' is not a valid HTML title");
+        }
+        this.title = title;
+    }
+
+    public void setKeywords(String keywords) {
+        if (keywords != null && !URL_CLOAKING_PARAMETERS_PATTERN.matcher(keywords).matches()) {
+            throw new IllegalArgumentException("Provided keywords '" + keywords + "' are not valid HTML keywords");
+        }
+        this.keywords = keywords;
+    }
+
+    public void setDescription(String description) {
+        if (description != null && !URL_CLOAKING_PARAMETERS_PATTERN.matcher(description).matches()) {
+            throw new IllegalArgumentException(
+                    "Provided description '" + description + "' is not a valid HTML description");
+        }
+        this.description = description;
     }
 }

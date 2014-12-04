@@ -26,11 +26,17 @@ public class URLRecordSerializerTest {
 
     private int redirectType = URLRecord.RedirectType.REDIRECT_TYPE_301;
     private String template = "http://www.url.com/{path}/?{queryParameters}";
+    private String title = "title";
+    private String description = "description";
+    private String keywords = "keywords";
 
     @Before
     public void setup() throws Exception {
         when(mockUrlRecord.getRedirectType()).thenReturn(redirectType);
         when(mockUrlRecord.getTemplate()).thenReturn(template);
+        when(mockUrlRecord.getTitle()).thenReturn(title);
+        when(mockUrlRecord.getDescription()).thenReturn(description);
+        when(mockUrlRecord.getKeywords()).thenReturn(keywords);
 
         urlRecordSerializer = new URLRecordSerializer();
     }
@@ -53,5 +59,29 @@ public class URLRecordSerializerTest {
                 mockSerializerProvider);
 
         verify(mockJsonGenerator).writeStringField("redirectType", formattedRedirectType);
+    }
+
+    @Test
+    public void shouldGenerateTitleField() throws Exception {
+        urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
+                mockSerializerProvider);
+
+        verify(mockJsonGenerator).writeStringField("title", title);
+    }
+
+    @Test
+    public void shouldGenerateDescriptionField() throws Exception {
+        urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
+                mockSerializerProvider);
+
+        verify(mockJsonGenerator).writeStringField("description", description);
+    }
+
+    @Test
+    public void shouldGenerateKeywordsField() throws Exception {
+        urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
+                mockSerializerProvider);
+
+        verify(mockJsonGenerator).writeStringField("keywords", keywords);
     }
 }

@@ -21,18 +21,17 @@ public class URLRecordDeserializer extends AbstractRecordDeserializer<URLRecord>
     @Override
     protected URLRecord createRecord(Name name, int dclass, long ttl, ObjectNode recordNode) {
         Integer redirectType;
-        final String nodeName = "redirectType";
         try {
-            redirectType = getNodeIntegerValue(recordNode, nodeName);
+            redirectType = getNodeIntegerValue(recordNode, "redirectType");
         } catch (MissingFieldJsonDeserializationException e) {
             //For backward compatibility
             return new URLRecord(name, dclass, ttl, getNodeStringValue(recordNode, "template"));
         }
 
         return new URLRecord(name, dclass, ttl, getNodeStringValue(recordNode, "template"), redirectType,
-                getURLNodeValue(recordNode, "title"),
-                getURLNodeValue(recordNode, "description"),
-                getURLNodeValue(recordNode, "keywords"));
+                getOptionalNodeStringValue(recordNode, "title"),
+                getOptionalNodeStringValue(recordNode, "description"),
+                getOptionalNodeStringValue(recordNode, "keywords"));
     }
 
     @Override
@@ -40,7 +39,7 @@ public class URLRecordDeserializer extends AbstractRecordDeserializer<URLRecord>
         return "URL";
     }
 
-    private String getURLNodeValue(ObjectNode recordNode, String nodeName) {
+    private String getOptionalNodeStringValue(ObjectNode recordNode, String nodeName) {
         String nodeValue;
         try {
             nodeValue = getNodeStringValue(recordNode, nodeName);
