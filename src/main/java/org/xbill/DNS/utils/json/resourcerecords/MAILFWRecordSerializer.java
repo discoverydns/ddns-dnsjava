@@ -20,6 +20,7 @@ public class MAILFWRecordSerializer extends AbstractRecordSerializer<MAILFWRecor
     @Override
     protected void serializeRDataFields(final MAILFWRecord mailFWRecord, JsonGenerator jsonGenerator, SerializerProvider
             serializerProvider) throws IOException, JsonGenerationException {
+        jsonGenerator.writeStringField("originalRecipient", mailFWRecord.getOriginalRecipient());
         jsonGenerator.writeStringField("destination", mailFWRecord.getDestination());
     }
 }
