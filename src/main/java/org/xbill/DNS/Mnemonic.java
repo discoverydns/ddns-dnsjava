@@ -207,4 +207,11 @@ getValue(String str) {
 	return -1;
 }
 
+    /**
+     * Used in DiscoveryDNS.
+     * @return true if the given value is a pre-defined known value. False otherwise.
+     */
+    public boolean isPredefinedValue(int val) {
+        return values.containsKey(toInteger(val));
+    }
 }

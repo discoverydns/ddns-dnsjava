@@ -56,5 +56,12 @@ public static int
 value(String s) {
 	return opcodes.getValue(s);
 }
+    /**
+     * Used in DiscoveryDNS.
+     * @return true if the given opCode is a pre-defined known value. False otherwise.
+     */
+    public static boolean isKnownOpCode(int opCode) {
+        return opcodes.isPredefinedValue(opCode);
+    }
 
 }
