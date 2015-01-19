@@ -23,6 +23,12 @@ public class URLRecordDeserializerTest {
     @Mock
     private JsonNode mockTemplateJsonNode;
     @Mock
+    private JsonNode mockTitleJsonNode;
+    @Mock
+    private JsonNode mockDescriptionJsonNode;
+    @Mock
+    private JsonNode mockKeywordsJsonNode;
+    @Mock
     private JsonNodeFactory mockJsonNodeFactory;
 
     private URLRecordDeserializer urlRecordDeserializer;
@@ -78,5 +84,37 @@ public class URLRecordDeserializerTest {
         assertEquals(ttl, urlRecord.getTTL());
         assertEquals(URLRecord.RedirectType.REDIRECT_TYPE_302, urlRecord.getRedirectType());
         assertEquals(template, urlRecord.getTemplate());
+    }
+
+    @Test
+    public void shouldCreateExpectedIFrameCloakingRecord() throws Exception {
+        when(mockRedirectTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.NUMBER);
+        int redirectType = URLRecord.RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME;
+        when(mockRedirectTypeJsonNode.numberValue()).thenReturn(redirectType);
+        fakeObjectNode.put("redirectType", mockRedirectTypeJsonNode);
+        String title = "title";
+        when(mockTitleJsonNode.textValue()).thenReturn(title);
+        fakeObjectNode.put("title", mockTitleJsonNode);
+        String description = "description";
+        when(mockDescriptionJsonNode.textValue()).thenReturn(description);
+        fakeObjectNode.put("description", mockDescriptionJsonNode);
+        String keywords = "keywords";
+        when(mockKeywordsJsonNode.textValue()).thenReturn(keywords);
+        fakeObjectNode.put("keywords", mockKeywordsJsonNode);
+
+        Name name = Name.fromString("test.domain.com.");
+        int dclass = 1;
+        long ttl = 3600L;
+        URLRecord urlRecord = urlRecordDeserializer.createRecord(name,
+                dclass, ttl, fakeObjectNode);
+
+        assertEquals(name, urlRecord.getName());
+        assertEquals(dclass, urlRecord.getDClass());
+        assertEquals(ttl, urlRecord.getTTL());
+        assertEquals(redirectType, urlRecord.getRedirectType());
+        assertEquals(template, urlRecord.getTemplate());
+        assertEquals(title, urlRecord.getTitle());
+        assertEquals(description, urlRecord.getDescription());
+        assertEquals(keywords, urlRecord.getKeywords());
     }
 }

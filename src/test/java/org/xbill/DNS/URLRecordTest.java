@@ -4,16 +4,10 @@ import static org.xbill.DNS.URLRecord.RedirectType;
 
 import java.io.IOException;
 
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-
 import junit.framework.TestCase;
 
 public class URLRecordTest extends TestCase
 {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     public void test_ctor_0arg()
     {
         URLRecord d = new URLRecord();
@@ -22,7 +16,7 @@ public class URLRecordTest extends TestCase
         assertNull(d.getTemplate());
     }
 
-    public void test_ctor_6arg() throws TextParseException {
+    public void test_ctor_4arg() throws TextParseException {
         Name n = Name.fromString("my.name.");
         String template = "http://www.url.com/{path}/?{queryParameters}";
 
@@ -35,7 +29,7 @@ public class URLRecordTest extends TestCase
         assertEquals(template, d.getTemplate());
     }
 
-    public void test_ctor_7arg() throws TextParseException {
+    public void test_ctor_5arg() throws TextParseException {
         Name n = Name.fromString("my.name.");
         String template = "http://www.url.com/{path}/?{queryParameters}";
         int redirectType = RedirectType.REDIRECT_TYPE_301;
@@ -45,8 +39,28 @@ public class URLRecordTest extends TestCase
         assertEquals(Type.URL, d.getType());
         assertEquals(DClass.IN, d.getDClass());
         assertEquals(0xABCDEL, d.getTTL());
-        assertEquals(URLRecord.RedirectType.REDIRECT_TYPE_301, d.getRedirectType());
+        assertEquals(RedirectType.REDIRECT_TYPE_301, d.getRedirectType());
         assertEquals(template, d.getTemplate());
+    }
+
+    public void test_ctor_8arg() throws TextParseException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        int redirectType = RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME;
+        String title = "title";
+        String description = "description";
+        String keywords = "keywords";
+
+        URLRecord d = new URLRecord(n, DClass.IN, 0xABCDEL, template, redirectType, title, description, keywords);
+        assertEquals(n, d.getName());
+        assertEquals(Type.URL, d.getType());
+        assertEquals(DClass.IN, d.getDClass());
+        assertEquals(0xABCDEL, d.getTTL());
+        assertEquals(RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME, d.getRedirectType());
+        assertEquals(template, d.getTemplate());
+        assertEquals(title, d.getTitle());
+        assertEquals(description, d.getDescription());
+        assertEquals(keywords, d.getKeywords());
     }
 
     public void test_getObject()
@@ -58,12 +72,14 @@ public class URLRecordTest extends TestCase
 
     public void test_invalidTemplate() throws TextParseException {
         Name n = Name.fromString("my.name.");
-        String template = "http://www.url.com/{path}/?{queryParameters}";
+        String template = "notAtemplate";
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Provided template '" + template + "'  is not a valid URI template");
-
-        new URLRecord(n, DClass.IN, 0xABCDEL, template);
+        try {
+            new URLRecord(n, DClass.IN, 0xABCDEL, template);
+            fail("IllegalArgumentException not thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Provided template '" + template + "' is not a valid URI template", e.getMessage());
+        }
     }
 
     public void test_RDataFromString() throws IOException {
@@ -78,8 +94,30 @@ public class URLRecordTest extends TestCase
         assertEquals(Type.URL, d.getType());
         assertEquals(DClass.IN, d.getDClass());
         assertEquals(0xABCDEL, d.getTTL());
-        assertEquals(URLRecord.RedirectType.REDIRECT_TYPE_301, d.getRedirectType());
+        assertEquals(RedirectType.REDIRECT_TYPE_301, d.getRedirectType());
         assertEquals(template, d.getTemplate());
+    }
+
+    public void test_RDataFromStringWithOptionalFields() throws IOException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        int redirectType = RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME;
+
+        String title = "title";
+        String description = "description here";
+        String keywords = "keywords";
+        URLRecord d = (URLRecord) URLRecord.fromString(n, Type.URL, DClass.IN, 0xABCDEL,
+                template + " " + redirectType + " " + title + " \"" + description + "\" " + keywords, Name.root);
+
+        assertEquals(n, d.getName());
+        assertEquals(Type.URL, d.getType());
+        assertEquals(DClass.IN, d.getDClass());
+        assertEquals(0xABCDEL, d.getTTL());
+        assertEquals(RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME, d.getRedirectType());
+        assertEquals(template, d.getTemplate());
+        assertEquals(title, d.getTitle());
+        assertEquals(description, d.getDescription());
+        assertEquals(keywords, d.getKeywords());
     }
 
     public void test_RDataFromStringWithoutRedirectType() throws IOException {
@@ -93,7 +131,49 @@ public class URLRecordTest extends TestCase
         assertEquals(Type.URL, d.getType());
         assertEquals(DClass.IN, d.getDClass());
         assertEquals(0xABCDEL, d.getTTL());
-        assertEquals(URLRecord.RedirectType.REDIRECT_TYPE_302, d.getRedirectType());
+        assertEquals(RedirectType.REDIRECT_TYPE_302, d.getRedirectType());
         assertEquals(template, d.getTemplate());
+    }
+
+    public void test_invalidTitle() throws TextParseException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        String title = "title <with> tags";
+
+        try {
+            new URLRecord(n, DClass.IN, 0xABCDEL, template, RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME,
+                    title, "description", "keywords");
+            fail("IllegalArgumentException not thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Provided title '" + title + "' is not a valid HTML title", e.getMessage());
+        }
+    }
+
+    public void test_invalidDescription() throws TextParseException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        String description = "description <with> tags";
+
+        try {
+            new URLRecord(n, DClass.IN, 0xABCDEL, template, RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME,
+                    "title", description, "keywords");
+            fail("IllegalArgumentException not thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Provided description '" + description + "' is not a valid HTML description", e.getMessage());
+        }
+    }
+
+    public void test_invalidKeywords() throws TextParseException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        String keywords = "keywords <with> tags";
+
+        try {
+            new URLRecord(n, DClass.IN, 0xABCDEL, template, RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME,
+                    "title", "description", keywords);
+            fail("IllegalArgumentException not thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Provided keywords '" + keywords + "' are not valid HTML keywords", e.getMessage());
+        }
     }
 }

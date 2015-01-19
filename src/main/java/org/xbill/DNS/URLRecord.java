@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
- * URLRecord Record - maps a label to a target URL template for HTTP forwarding
+ * URLRecord Record - maps a label to a target URL template for HTTP forwarding.
  *
  * @author Arnaud Dumont
  */
@@ -14,32 +14,36 @@ public class URLRecord extends Record {
     private static final Pattern URL_TEMPLATE_PATTERN =
             Pattern.compile("^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;{}]*[-a-zA-Z0-9+&@#/%=~_|}]$",
                     Pattern.CASE_INSENSITIVE);
+    private static final Pattern URL_CLOAKING_PARAMETERS_PATTERN =
+            Pattern.compile("^[^<>]*$", Pattern.CASE_INSENSITIVE);
+    private String keywords;
+    private String description;
+    private String title;
 
-    public static class RedirectType {
-        private RedirectType() { }
+    public static final class RedirectType {
 
         /**
-         * HTTP Redirect with status code 302
+         * HTTP Redirect with status code 302.
          */
         public static final int REDIRECT_TYPE_302 = 0;
 
         /**
-         * HTTP Redirect with status code 301
+         * HTTP Redirect with status code 301.
          */
         public static final int REDIRECT_TYPE_301 = 1;
 
         /**
-         * HTTP Redirect with status code 303
+         * HTTP Redirect with status code 303.
          */
         public static final int REDIRECT_TYPE_303 = 2;
 
         /**
-         * HTTP Redirect with status code 307
+         * HTTP Redirect with status code 307.
          */
         public static final int REDIRECT_TYPE_307 = 3;
 
         /**
-         * URL cloaking with iframe
+         * URL cloaking with iframe.
          */
         public static final int REDIRECT_TYPE_CLOAKING_IFRAME = 4;
 
@@ -57,8 +61,10 @@ public class URLRecord extends Record {
             redirectTypes.add(REDIRECT_TYPE_CLOAKING_IFRAME, "Cloaking");
         }
 
+        private RedirectType() { }
+
         /**
-         * Converts an redirect type into its textual representation
+         * Converts an redirect type into its textual representation.
          */
         public static String
         string(int alg) {
@@ -80,11 +86,7 @@ public class URLRecord extends Record {
     private String template;
     private int redirectType;
 
-    URLRecord() {}
-
-    @Override
-    Record getObject() {
-        return new URLRecord();
+    URLRecord() {
     }
 
     /**
@@ -96,7 +98,7 @@ public class URLRecord extends Record {
     }
 
     /**
-     * Creates a new URLRecord with the given redirect type and data
+     * Creates a new URLRecord with the given redirect type and data.
      * @param template The URL template the record will redirect to when queried for the name
      */
     public URLRecord(Name name, int dclass, long ttl, String template, int redirectType) {
@@ -104,6 +106,26 @@ public class URLRecord extends Record {
 
         setTemplate(template);
         this.redirectType = checkU8("redirectType", redirectType);
+    }
+
+    /**
+     * Creates a new URLRecord with the given redirect type and data.
+     * @param template The URL template the record will redirect to when queried for the name
+     */
+    public URLRecord(Name name, int dclass, long ttl, String template, int redirectType, String title,
+                     String description, String keywords) {
+        this(name, dclass, ttl, template, redirectType);
+
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
+            setTitle(title);
+            setDescription(description);
+            setKeywords(keywords);
+        }
+    }
+
+    @Override
+    Record getObject() {
+        return new URLRecord();
     }
 
     @Override
@@ -114,11 +136,34 @@ public class URLRecord extends Record {
         } catch (WireParseException e) {
             redirectType = RedirectType.REDIRECT_TYPE_302;
         }
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
+            try {
+                setTitle(new String(in.readCountedString()));
+            } catch (IOException e) {
+                setTitle(null);
+            }
+            try {
+                setDescription(new String(in.readCountedString()));
+            } catch (IOException e) {
+                setDescription(null);
+            }
+            try {
+                setKeywords(new String(in.readCountedString()));
+            } catch (IOException e) {
+                setKeywords(null);
+            }
+        }
+
     }
 
     @Override
     String rrToString() {
-        return template + " " + redirectType;
+        String recordDetails = template + " " + redirectType;
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
+            recordDetails = recordDetails + " \"" + title + "\" \"" + description + "\" \""
+                    + keywords + "\"";
+        }
+        return recordDetails.trim();
     }
 
     @Override
@@ -135,6 +180,23 @@ public class URLRecord extends Record {
         if (redirectType < 0) {
             throw st.exception("Invalid redirect type: " + redirectTypeString);
         }
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
+            try {
+                setTitle(st.getString());
+            } catch (IOException e) {
+                setTitle(null);
+            }
+            try {
+                setDescription(st.getString());
+            } catch (IOException e) {
+                setDescription(null);
+            }
+            try {
+                setKeywords(st.getString());
+            } catch (IOException e) {
+                setKeywords(null);
+            }
+        }
     }
 
     @Override
@@ -147,9 +209,27 @@ public class URLRecord extends Record {
             }
         }
         out.writeU8(redirectType);
+        if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
+            try {
+                out.writeCountedString(byteArrayFromString(title));
+            } catch (TextParseException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+            try {
+                out.writeCountedString(byteArrayFromString(description));
+            } catch (TextParseException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+            try {
+                out.writeCountedString(byteArrayFromString(keywords));
+            } catch (TextParseException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        }
     }
 
-    /** Returns the redirection type
+    /**
+     * Returns the redirection type.
      * @return the redirection type
      * */
     public int getRedirectType() {
@@ -158,15 +238,62 @@ public class URLRecord extends Record {
 
     private void setTemplate(String template) {
         if (!URL_TEMPLATE_PATTERN.matcher(template).matches()) {
-            throw new IllegalArgumentException("Provided template '" + template + "'  is not a valid URI template");
+            throw new IllegalArgumentException("Provided template '" + template + "' is not a valid URI template");
         }
         this.template = template;
     }
 
-    /** Returns the redirection URL template
+    /**
+     * Returns the redirection URL template.
      * @return the redirection URL template
      * */
     public String getTemplate() {
         return template;
+    }
+
+    /**
+     * Returns the redirection HTML page keywords.
+     * @return the redirection HTML page keywords
+     * */
+    public String getKeywords() {
+        return keywords;
+    }
+
+    /**
+     * Returns the redirection HTML page description.
+     * @return the redirection HTML page description
+     * */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Returns the redirection HTML page title.
+     * @return the redirection HTML page title
+     * */
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        if (title != null && !URL_CLOAKING_PARAMETERS_PATTERN.matcher(title).matches()) {
+            throw new IllegalArgumentException("Provided title '" + title + "' is not a valid HTML title");
+        }
+        this.title = title;
+    }
+
+    public void setKeywords(String keywords) {
+        if (keywords != null && !URL_CLOAKING_PARAMETERS_PATTERN.matcher(keywords).matches()) {
+            throw new IllegalArgumentException("Provided keywords '" + keywords + "' are not valid HTML keywords");
+        }
+        this.keywords = keywords;
+    }
+
+    public void setDescription(String description) {
+        if (description != null && !URL_CLOAKING_PARAMETERS_PATTERN.matcher(description).matches()) {
+            throw new IllegalArgumentException(
+                    "Provided description '" + description + "' is not a valid HTML description");
+        }
+        this.description = description;
     }
 }

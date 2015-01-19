@@ -24,19 +24,29 @@ public class MAILFWRecordSerializerTest {
     private MAILFWRecordSerializer mailfwRecordSerializer;
 
     private String destination = "admin@discoverydns.com";
+    private String originalRecipient = "originalRecipient";
 
     @Before
     public void setup() throws Exception {
         when(mockMailFWRecord.getDestination()).thenReturn(destination);
+        when(mockMailFWRecord.getOriginalRecipient()).thenReturn(originalRecipient);
 
         mailfwRecordSerializer = new MAILFWRecordSerializer();
     }
 
     @Test
-    public void shouldGenerateUrlField() throws Exception {
+    public void shouldGenerateDestinationField() throws Exception {
         mailfwRecordSerializer.serializeRDataFields(mockMailFWRecord, mockJsonGenerator,
                 mockSerializerProvider);
 
         verify(mockJsonGenerator).writeStringField("destination", destination);
+    }
+
+    @Test
+    public void shouldGenerateOriginalRecipientField() throws Exception {
+        mailfwRecordSerializer.serializeRDataFields(mockMailFWRecord, mockJsonGenerator,
+                mockSerializerProvider);
+
+        verify(mockJsonGenerator).writeStringField("originalRecipient", originalRecipient);
     }
 }

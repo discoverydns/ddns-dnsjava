@@ -24,3 +24,7 @@ The differences between this version of DNSJava and the jdnssec-dnsjava version 
 10. Change handling of TXT and SPF records in JSON format in expanded mode: use String for single string, or String[] for multiple strings
 
 11. Return the TSIG error on NOTAUTH error for XFR Transfer In request. (ZoneTransferIn, Rcode. TSIG)
+
+12. Added title, description & keywords fields in URLRecord
+
+13. Added originalRecipient field in MAILFWRecord
