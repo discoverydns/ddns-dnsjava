@@ -160,8 +160,12 @@ public class URLRecord extends Record {
     String rrToString() {
         String recordDetails = template + " " + redirectType;
         if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
-            recordDetails = recordDetails + " \"" + title + "\" \"" + description + "\" \""
-                    + keywords + "\"";
+            //Have to handle null values as empty strings,
+            // otherwise rdataFromString doesn't know which values are missing
+            recordDetails = recordDetails + " \""
+                    + (title != null ? title : "") + "\" \""
+                    + (description != null ? description : "") + "\" \""
+                    + (keywords != null ? keywords : "") + "\"";
         }
         return recordDetails.trim();
     }
@@ -210,20 +214,26 @@ public class URLRecord extends Record {
         }
         out.writeU8(redirectType);
         if (redirectType == RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME) {
-            try {
-                out.writeCountedString(byteArrayFromString(title));
-            } catch (TextParseException e) {
-                throw new IllegalArgumentException(e.getMessage());
+            if (title != null) {
+                try {
+                    out.writeCountedString(byteArrayFromString(title));
+                } catch (TextParseException e) {
+                    throw new IllegalArgumentException(e.getMessage());
+                }
             }
-            try {
-                out.writeCountedString(byteArrayFromString(description));
-            } catch (TextParseException e) {
-                throw new IllegalArgumentException(e.getMessage());
+            if (description != null) {
+                try {
+                    out.writeCountedString(byteArrayFromString(description));
+                } catch (TextParseException e) {
+                    throw new IllegalArgumentException(e.getMessage());
+                }
             }
-            try {
-                out.writeCountedString(byteArrayFromString(keywords));
-            } catch (TextParseException e) {
-                throw new IllegalArgumentException(e.getMessage());
+            if (keywords != null) {
+                try {
+                    out.writeCountedString(byteArrayFromString(keywords));
+                } catch (TextParseException e) {
+                    throw new IllegalArgumentException(e.getMessage());
+                }
             }
         }
     }

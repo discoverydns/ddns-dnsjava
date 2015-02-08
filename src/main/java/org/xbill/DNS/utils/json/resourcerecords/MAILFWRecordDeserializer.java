@@ -2,7 +2,6 @@ package org.xbill.DNS.utils.json.resourcerecords;
 
 import org.xbill.DNS.MAILFWRecord;
 import org.xbill.DNS.Name;
-import org.xbill.DNS.URLRecord;
 import org.xbill.DNS.utils.json.exception.MissingFieldJsonDeserializationException;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -15,7 +14,7 @@ public class MAILFWRecordDeserializer extends AbstractRecordDeserializer<MAILFWR
     private static final long serialVersionUID = 3831802671840433355L;
 
     protected MAILFWRecordDeserializer() {
-        super(URLRecord.class);
+        super(MAILFWRecord.class);
     }
 
     @Override
