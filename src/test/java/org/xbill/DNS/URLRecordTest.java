@@ -63,6 +63,23 @@ public class URLRecordTest extends TestCase
         assertEquals(keywords, d.getKeywords());
     }
 
+    public void test_ctor_8arg_null_opt_params() throws TextParseException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        int redirectType = RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME;
+
+        URLRecord d = new URLRecord(n, DClass.IN, 0xABCDEL, template, redirectType, null, null, null);
+        assertEquals(n, d.getName());
+        assertEquals(Type.URL, d.getType());
+        assertEquals(DClass.IN, d.getDClass());
+        assertEquals(0xABCDEL, d.getTTL());
+        assertEquals(RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME, d.getRedirectType());
+        assertEquals(template, d.getTemplate());
+        assertNull(d.getTitle());
+        assertNull(d.getDescription());
+        assertNull(d.getKeywords());
+    }
+
     public void test_getObject()
     {
         URLRecord d = new URLRecord();
@@ -175,5 +192,40 @@ public class URLRecordTest extends TestCase
         } catch (IllegalArgumentException e) {
             assertEquals("Provided keywords '" + keywords + "' are not valid HTML keywords", e.getMessage());
         }
+    }
+
+    public void test_rrToAndFromWire_null_opt_params() throws IOException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        int redirectType = RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME;
+        URLRecord d = new URLRecord(n, DClass.IN, 0xABCDEL, template, redirectType, null, null, null);
+        DNSOutput out = new DNSOutput();
+        d.rrToWire(out, null, true);
+
+        d.rrFromWire(new DNSInput(out.toByteArray()));
+
+        assertEquals(redirectType, d.getRedirectType());
+        assertEquals(template, d.getTemplate());
+        assertNull(d.getTitle());
+        assertNull(d.getDescription());
+        assertNull(d.getKeywords());
+    }
+
+    public void test_rdataToAndFromString_null_opt_params() throws IOException {
+        Name n = Name.fromString("my.name.");
+        String template = "http://www.url.com/{path}/?{queryParameters}";
+        int redirectType = RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME;
+        URLRecord d = new URLRecord(n, DClass.IN, 0xABCDEL, template, redirectType, null, null, null);
+
+        final String rdataToString = d.rdataToString();
+        assertEquals(template + " " + redirectType + " \"\" \"\" \"\"", rdataToString);
+
+        d.rdataFromString(new Tokenizer(rdataToString), n);
+
+        assertEquals(redirectType, d.getRedirectType());
+        assertEquals(template, d.getTemplate());
+        assertEquals("", d.getTitle());
+        assertEquals("", d.getDescription());
+        assertEquals("", d.getKeywords());
     }
 }

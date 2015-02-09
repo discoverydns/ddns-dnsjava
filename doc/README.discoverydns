@@ -28,3 +28,5 @@ The differences between this version of DNSJava and the jdnssec-dnsjava version 
 12. Added title, description & keywords fields in URLRecord
 
 13. Added originalRecipient field in MAILFWRecord
+
+14. Handled non-provided values for title, description & keywords fields in URLRecord

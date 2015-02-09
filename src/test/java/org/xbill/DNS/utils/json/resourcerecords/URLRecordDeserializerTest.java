@@ -1,7 +1,10 @@
 package org.xbill.DNS.utils.json.resourcerecords;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
+
+import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -116,5 +119,34 @@ public class URLRecordDeserializerTest {
         assertEquals(title, urlRecord.getTitle());
         assertEquals(description, urlRecord.getDescription());
         assertEquals(keywords, urlRecord.getKeywords());
+    }
+
+    @Test
+    public void shouldHandleNullOptionalFields() throws IOException {
+        when(mockRedirectTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.NUMBER);
+        int redirectType = URLRecord.RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME;
+        when(mockRedirectTypeJsonNode.numberValue()).thenReturn(redirectType);
+        fakeObjectNode.put("redirectType", mockRedirectTypeJsonNode);
+        when(mockTitleJsonNode.textValue()).thenReturn(null);
+        fakeObjectNode.put("title", mockTitleJsonNode);
+        when(mockDescriptionJsonNode.textValue()).thenReturn(null);
+        fakeObjectNode.put("description", mockDescriptionJsonNode);
+        when(mockKeywordsJsonNode.textValue()).thenReturn(null);
+        fakeObjectNode.put("keywords", mockKeywordsJsonNode);
+
+        Name name = Name.fromString("test.domain.com.");
+        int dclass = 1;
+        long ttl = 3600L;
+        URLRecord urlRecord = urlRecordDeserializer.createRecord(name,
+                dclass, ttl, fakeObjectNode);
+
+        assertEquals(name, urlRecord.getName());
+        assertEquals(dclass, urlRecord.getDClass());
+        assertEquals(ttl, urlRecord.getTTL());
+        assertEquals(redirectType, urlRecord.getRedirectType());
+        assertEquals(template, urlRecord.getTemplate());
+        assertNull(urlRecord.getTitle());
+        assertNull(urlRecord.getDescription());
+        assertNull(urlRecord.getKeywords());
     }
 }

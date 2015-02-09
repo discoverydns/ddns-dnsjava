@@ -4,6 +4,8 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -83,5 +85,20 @@ public class URLRecordSerializerTest {
                 mockSerializerProvider);
 
         verify(mockJsonGenerator).writeStringField("keywords", keywords);
+    }
+
+    @Test
+    public void shouldHandleNullOptionalFields() throws IOException {
+        when(mockUrlRecord.getRedirectType()).thenReturn(URLRecord.RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME);
+        when(mockUrlRecord.getTitle()).thenReturn(null);
+        when(mockUrlRecord.getDescription()).thenReturn(null);
+        when(mockUrlRecord.getKeywords()).thenReturn(null);
+
+        urlRecordSerializer.serializeRDataFields(mockUrlRecord, mockJsonGenerator,
+                mockSerializerProvider);
+
+        verify(mockJsonGenerator).writeStringField("title", null);
+        verify(mockJsonGenerator).writeStringField("description", null);
+        verify(mockJsonGenerator).writeStringField("keywords", null);
     }
 }
