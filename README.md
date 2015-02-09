@@ -21,7 +21,7 @@ Use your build's dependency management tool to automatically download the ddns-d
 
 * groupId: `com.discoverydns`
 * artifactId: `ddns-dnsjava`
-* version: `1.1.6-r1685`
+* version: `1.1.7-r1685`
 
 For example (using Maven):
 
@@ -29,7 +29,7 @@ For example (using Maven):
        <dependency>
           <groupId>com.discoverydns</groupId>
           <artifactId>ddns-dnsjava</artifactId>
-          <version>1.1.6-r1685</version>
+          <version>1.1.7-r1685</version>
        </dependency>
     </dependencies>
 
