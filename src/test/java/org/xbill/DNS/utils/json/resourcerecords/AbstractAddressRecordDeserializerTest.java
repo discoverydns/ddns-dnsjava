@@ -39,7 +39,7 @@ public class AbstractAddressRecordDeserializerTest {
 	public void setup() throws Throwable {
 		fakeObjectNode = new ObjectNode(mockJsonNodeFactory);
 
-		fakeObjectNode.put("address", mockJsonNode);
+		fakeObjectNode.set("address", mockJsonNode);
 		when(mockJsonNode.textValue()).thenReturn(address);
 
 		abstractAddressRecordDeserializer = new AbstractAddressRecordDeserializer<Record>(

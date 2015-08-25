@@ -38,7 +38,7 @@ public class MAILFWRecordDeserializerTest {
         fakeObjectNode = new ObjectNode(mockJsonNodeFactory);
 
         when(mockDestinationJsonNode.textValue()).thenReturn(destination);
-        fakeObjectNode.put("destination", mockDestinationJsonNode);
+        fakeObjectNode.set("destination", mockDestinationJsonNode);
 
         mailFWRecordDeserializer = new MAILFWRecordDeserializer();
     }
@@ -66,7 +66,7 @@ public class MAILFWRecordDeserializerTest {
     public void shouldCreateExpectedRecordWithOriginalRecipient() throws TextParseException {
         String originalRecipient = "originalRecipient";
         when(mockOriginalRecipientJsonNode.textValue()).thenReturn(originalRecipient);
-        fakeObjectNode.put("originalRecipient", mockOriginalRecipientJsonNode);
+        fakeObjectNode.set("originalRecipient", mockOriginalRecipientJsonNode);
 
         Name name = Name.fromString("test.domain.com.");
         int dclass = 1;

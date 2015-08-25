@@ -52,34 +52,34 @@ public class SOARecordDeserializerTest {
         String host = "host.domain.com.";
         hostName = Name.fromString(host);
 		when(mockHostJsonNode.textValue()).thenReturn(host);
-		fakeObjectNode.put("host", mockHostJsonNode);
+		fakeObjectNode.set("host", mockHostJsonNode);
 
         String admin = "admin.domain.com.";
         adminName = Name.fromString(admin);
 		when(mockAdminJsonNode.textValue()).thenReturn(admin);
-		fakeObjectNode.put("admin", mockAdminJsonNode);
+		fakeObjectNode.set("admin", mockAdminJsonNode);
 
 		when(mockSerialJsonNode.textValue()).thenReturn(String.valueOf(serial));
         when(mockSerialJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("serial", mockSerialJsonNode);
+		fakeObjectNode.set("serial", mockSerialJsonNode);
 
 		when(mockRefreshJsonNode.textValue()).thenReturn(
 				String.valueOf(refresh));
         when(mockRefreshJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("refresh", mockRefreshJsonNode);
+		fakeObjectNode.set("refresh", mockRefreshJsonNode);
 
 		when(mockRetryJsonNode.textValue()).thenReturn(String.valueOf(retry));
         when(mockRetryJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("retry", mockRetryJsonNode);
+		fakeObjectNode.set("retry", mockRetryJsonNode);
 
 		when(mockExpireJsonNode.textValue()).thenReturn(String.valueOf(expire));
         when(mockExpireJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("expire", mockExpireJsonNode);
+		fakeObjectNode.set("expire", mockExpireJsonNode);
 
 		when(mockMinimumJsonNode.textValue()).thenReturn(
 				String.valueOf(minimum));
         when(mockMinimumJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("minimum", mockMinimumJsonNode);
+		fakeObjectNode.set("minimum", mockMinimumJsonNode);
 
 		soaRecordDeserializer = new SOARecordDeserializer();
 	}

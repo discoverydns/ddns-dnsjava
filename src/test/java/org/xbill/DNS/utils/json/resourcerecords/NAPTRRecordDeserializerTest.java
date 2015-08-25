@@ -48,22 +48,22 @@ public class NAPTRRecordDeserializerTest {
 
 		when(mockOrderJsonNode.textValue()).thenReturn(String.valueOf(order));
         when(mockOrderJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("order", mockOrderJsonNode);
+		fakeObjectNode.set("order", mockOrderJsonNode);
 		when(mockPreferenceJsonNode.textValue()).thenReturn(
 				String.valueOf(preference));
         when(mockPreferenceJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("preference", mockPreferenceJsonNode);
+		fakeObjectNode.set("preference", mockPreferenceJsonNode);
 		when(mockFlagsJsonNode.textValue()).thenReturn(flags);
-		fakeObjectNode.put("flags", mockFlagsJsonNode);
+		fakeObjectNode.set("flags", mockFlagsJsonNode);
 		when(mockServiceJsonNode.textValue()).thenReturn(service);
-		fakeObjectNode.put("service", mockServiceJsonNode);
+		fakeObjectNode.set("service", mockServiceJsonNode);
 		when(mockRegexpJsonNode.textValue()).thenReturn(regexp);
-		fakeObjectNode.put("regexp", mockRegexpJsonNode);
+		fakeObjectNode.set("regexp", mockRegexpJsonNode);
 
         String replacement = "replacement.domain.com.";
         replacementName = Name.fromString(replacement);
 		when(mockReplacementJsonNode.textValue()).thenReturn(replacement);
-		fakeObjectNode.put("replacement", mockReplacementJsonNode);
+		fakeObjectNode.set("replacement", mockReplacementJsonNode);
 
 		naptrRecordDeserializer = new NAPTRRecordDeserializer();
 	}

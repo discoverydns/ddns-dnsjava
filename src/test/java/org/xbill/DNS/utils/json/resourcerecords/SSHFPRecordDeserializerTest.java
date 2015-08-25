@@ -39,12 +39,12 @@ public class SSHFPRecordDeserializerTest {
 
 		when(mockAlgorithmJsonNode.textValue()).thenReturn(String.valueOf(algorithm));
         when(mockAlgorithmJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("algorithm", mockAlgorithmJsonNode);
+		fakeObjectNode.set("algorithm", mockAlgorithmJsonNode);
 		when(mockDigestTypeJsonNode.textValue()).thenReturn(String.valueOf(fingerprintType));
         when(mockDigestTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("digestType", mockDigestTypeJsonNode);
+		fakeObjectNode.set("digestType", mockDigestTypeJsonNode);
 		when(mockFingerprintJsonNode.textValue()).thenReturn(fingerprint);
-		fakeObjectNode.put("fingerprint", mockFingerprintJsonNode);
+		fakeObjectNode.set("fingerprint", mockFingerprintJsonNode);
 
 		sshfpRecordDeserializer = new SSHFPRecordDeserializer();
 	}

@@ -46,20 +46,20 @@ public class DSRecordDeserializerTest {
 		when(mockFootprintJsonNode.textValue()).thenReturn(
 				String.valueOf(footprint));
         when(mockFootprintJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("footprint", mockFootprintJsonNode);
+		fakeObjectNode.set("footprint", mockFootprintJsonNode);
 
 		when(mockAlgorithmJsonNode.textValue()).thenReturn(
 				String.valueOf(algorithm));
         when(mockAlgorithmJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("algorithm", mockAlgorithmJsonNode);
+		fakeObjectNode.set("algorithm", mockAlgorithmJsonNode);
 
 		when(mockDigestIdJsonNode.textValue()).thenReturn(
 				String.valueOf(digestId));
         when(mockDigestIdJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("digestId", mockDigestIdJsonNode);
+		fakeObjectNode.set("digestId", mockDigestIdJsonNode);
 
 		when(mockDigestJsonNode.textValue()).thenReturn(digest);
-		fakeObjectNode.put("digest", mockDigestJsonNode);
+		fakeObjectNode.set("digest", mockDigestJsonNode);
 
 		dsRecordDeserializer = new DSRecordDeserializer();
 	}

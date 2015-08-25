@@ -56,14 +56,14 @@ public class RecordTypeReferenceDeserializerTest {
 				fakeObjectNode);
 		
 		when(mockJsonNode.textValue()).thenReturn(type);
-		fakeObjectNode.put(fieldName, mockJsonNode);
+		fakeObjectNode.set(fieldName, mockJsonNode);
 
 		recordTypeReferenceDeserializer = new RecordTypeReferenceDeserializer();
 	}
 
 	@Test
 	public void shouldThrowExceptionIfTypeNodeCannotBeFound() throws Exception {
-		fakeObjectNode.put(fieldName, (JsonNode) null);
+		fakeObjectNode.set(fieldName, (JsonNode) null);
 
 		thrown.expect(new MissingFieldJsonDeserializationExceptionMatcher(
                 new Object[] { fieldName, "resource record" }));
@@ -86,12 +86,12 @@ public class RecordTypeReferenceDeserializerTest {
 	public void shouldDelegateToObjectMapperIfFoundTypeIsKnown()
 			throws Exception {
 		recordTypeReferenceDeserializer.registerRecordType(type, Record.class);
-		when(mockObjectReader.withType(Record.class)).thenReturn(mockObjectReader);
+		when(mockObjectReader.forType(Record.class)).thenReturn(mockObjectReader);
 
 		recordTypeReferenceDeserializer.deserialize(mockJsonParser,
 				mockDeserializationContext);
 
-		verify(mockObjectReader).withType(Record.class);
+		verify(mockObjectReader).forType(Record.class);
 		verify(mockObjectReader).readValue(fakeObjectNode.toString());
 	}
 }

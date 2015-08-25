@@ -44,7 +44,7 @@ public class URLRecordDeserializerTest {
         fakeObjectNode = new ObjectNode(mockJsonNodeFactory);
 
         when(mockTemplateJsonNode.textValue()).thenReturn(template);
-        fakeObjectNode.put("template", mockTemplateJsonNode);
+        fakeObjectNode.set("template", mockTemplateJsonNode);
 
         urlRecordDeserializer = new URLRecordDeserializer();
     }
@@ -59,7 +59,7 @@ public class URLRecordDeserializerTest {
         when(mockRedirectTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.NUMBER);
         int redirectType = URLRecord.RedirectType.REDIRECT_TYPE_301;
         when(mockRedirectTypeJsonNode.numberValue()).thenReturn(redirectType);
-        fakeObjectNode.put("redirectType", mockRedirectTypeJsonNode);
+        fakeObjectNode.set("redirectType", mockRedirectTypeJsonNode);
 
         Name name = Name.fromString("test.domain.com.");
         int dclass = 1;
@@ -94,16 +94,16 @@ public class URLRecordDeserializerTest {
         when(mockRedirectTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.NUMBER);
         int redirectType = URLRecord.RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME;
         when(mockRedirectTypeJsonNode.numberValue()).thenReturn(redirectType);
-        fakeObjectNode.put("redirectType", mockRedirectTypeJsonNode);
+        fakeObjectNode.set("redirectType", mockRedirectTypeJsonNode);
         String title = "title";
         when(mockTitleJsonNode.textValue()).thenReturn(title);
-        fakeObjectNode.put("title", mockTitleJsonNode);
+        fakeObjectNode.set("title", mockTitleJsonNode);
         String description = "description";
         when(mockDescriptionJsonNode.textValue()).thenReturn(description);
-        fakeObjectNode.put("description", mockDescriptionJsonNode);
+        fakeObjectNode.set("description", mockDescriptionJsonNode);
         String keywords = "keywords";
         when(mockKeywordsJsonNode.textValue()).thenReturn(keywords);
-        fakeObjectNode.put("keywords", mockKeywordsJsonNode);
+        fakeObjectNode.set("keywords", mockKeywordsJsonNode);
 
         Name name = Name.fromString("test.domain.com.");
         int dclass = 1;
@@ -126,13 +126,13 @@ public class URLRecordDeserializerTest {
         when(mockRedirectTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.NUMBER);
         int redirectType = URLRecord.RedirectType.REDIRECT_TYPE_CLOAKING_IFRAME;
         when(mockRedirectTypeJsonNode.numberValue()).thenReturn(redirectType);
-        fakeObjectNode.put("redirectType", mockRedirectTypeJsonNode);
+        fakeObjectNode.set("redirectType", mockRedirectTypeJsonNode);
         when(mockTitleJsonNode.textValue()).thenReturn(null);
-        fakeObjectNode.put("title", mockTitleJsonNode);
+        fakeObjectNode.set("title", mockTitleJsonNode);
         when(mockDescriptionJsonNode.textValue()).thenReturn(null);
-        fakeObjectNode.put("description", mockDescriptionJsonNode);
+        fakeObjectNode.set("description", mockDescriptionJsonNode);
         when(mockKeywordsJsonNode.textValue()).thenReturn(null);
-        fakeObjectNode.put("keywords", mockKeywordsJsonNode);
+        fakeObjectNode.set("keywords", mockKeywordsJsonNode);
 
         Name name = Name.fromString("test.domain.com.");
         int dclass = 1;

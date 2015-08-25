@@ -61,6 +61,6 @@ public class RecordTypeReferenceDeserializer extends StdDeserializer<Record> {
                     JsonDeserializationExceptionCode.unknownResourceRecordType,
 					recordType);
 		}
-		return reader.withType(recordClass).readValue(recordNode.toString());
+		return reader.forType(recordClass).readValue(recordNode.toString());
 	}
 }
