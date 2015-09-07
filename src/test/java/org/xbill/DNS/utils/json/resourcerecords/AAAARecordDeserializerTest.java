@@ -36,7 +36,7 @@ public class AAAARecordDeserializerTest {
         String address = "0:0:0:0:0:0:0:0";
         inetaddress = InetAddresses.forString(address);
 		when(mockJsonNode.textValue()).thenReturn(address);
-		fakeObjectNode.put("address", mockJsonNode);
+		fakeObjectNode.set("address", mockJsonNode);
 
 		aaaaRecordDeserializer = new AAAARecordDeserializer();
 	}

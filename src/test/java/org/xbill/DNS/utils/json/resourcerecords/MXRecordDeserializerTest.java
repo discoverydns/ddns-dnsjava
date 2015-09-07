@@ -38,12 +38,12 @@ public class MXRecordDeserializerTest {
 		when(mockPriorityJsonNode.textValue()).thenReturn(
 				String.valueOf(priority));
         when(mockPriorityJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("priority", mockPriorityJsonNode);
+		fakeObjectNode.set("priority", mockPriorityJsonNode);
 
         String target = "host.domain.com.";
         targetName = Name.fromString(target);
 		when(mockTargetJsonNode.textValue()).thenReturn(target);
-		fakeObjectNode.put("target", mockTargetJsonNode);
+		fakeObjectNode.set("target", mockTargetJsonNode);
 
 		mxRecordDeserializer = new MXRecordDeserializer();
 	}

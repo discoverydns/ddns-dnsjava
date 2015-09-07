@@ -48,22 +48,22 @@ public class LOCRecordDeserializerTest {
 
 		when(mockLatitudeJsonNode.textValue()).thenReturn(
 				latitude);
-		fakeObjectNode.put("latitude", mockLatitudeJsonNode);
+		fakeObjectNode.set("latitude", mockLatitudeJsonNode);
 		when(mockLongitudeJsonNode.textValue()).thenReturn(
 				longitude);
-		fakeObjectNode.put("longitude", mockLongitudeJsonNode);
+		fakeObjectNode.set("longitude", mockLongitudeJsonNode);
 		when(mockAltitudeJsonNode.textValue()).thenReturn(
 				altitude);
-		fakeObjectNode.put("altitude", mockAltitudeJsonNode);
+		fakeObjectNode.set("altitude", mockAltitudeJsonNode);
 		when(mockSizeJsonNode.textValue()).thenReturn(
 				size);
-		fakeObjectNode.put("size", mockSizeJsonNode);
+		fakeObjectNode.set("size", mockSizeJsonNode);
 		when(mockHPrecisionJsonNode.textValue()).thenReturn(
 				hPrecision);
-		fakeObjectNode.put("hPrecision", mockHPrecisionJsonNode);
+		fakeObjectNode.set("hPrecision", mockHPrecisionJsonNode);
 		when(mockVPrecisionJsonNode.textValue()).thenReturn(
 				vPrecision);
-		fakeObjectNode.put("vPrecision", mockVPrecisionJsonNode);
+		fakeObjectNode.set("vPrecision", mockVPrecisionJsonNode);
 
 		locRecordDeserializer = new LOCRecordDeserializer();
 	}

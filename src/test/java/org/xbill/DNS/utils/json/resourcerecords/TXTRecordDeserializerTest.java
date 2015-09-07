@@ -47,7 +47,7 @@ public class TXTRecordDeserializerTest {
 		fakeObjectNode = new ObjectNode(mockJsonNodeFactory);
 
 		when(mockStringsJsonNode.textValue()).thenReturn(strings);
-		fakeObjectNode.put("strings", mockStringsJsonNode);
+		fakeObjectNode.set("strings", mockStringsJsonNode);
 
 		txtRecordDeserializer = new TXTRecordDeserializer();
 	}
@@ -60,7 +60,7 @@ public class TXTRecordDeserializerTest {
 	@Test
 	public void shouldCreateExpectedRecordWithSingleString() throws Exception {
         when(mockStringsJsonNode.textValue()).thenReturn(string1);
-        fakeObjectNode.put("strings", mockStringsJsonNode);
+        fakeObjectNode.set("strings", mockStringsJsonNode);
 
         TXTRecord txtRecord = txtRecordDeserializer.createRecord(name, dclass,
                 ttl, fakeObjectNode);
@@ -76,7 +76,7 @@ public class TXTRecordDeserializerTest {
 	public void shouldCreateExpectedRecordWithStringsArray() throws Exception {
         final JsonNode arrayNode =
                 new ObjectMapper().readTree("[\"" + string1 + "\",\"" + string2 + "\",\"" + string3 + "\" ]");
-        fakeObjectNode.put("strings", arrayNode);
+        fakeObjectNode.set("strings", arrayNode);
 
         TXTRecord txtRecord = txtRecordDeserializer.createRecord(name, dclass,
                 ttl, fakeObjectNode);
@@ -108,7 +108,7 @@ public class TXTRecordDeserializerTest {
     public void shouldThrowExceptionIfMultipleStringsContainsNonAsciiCharacters() throws Exception {
         final JsonNode arrayNode =
                 new ObjectMapper().readTree("[\"" + string1 + "\",\"first\\naمستخدميb\\nthird\",\"" + string3 + "\" ]");
-        fakeObjectNode.put("strings", arrayNode);
+        fakeObjectNode.set("strings", arrayNode);
 
         txtRecordDeserializer = spy(txtRecordDeserializer);
         String textualBeanType = "textualBeanType";

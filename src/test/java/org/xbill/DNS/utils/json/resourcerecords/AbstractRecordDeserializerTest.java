@@ -81,14 +81,14 @@ public class AbstractRecordDeserializerTest {
 				fakeObjectNode);
 
 		when(mockNameJsonNode.textValue()).thenReturn("name");
-		fakeObjectNode.put("name", mockNameJsonNode);
+		fakeObjectNode.set("name", mockNameJsonNode);
 
 		when(mockClassJsonNode.textValue()).thenReturn("IN");
-		fakeObjectNode.put("class", mockClassJsonNode);
+		fakeObjectNode.set("class", mockClassJsonNode);
 
 		when(mockTTLJsonNode.textValue()).thenReturn(Integer.toString(ttl));
         when(mockTTLJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("ttl", mockTTLJsonNode);
+		fakeObjectNode.set("ttl", mockTTLJsonNode);
 
 		abstractRecordDeserializer = new AbstractRecordDeserializer<Record>(
 				Record.class) {
@@ -126,10 +126,10 @@ public class AbstractRecordDeserializerTest {
         JsonNode mockRDataJsonNode = mock(JsonNode.class);
         String hostAddress = "1.2.3.4";
         when(mockRDataJsonNode.textValue()).thenReturn(hostAddress);
-        fakeObjectNode.put("rdata", mockRDataJsonNode);
+        fakeObjectNode.set("rdata", mockRDataJsonNode);
         JsonNode mockTypeJsonNode = mock(JsonNode.class);
         when(mockTypeJsonNode.textValue()).thenReturn("A");
-        fakeObjectNode.put("type", mockTypeJsonNode);
+        fakeObjectNode.set("type", mockTypeJsonNode);
 
         Record resultingRecord = spyAbstractRecordDeserializer.deserialize(mockJsonParser,
                 mockDeserializationContext);

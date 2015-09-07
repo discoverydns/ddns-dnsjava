@@ -43,18 +43,18 @@ public class SRVRecordDeserializerTest {
 		when(mockPriorityJsonNode.textValue()).thenReturn(
 				String.valueOf(priority));
         when(mockPriorityJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("priority", mockPriorityJsonNode);
+		fakeObjectNode.set("priority", mockPriorityJsonNode);
 		when(mockWeightJsonNode.textValue()).thenReturn(String.valueOf(weight));
         when(mockWeightJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("weight", mockWeightJsonNode);
+		fakeObjectNode.set("weight", mockWeightJsonNode);
 		when(mockPortJsonNode.textValue()).thenReturn(String.valueOf(port));
         when(mockPortJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("port", mockPortJsonNode);
+		fakeObjectNode.set("port", mockPortJsonNode);
 
         String target = "target.com.";
         targetName = Name.fromString(target);
 		when(mockTargetJsonNode.textValue()).thenReturn(target);
-		fakeObjectNode.put("target", mockTargetJsonNode);
+		fakeObjectNode.set("target", mockTargetJsonNode);
 
 		srvRecordDeserializer = new SRVRecordDeserializer();
 	}

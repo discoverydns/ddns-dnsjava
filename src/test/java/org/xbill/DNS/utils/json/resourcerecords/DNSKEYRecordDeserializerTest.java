@@ -46,19 +46,19 @@ public class DNSKEYRecordDeserializerTest {
         when(mockFlagsJsonNode.textValue()).thenReturn(
                 String.valueOf(flags));
         when(mockFlagsJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-        fakeObjectNode.put("flags", mockFlagsJsonNode);
+        fakeObjectNode.set("flags", mockFlagsJsonNode);
 
         when(mockProtocolJsonNode.textValue()).thenReturn(String.valueOf(protocol));
         when(mockProtocolJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-        fakeObjectNode.put("protocol", mockProtocolJsonNode);
+        fakeObjectNode.set("protocol", mockProtocolJsonNode);
 
         when(mockAlgorithmJsonNode.textValue()).thenReturn(
                 String.valueOf(algorithm));
         when(mockAlgorithmJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-        fakeObjectNode.put("algorithm", mockAlgorithmJsonNode);
+        fakeObjectNode.set("algorithm", mockAlgorithmJsonNode);
 
         when(mockKeyJsonNode.textValue()).thenReturn(key);
-        fakeObjectNode.put("key", mockKeyJsonNode);
+        fakeObjectNode.set("key", mockKeyJsonNode);
 
         dnskeyRecordDeserializer = new DNSKEYRecordDeserializer();
     }

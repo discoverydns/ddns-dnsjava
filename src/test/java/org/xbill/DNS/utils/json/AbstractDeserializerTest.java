@@ -71,12 +71,12 @@ public class AbstractDeserializerTest {
 		fakeObjectNode = new ObjectNode(mockJsonNodeFactory);
 		
 		when(mockJsonNode.textValue()).thenReturn(nodeTextValue);
-		fakeObjectNode.put(fieldName, mockJsonNode);
+		fakeObjectNode.set(fieldName, mockJsonNode);
 		
 		when(mockNameJsonNode.textValue()).thenReturn(name);
-		fakeObjectNode.put(nameFieldName, mockNameJsonNode);
+		fakeObjectNode.set(nameFieldName, mockNameJsonNode);
 		
-		fakeObjectNode.put(fieldAddress, mockAddressJsonNode);
+		fakeObjectNode.set(fieldAddress, mockAddressJsonNode);
 		when(mockAddressJsonNode.textValue()).thenReturn(address);
 		
 		abstractDeserializer =
@@ -99,7 +99,7 @@ public class AbstractDeserializerTest {
     @Test
 	public void shouldThrowExceptionIfNodeFoundWhenSearchingForFieldNode()
 			throws Exception {
-		fakeObjectNode.put(fieldName, (JsonNode) null);
+		fakeObjectNode.set(fieldName, (JsonNode) null);
 
 		thrown.expect(
                 new MissingFieldJsonDeserializationExceptionMatcher(new Object[] { fieldName, textualBeanType }));

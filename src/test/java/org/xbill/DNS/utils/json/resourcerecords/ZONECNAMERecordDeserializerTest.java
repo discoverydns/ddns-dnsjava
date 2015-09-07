@@ -33,7 +33,7 @@ public class ZONECNAMERecordDeserializerTest {
         String target = "target.domain.com.";
         targetName = Name.fromString(target);
 		when(mockJsonNode.textValue()).thenReturn(target);
-		fakeObjectNode.put("target", mockJsonNode);
+		fakeObjectNode.set("target", mockJsonNode);
 
 		zoneCNAMERecordDeserializer = new ZONECNAMERecordDeserializer();
 	}

@@ -46,18 +46,18 @@ public class TLSARecordDeserializerTest {
 		when(mockCertificateUsageJsonNode.textValue()).thenReturn(
 				String.valueOf(certificateUsage));
         when(mockCertificateUsageJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("certificateUsage", mockCertificateUsageJsonNode);
+		fakeObjectNode.set("certificateUsage", mockCertificateUsageJsonNode);
 		when(mockSelectorJsonNode.textValue()).thenReturn(
 				String.valueOf(selector));
         when(mockSelectorJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("selector", mockSelectorJsonNode);
+		fakeObjectNode.set("selector", mockSelectorJsonNode);
 		when(mockMatchingTypeJsonNode.textValue()).thenReturn(
 				String.valueOf(matchingType));
         when(mockMatchingTypeJsonNode.getNodeType()).thenReturn(JsonNodeType.STRING);
-		fakeObjectNode.put("matchingType", mockMatchingTypeJsonNode);
+		fakeObjectNode.set("matchingType", mockMatchingTypeJsonNode);
 
 		when(mockCertificateAssociationDataJsonNode.textValue()).thenReturn(certificateAssociationData);
-		fakeObjectNode.put("certificateAssociationData", mockCertificateAssociationDataJsonNode);
+		fakeObjectNode.set("certificateAssociationData", mockCertificateAssociationDataJsonNode);
 		
 		tlsaRecordDeserializer = new TLSARecordDeserializer();
 	}
